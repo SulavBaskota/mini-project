@@ -1,13 +1,13 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
 import { NEW_BOOKS } from "../constants/NEW_BOOKS";
 import Image from "next/image";
-import { Button, Typography, Stack } from "@mui/material";
+import { Button, Typography, Stack, Box, Grid } from "@mui/material";
+
+import { useMediaQuery } from "@mui/material";
 
 export default function BookTile() {
-  const books = NEW_BOOKS.slice(1);
+  const mobileView = useMediaQuery((theme) => theme.breakpoints.down("md"));
+  const books = mobileView ? NEW_BOOKS.slice(1, 5) : NEW_BOOKS.slice(1);
 
   const handleClick = () => {};
 
@@ -28,13 +28,14 @@ export default function BookTile() {
                       src={book.img}
                       alt={book.title}
                       layout="intrinsic"
-                      width={100}
-                      height={140}
+                      width={180}
+                      height={240}
                     />
                     <Typography
-                      variant="body2"
+                      variant="subtitle1"
                       color="text.secondary"
                       align="center"
+                      sx={{textTransform: "capitalize"}}
                     >
                       {book.title}
                     </Typography>
