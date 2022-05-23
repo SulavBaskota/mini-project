@@ -1,14 +1,14 @@
 import { Container, Typography } from "@mui/material";
-import { NEW_BOOKS } from "../constants/NEW_BOOKS";
+import { COMPLETED_BOOKS } from "../constants/COMPLETED_BOOKS";
 import BookTile from "./BookTile";
 
-export default function NewOngoingReleases() {
+export default function CompletedBooks() {
   return (
     <Container maxWidth="xl">
       <Typography variant="h5" mt={3} mb={3}>
-        New Ongoing Releases
+        Completed
       </Typography>
-      <BookTile bookList={NEW_BOOKS} />
+      <BookTile bookList={COMPLETED_BOOKS} />
     </Container>
   );
 }

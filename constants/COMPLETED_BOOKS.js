@@ -1,4 +1,4 @@
-const NEW_BOOKS = [
+const COMPLETED_BOOKS = [
   {
     title: "The Shining 1",
     img: "/assets/images/the_shining.jpg",
@@ -36,4 +36,4 @@ const NEW_BOOKS = [
   },
 ];
 
-export { NEW_BOOKS };
+export { COMPLETED_BOOKS };

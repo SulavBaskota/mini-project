@@ -7,10 +7,8 @@ import {
   Paper,
 } from "@mui/material";
 import Image from "next/image";
-import { NEW_BOOKS } from "../constants/NEW_BOOKS";
 
-export default function BookBigTile() {
-  const book = NEW_BOOKS[0];
+export default function BookBigTile({ book }) {
   return (
     <>
       <Card component={Paper} elevation={3}>
