@@ -1,45 +1,31 @@
 import React from "react";
-import { Container, Paper, Typography } from "@mui/material";
+import { Container, Paper, Typography, useMediaQuery } from "@mui/material";
 import Carousel from "react-grid-carousel";
-import theme from "../src/theme";
+import SmallBookTile from "./SmallBookTile";
+import { POPULAR_BOOKS } from "../constants/POPULAR_BOOKS";
 
 export default function PopularNovels() {
+  const mobileView = useMediaQuery((theme) => theme.breakpoints.down("md"));
   return (
-    <Container maxWidth="xl">
-      <Typography variant="h5" mt={3} mb={3} w>
+    <Container
+      sx={{ paddingLeft: { xs: 0, sm: 2 }, paddingRight: { xs: 0, sm: 2 } }}
+    >
+      <Typography variant="h5" mt={3} mb={3} pl={{ xs: 2, sm: 0 }}>
         Popular Novels
       </Typography>
-      {/* <Paper elevation={0} sx={{paddingTop: "10px", paddingBottom: "5px"}}> */}
-      <Carousel cols={3} rows={1} gap={10} loop={true}>
-        <Carousel.Item>
-          <img width="100%" src="https://picsum.photos/800/600?random=1" />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img width="100%" src="https://picsum.photos/800/600?random=2" />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img width="100%" src="https://picsum.photos/800/600?random=3" />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img width="100%" src="https://picsum.photos/800/600?random=4" />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img width="100%" src="https://picsum.photos/800/600?random=5" />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img width="100%" src="https://picsum.photos/800/600?random=6" />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img width="100%" src="https://picsum.photos/800/600?random=7" />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img width="100%" src="https://picsum.photos/800/600?random=8" />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img width="100%" src="https://picsum.photos/800/600?random=9" />
-        </Carousel.Item>
+      <Carousel
+        cols={4}
+        rows={1}
+        gap={10}
+        loop={true}
+        autoplay={mobileView ? 2000 : undefined}
+      >
+        {POPULAR_BOOKS.map((book, index) => (
+          <Carousel.Item index={index}>
+            <SmallBookTile book={book} />
+          </Carousel.Item>
+        ))}
       </Carousel>
-      {/* </Paper> */}
     </Container>
   );
 }
