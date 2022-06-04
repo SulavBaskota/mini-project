@@ -12,8 +12,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { USER_SETTINGS } from "../constants/USER_SETTINGS";
 
-const settings = ["Profile", "Settings", "Logout"];
 
 export default function Navbar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -59,7 +59,7 @@ export default function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {USER_SETTINGS.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>

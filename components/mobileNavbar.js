@@ -1,7 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import Drawer from "@mui/material/Drawer";
@@ -10,6 +9,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { Divider } from "@mui/material";
+import PageTitle from "./PageTitle";
 
 const pages = ["Series", "Bookmarks", "My Novels"];
 
@@ -33,7 +33,6 @@ export default function MobileNavbar() {
         <IconButton
           size="large"
           aria-label="account of current user"
-          //   aria-controls="menu-appbar"
           aria-haspopup="true"
           onClick={toggleDrawer(true)}
           color="inherit"
@@ -66,25 +65,7 @@ export default function MobileNavbar() {
           </Box>
         </Drawer>
       </Box>
-      <MenuBookIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-      <Typography
-        variant="h5"
-        noWrap
-        component="a"
-        href=""
-        sx={{
-          mr: 2,
-          display: { xs: "flex", md: "none" },
-          flexGrow: 1,
-          fontFamily: "monospace",
-          fontWeight: 700,
-          letterSpacing: ".3rem",
-          color: "inherit",
-          textDecoration: "none",
-        }}
-      >
-        ReadHub
-      </Typography>
+      <PageTitle variant={"h5"} mr={2} flexGrow={1} />
     </>
   );
 }
