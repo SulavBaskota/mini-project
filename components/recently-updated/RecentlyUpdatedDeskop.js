@@ -25,7 +25,7 @@ export default function RecentlyUpdatedDesktop({ updateList }) {
           </TableHead>
           <TableBody>
             {updateList.map((item, index) => (
-              <TableRow index={index}>
+              <TableRow key={index}>
                 <TableCell>
                   <Stack direction="row" spacing={1} alignItems="center">
                     <Image

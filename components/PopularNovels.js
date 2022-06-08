@@ -14,7 +14,7 @@ const CarouselSubComponent = ({ mobileView }) => (
     autoplay={mobileView ? 2000 : undefined}
   >
     {POPULAR_BOOKS.map((book, index) => (
-      <Carousel.Item index={index}>
+      <Carousel.Item key={index}>
         <SmallBookTile book={book} />
       </Carousel.Item>
     ))}

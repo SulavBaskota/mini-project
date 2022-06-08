@@ -17,7 +17,7 @@ export default function RecentlyUpdateMobile({ updateList }) {
         <Table>
           <TableBody>
             {updateList.map((item, index) => (
-              <TableRow index={index}>
+              <TableRow key={index}>
                 <TableCell>
                   <Stack direction="row" spacing={2} alignItems="center">
                     <Image
