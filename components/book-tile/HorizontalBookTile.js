@@ -1,15 +1,6 @@
 import * as React from "react";
 import Image from "next/image";
-import {
-  Button,
-  Typography,
-  Grid,
-  Stack,
-  Box,
-  Rating,
-  Divider,
-  Paper,
-} from "@mui/material";
+import { Button, Typography, Grid, Stack, Rating, Paper } from "@mui/material";
 
 export default function HorizontalBookTile({ book }) {
   const handleClick = () => {};
@@ -73,7 +64,7 @@ export default function HorizontalBookTile({ book }) {
               </Typography>
               <Stack direction="row" spacing={1}>
                 {book.genre.map((item, index) => (
-                  <Paper>
+                  <Paper key={index}>
                     <Typography sx={{ p: 0.5 }}>{item}</Typography>
                   </Paper>
                 ))}
