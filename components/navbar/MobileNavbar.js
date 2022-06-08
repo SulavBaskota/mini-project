@@ -10,8 +10,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { Divider } from "@mui/material";
 import PageTitle from "../PageTitle";
-
-const pages = ["Series", "Bookmarks", "My Novels"];
+import { MENU_ITEMS } from "../../constants/MENU_ITEMS";
 
 export default function MobileNavbar() {
   const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -54,10 +53,10 @@ export default function MobileNavbar() {
                 <ListItemText primary="Menu" />
               </ListItem>
               <Divider />
-              {pages.map((page, index) => (
-                <ListItem key={page} disablePadding>
-                  <ListItemButton>
-                    <ListItemText primary={page} />
+              {MENU_ITEMS.map((page, index) => (
+                <ListItem key={page.title} disablePadding>
+                  <ListItemButton component="a" href={page.href}>
+                    <ListItemText primary={page.title} />
                   </ListItemButton>
                 </ListItem>
               ))}

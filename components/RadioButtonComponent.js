@@ -1,4 +1,10 @@
-import { Radio, RadioGroup, FormControlLabel, FormLabel } from "@mui/material";
+import {
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormLabel,
+  Typography,
+} from "@mui/material";
 
 export default function RadioGroupComponent({
   id,
@@ -13,7 +19,9 @@ export default function RadioGroupComponent({
 
   return (
     <>
-      <FormLabel id={id + "-radio-button-group"}>{label}</FormLabel>
+      <FormLabel id={id + "-radio-button-group"}>
+        <Typography variant="h6">{label}</Typography>
+      </FormLabel>
       <RadioGroup
         row
         aria-labelledby="status-radio-button-group"
