@@ -1,8 +1,8 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { MENU_ITEMS } from "../constants/MENU_ITEMS";
-import PageTitle from "./PageTitle";
+import { MENU_ITEMS } from "../../constants/MENU_ITEMS";
+import PageTitle from "../PageTitle";
 
 export default function DesktopNavbar() {
   return (

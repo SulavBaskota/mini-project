@@ -1,8 +1,8 @@
-import { RECENTLY_UPDATED } from "../constants/RECENTLY_UPDATED";
+import { RECENTLY_UPDATED } from "../../constants/RECENTLY_UPDATED";
 import { useMediaQuery } from "@mui/material";
 import RecentlyUpdatedDesktop from "./RecentlyUpdatedDeskop";
 import RecentlyUpdateMobile from "./RecentlyUpdatedMobile";
-import HomeSectionTemplate from "./HomeSectionTemplate";
+import HomeSectionTemplate from "../HomeSectionTemplate";
 
 const RecentlyUpdatedSubComponent = ({ mobileView }) =>
   mobileView ? (

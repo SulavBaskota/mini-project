@@ -1,6 +1,6 @@
 import { COMPLETED_BOOKS } from "../constants/COMPLETED_BOOKS";
 import HomeSectionTemplate from "./HomeSectionTemplate";
-import BookTile from "./BookTile";
+import BookTile from "./book-tile/BookTile";
 
 export default function CompletedBooks() {
   return (

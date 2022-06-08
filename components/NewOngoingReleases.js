@@ -1,5 +1,5 @@
 import { NEW_BOOKS } from "../constants/NEW_BOOKS";
-import BookTile from "./BookTile";
+import BookTile from "./book-tile/BookTile";
 import HomeSectionTemplate from "./HomeSectionTemplate";
 
 export default function NewOngoingReleases() {

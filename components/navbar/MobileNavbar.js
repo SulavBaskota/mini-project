@@ -9,7 +9,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { Divider } from "@mui/material";
-import PageTitle from "./PageTitle";
+import PageTitle from "../PageTitle";
 
 const pages = ["Series", "Bookmarks", "My Novels"];
 
