@@ -1,4 +1,11 @@
-import { Container, Pagination } from "@mui/material";
+import {
+  Container,
+  Pagination,
+  Typography,
+  Divider,
+  Stack,
+  Grid,
+} from "@mui/material";
 import { BOOKMARKS_INFO } from "../constants/BOOKMARKS_INFO";
 import { useState } from "react";
 import BookmarkTile from "../components/book-tile/BookmarkTIle";
@@ -14,17 +21,48 @@ export default function Bookmarks() {
   };
 
   return (
-    <Container sx={{ minHeight: "100vh" }}>
-      {bookmarks.map((bookmark, index) => (
-        <BookmarkTile bookmark={bookmark} key={index} />
-      ))}
-      <Pagination
-        count={count}
-        page={page}
-        variant="outlined"
-        shape="rounded"
-        onChange={handleChange}
-      />
+    <Container
+      sx={{
+        minHeight: "100vh",
+      }}
+    >
+      <Stack spacing={3}>
+        <Typography
+          variant="h4"
+          mt={3}
+          mb={3}
+          pl={{ xs: 2, sm: 0 }}
+          sx={{ fontWeight: "bold", marginBottom: 0 }}
+        >
+          Bookmarks
+        </Typography>
+        <Divider sx={{ border: 1 }} />
+        <Grid
+          container
+          columns={{ xs: 2, sm: 4 }}
+          alignItems="center"
+          justifyContent="center"
+        >
+          {bookmarks.map((bookmark, index) => (
+            <Grid
+              item
+              xs={2}
+              sm={2}
+              key={index}
+              sx={{ paddingBottom: 3, paddingRight: 2 }}
+            >
+              <BookmarkTile bookmark={bookmark} />
+            </Grid>
+          ))}
+        </Grid>
+        <Pagination
+          count={count}
+          page={page}
+          variant="outlined"
+          shape="rounded"
+          onChange={handleChange}
+        />
+      </Stack>
     </Container>
   );
 }
