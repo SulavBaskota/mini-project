@@ -9,7 +9,7 @@ const RECENTLY_UPDATED = [
   },
   {
     title: "The Shining 2",
-    img: "/assets/images/the_shining.jpg",
+    img: "/assets/images/cover_the_shining.webp",
     chapter: "123",
     chapterTitle: "The Gift",
     author: "Stephen King",
@@ -25,7 +25,7 @@ const RECENTLY_UPDATED = [
   },
   {
     title: "The Shining 4",
-    img: "/assets/images/the_shining.jpg",
+    img: "/assets/images/cover_the_shining.webp",
     chapter: "123",
     chapterTitle: "The Gift",
     author: "Stephen King",
@@ -41,7 +41,7 @@ const RECENTLY_UPDATED = [
   },
   {
     title: "The Shining 6",
-    img: "/assets/images/the_shining.jpg",
+    img: "/assets/images/cover_the_shining.webp",
     chapter: "123",
     chapterTitle: "The Gift",
     author: "Stephen King",
@@ -57,7 +57,7 @@ const RECENTLY_UPDATED = [
   },
   {
     title: "The Shining 8",
-    img: "/assets/images/the_shining.jpg",
+    img: "/assets/images/cover_the_shining.webp",
     chapter: "123",
     chapterTitle: "The Gift",
     author: "Stephen King",

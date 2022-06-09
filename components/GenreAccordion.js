@@ -31,14 +31,14 @@ export default function GenreAccordion({ value, itemDict, setValue }) {
       <FormLabel>
         <Typography variant="h6">Genres</Typography>
       </FormLabel>
-      <Accordion sx={{ backgroundColor: "#202020" }}>
+      <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
           {value === itemDict ? (
-            <Typography sx={{ color: "#777777" }}>Select</Typography>
+            <Typography variant="body2" sx={{ color: "secondary.light" }}>Select</Typography>
           ) : (
             <Grid
               container
@@ -49,7 +49,7 @@ export default function GenreAccordion({ value, itemDict, setValue }) {
               {Object.keys(value).map((item, index) =>
                 value[item] === true ? (
                   <Grid item xs={1} sm={2} md={2} key={index}>
-                    <Paper elevation={2} sx={{ backgroundColor: "#404040" }}>
+                    <Paper elevation={2}>
                       <Typography sx={{ p: 0.4 }} align="center">
                         {item}
                       </Typography>

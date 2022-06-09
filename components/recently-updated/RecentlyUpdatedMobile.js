@@ -29,10 +29,10 @@ export default function RecentlyUpdateMobile({ updateList }) {
                     />
                     <Box>
                       <Typography variant="h6">{item.title}</Typography>
-                      <Typography variant="subtitle2" sx={{ color: "#777777" }}>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 200 }}>
                         Chapter {item.chapter} : {item.chapterTitle}
                       </Typography>
-                      <Typography variant="caption" sx={{ color: "#777777" }}>
+                      <Typography variant="caption" sx={{ fontWeight: 50 }}>
                         {item.time}
                       </Typography>
                     </Box>

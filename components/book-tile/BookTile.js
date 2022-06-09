@@ -9,7 +9,7 @@ export default function BookTile({ bookList }) {
   const books = mobileView ? bookList.slice(1, 5) : bookList.slice(1);
 
   return (
-    <Paper elevation={0}>
+    <Paper elevation={0} sx={{borderRadius: 4}}>
       <Box sx={{ flexGrow: 1, padding: "20px" }}>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 1, sm: 12 }}>
           <Grid item xs={1} sm={5}>

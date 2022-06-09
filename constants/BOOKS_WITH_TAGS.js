@@ -17,7 +17,7 @@ const BOOKS_WITH_TAGS = [
   },
   {
     title: "The Shining 3",
-    img: "/assets/images/cover_the_shining.webp",
+    img: "/assets/images/the_shining.jpg",
     status: "Haitus",
     rating: "4.7",
     genre: ["Sci Fi", "Dystopian"],
@@ -41,7 +41,7 @@ const BOOKS_WITH_TAGS = [
   },
   {
     title: "The Shining 6",
-    img: "/assets/images/cover_the_shining.webp",
+    img: "/assets/images/the_shining.jpg",
     status: "Haitus",
     rating: "4.7",
     genre: ["Sci Fi", "Dystopian"],
@@ -65,7 +65,7 @@ const BOOKS_WITH_TAGS = [
   },
   {
     title: "The Shining 9",
-    img: "/assets/images/cover_the_shining.webp",
+    img: "/assets/images/the_shining.jpg",
     status: "Haitus",
     rating: "4.7",
     genre: ["Sci Fi", "Dystopian"],
@@ -89,7 +89,7 @@ const BOOKS_WITH_TAGS = [
   },
   {
     title: "The Shining 12",
-    img: "/assets/images/cover_the_shining.webp",
+    img: "/assets/images/the_shining.jpg",
     status: "Haitus",
     rating: "4.7",
     genre: ["Sci Fi", "Dystopian"],
