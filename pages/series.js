@@ -33,7 +33,7 @@ export default function Series() {
   const [genresValue, setGenresValue] = useState(genres);
 
   return (
-    <Container sx={{ pt: 4 }}>
+    <Container sx={{ pt: 4 , minHeight: "100vh"}}>
       <Stack spacing={3}>
         <FormControl>
           <RadioGroupComponent
@@ -64,7 +64,7 @@ export default function Series() {
         >
           <Button variant="contained">Apply Filters</Button>
         </Box>
-        <Grid container spacing={2} columns={{ xs: 1, sm: 2 }}>
+        <Grid container spacing={2} columns={{ xs: 1, sm: 2 }} pl={0}>
           {BOOKS_WITH_TAGS.map((book, index) => (
             <Grid item xs={1} sm={1} key={index}>
               <HorizontalBookTile book={book} />

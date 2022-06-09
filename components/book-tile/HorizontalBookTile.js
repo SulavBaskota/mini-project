@@ -1,15 +1,23 @@
 import * as React from "react";
 import Image from "next/image";
-import { Button, Typography, Grid, Stack, Rating, Paper } from "@mui/material";
+import {
+  Button,
+  Typography,
+  Grid,
+  Stack,
+  Rating,
+  Paper,
+  Divider,
+} from "@mui/material";
 
 export default function HorizontalBookTile({ book }) {
   const handleClick = () => {};
 
   return (
     <>
-      <Button onClick={handleClick}>
-        <Grid container direction="row" spacing={1}>
-          <Grid item xs={4} align="center">
+      <Button onClick={handleClick} sx={{ paddingLeft: 0 }}>
+        <Grid container direction="row">
+          <Grid item xs={4} sm={3} align="left">
             <Paper sx={{ width: 110 }}>
               <Typography align="center">{book.status}</Typography>
             </Paper>
@@ -21,7 +29,7 @@ export default function HorizontalBookTile({ book }) {
               height={180}
             />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={8} sm={9} align="left" sx={{ paddingRight: 3 }}>
             <Stack direction="column" spacing={1}>
               <Typography
                 variant="subtitle1"
@@ -73,6 +81,7 @@ export default function HorizontalBookTile({ book }) {
           </Grid>
         </Grid>
       </Button>
+      <Divider />
     </>
   );
 }

@@ -11,6 +11,7 @@ export default function Index() {
       sx={{
         paddingLeft: { xs: 0, sm: 2 },
         paddingRight: { xs: 0, sm: 2 },
+        minHeight: "100vh",
       }}
     >
       <NewOngoingReleases />
