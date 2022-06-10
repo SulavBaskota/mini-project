@@ -37,31 +37,39 @@ export default function Bookmarks() {
           Bookmarks
         </Typography>
         <Divider sx={{ border: 1 }} />
-        <Grid
-          container
-          columns={{ xs: 2, sm: 4 }}
-          alignItems="center"
-          justifyContent="center"
-        >
-          {bookmarks.map((bookmark, index) => (
+        {bookmarks.length > 0 ? (
+          <>
             <Grid
-              item
-              xs={2}
-              sm={2}
-              key={index}
-              sx={{ paddingBottom: 3, paddingRight: 2 }}
+              container
+              columns={{ xs: 2, sm: 4 }}
+              alignItems="center"
+              justifyContent="center"
             >
-              <BookmarkTile bookmark={bookmark} />
+              {bookmarks.map((bookmark, index) => (
+                <Grid
+                  item
+                  xs={2}
+                  sm={2}
+                  key={index}
+                  sx={{ paddingBottom: 3, paddingRight: 2 }}
+                >
+                  <BookmarkTile bookmark={bookmark} />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-        <Pagination
-          count={count}
-          page={page}
-          variant="outlined"
-          shape="rounded"
-          onChange={handleChange}
-        />
+            <Pagination
+              count={count}
+              page={page}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleChange}
+            />
+          </>
+        ) : (
+          <Typography variant="h5" color="secondary.light">
+            No bookmarks to show
+          </Typography>
+        )}
       </Stack>
     </Container>
   );

@@ -7,13 +7,13 @@ import {
   IconButton,
   LinearProgress,
   Box,
+  useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
-
 import ClearIcon from "@mui/icons-material/Clear";
-import { flexbox } from "@mui/system";
 
 export default function BookmarkTile({ bookmark }) {
+  const mobileView = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const progress =
     (parseInt(bookmark.bookmark) / parseInt(bookmark.total)) * 100;
   return (
@@ -25,7 +25,7 @@ export default function BookmarkTile({ bookmark }) {
         alignItems="flex-start"
         sx={{ p: 1 }}
       >
-        <Grid item xs={4} sm={3}>
+        <Grid item xs={4} sm={3} sx={{ paddingRight: 1 }}>
           <Image
             src={bookmark.img}
             alt={bookmark.title}
@@ -36,7 +36,9 @@ export default function BookmarkTile({ bookmark }) {
         </Grid>
         <Grid item xs={6} sm={7} align="left">
           <Stack spacing={2}>
-            <Typography variant="h5">{bookmark.title}</Typography>
+            <Typography variant={mobileView ? "subtitle1" : "h5"}>
+              {bookmark.title}
+            </Typography>
             <Stack>
               <Typography variant="body1" color="secondary.light">
                 You have read {bookmark.bookmark}/{bookmark.total}

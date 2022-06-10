@@ -1,6 +1,6 @@
 const BOOKMARKS_INFO = [
   {
-    title: "The Shining 1: Stephen King Stephen King",
+    title: "The Shining 1",
     img: "/assets/images/cover_the_shining.webp",
     bookmark: "60",
     total: "300"
