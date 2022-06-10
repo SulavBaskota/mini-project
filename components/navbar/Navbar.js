@@ -14,7 +14,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { USER_SETTINGS } from "../../constants/USER_SETTINGS";
 
-
 export default function Navbar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const mobileView = useMediaQuery((theme) => theme.breakpoints.down("md"));
