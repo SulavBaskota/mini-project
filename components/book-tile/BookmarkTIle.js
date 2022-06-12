@@ -8,8 +8,8 @@ import {
   LinearProgress,
   Box,
   useMediaQuery,
+  CardMedia,
 } from "@mui/material";
-import Image from "next/image";
 import ClearIcon from "@mui/icons-material/Clear";
 
 export default function BookmarkTile({ bookmark }) {
@@ -25,16 +25,16 @@ export default function BookmarkTile({ bookmark }) {
         alignItems="flex-start"
         sx={{ p: 1 }}
       >
-        <Grid item xs={4} sm={3} sx={{ paddingRight: 1 }}>
-          <Image
-            src={bookmark.img}
+        <Grid item xs={4} sx={{ paddingRight: 1.5 }}>
+          <CardMedia
+            component="img"
+            image={bookmark.img}
             alt={bookmark.title}
-            layout="intrinsic"
-            width={110}
-            height={160}
+            height={mobileView ? "160" : "220"}
+            sx={{ objectFit: "fill" }}
           />
         </Grid>
-        <Grid item xs={6} sm={7} align="left">
+        <Grid item xs={6} align="left">
           <Stack spacing={2}>
             <Typography variant={mobileView ? "subtitle1" : "h5"}>
               {bookmark.title}
@@ -52,7 +52,7 @@ export default function BookmarkTile({ bookmark }) {
             </Button>
           </Stack>
         </Grid>
-        <Grid item xs={2} sm={2}>
+        <Grid item xs={2}>
           <Box sx={{ display: "flex", justifyContent: "right" }}>
             <IconButton aria-label="delete" size="small">
               <ClearIcon />
