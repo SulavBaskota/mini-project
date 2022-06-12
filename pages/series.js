@@ -33,7 +33,7 @@ export default function Series() {
   const [genresValue, setGenresValue] = useState(genres);
 
   return (
-    <Container sx={{ pt: 4, minHeight: "100vh" }}>
+    <Container sx={{ mt: 2, minHeight: "100vh" }}>
       <Stack spacing={3}>
         <FormControl>
           <RadioGroupComponent

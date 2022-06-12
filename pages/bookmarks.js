@@ -3,7 +3,6 @@ import {
   Pagination,
   Typography,
   Divider,
-  Stack,
   Grid,
 } from "@mui/material";
 import { BOOKMARKS_INFO } from "../constants/BOOKMARKS_INFO";
@@ -28,20 +27,9 @@ export default function Bookmarks() {
       <Divider sx={{ border: 1, mt: 2 }} />
       {bookmarks.length > 0 ? (
         <>
-          <Grid
-            container
-            columns={{ xs: 2, sm: 4 }}
-            alignItems="center"
-            justifyContent="center"
-          >
+          <Grid container columns={{ xs: 2, sm: 4 }} spacing={3} mt={1}>
             {bookmarks.map((bookmark, index) => (
-              <Grid
-                item
-                xs={2}
-                sm={2}
-                key={index}
-                sx={{ paddingBottom: 3, paddingRight: 2 }}
-              >
+              <Grid item xs={2} sm={2} key={index}>
                 <BookmarkTile bookmark={bookmark} />
               </Grid>
             ))}
@@ -52,6 +40,7 @@ export default function Bookmarks() {
             variant="outlined"
             shape="rounded"
             onChange={handleChange}
+            sx={{ mt: 2 }}
           />
         </>
       ) : (

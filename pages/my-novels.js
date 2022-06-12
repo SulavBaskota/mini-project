@@ -64,7 +64,7 @@ export default function MyNovels() {
                           color="text.secondary"
                           align="left"
                         >
-                          Rating: 
+                          Rating:
                         </Typography>
                         <Rating
                           name={novel.title}
