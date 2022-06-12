@@ -26,7 +26,7 @@ export default function MyNovels() {
         mt={2}
       >
         <Typography variant="h5">My Novels</Typography>
-        <Button variant="contained" startIcon={<AddIcon />} w>
+        <Button variant="contained" startIcon={<AddIcon />} href="/create-novel">
           Create New Novel
         </Button>
       </Stack>
