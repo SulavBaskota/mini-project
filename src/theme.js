@@ -12,7 +12,6 @@ const theme = createTheme({
       light: "#ffffff5c",
     },
     background: {
-      // paper: "#282f30",
       paper: "#202020",
     },
   },
