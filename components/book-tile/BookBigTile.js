@@ -1,23 +1,26 @@
 import {
   Card,
+  CardMedia,
   Typography,
   CardContent,
   CardActions,
   Button,
   Paper,
+  useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
 
 export default function BookBigTile({ book }) {
+  const mobileView = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   return (
     <>
       <Card component={Paper} elevation={3}>
-        <Image
-          src={book.img}
+        <CardMedia
+          component="img"
+          image={book.img}
           alt={book.title}
-          layout="responsive"
-          width={300}
-          height={320}
+          height={mobileView ? "500" : "400"}
+          sx={{ objectFit: "fill" }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div" align="center">

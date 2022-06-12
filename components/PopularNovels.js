@@ -7,7 +7,7 @@ import HomeSectionTemplate from "./HomeSectionTemplate";
 
 const CarouselSubComponent = ({ mobileView }) => (
   <Carousel
-    cols={4}
+    cols={mobileView ? 3 : 4}
     rows={1}
     gap={10}
     loop={true}
