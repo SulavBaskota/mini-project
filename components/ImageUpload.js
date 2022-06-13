@@ -28,7 +28,6 @@ export default function ImageUpload() {
       justifyContent="space-evenly"
       alignItems="center"
     >
-      {console.log(selectedImage)}
       <Grid item xs={8}>
         <TextField
           disabled={!selectedImage}

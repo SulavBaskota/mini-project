@@ -11,23 +11,31 @@ import {
   Checkbox,
   Grid,
   Stack,
+  FormControl,
 } from "@mui/material";
 import { useState } from "react";
+import { NOVEL } from "../constants/NOVEL";
 import ImageUpload from "../components/ImageUpload";
+import RadioGroupComponent from "../components/RadioButtonComponent";
 
 const genres = {
-  Action: false,
+  Action: true,
   Fantasy: false,
   "Sci Fi": false,
   Mystery: false,
-  Thriller: false,
+  Thriller: true,
   Romance: false,
   Dystopian: false,
   Horror: false,
 };
 
+const status = ["Ongoing", "Completed", "Hiatus"];
+
 export default function EditNovel() {
+  const novel = NOVEL;
   const [genresValue, setGenresValue] = useState(genres);
+  const [statusValue, setStatusValue] = useState(novel.status);
+
   const handleChange = (event) => {
     setGenresValue({
       ...genresValue,
@@ -42,28 +50,40 @@ export default function EditNovel() {
   return (
     <Container sx={{ minHeight: "100vh" }}>
       <Typography variant="h5" mt={2}>
-        Create New Novel
+        Edit Novel
       </Typography>
       <Divider sx={{ border: 1, mt: 2 }} />
       <Box
         component="form"
         noValidate
         autoComplete="off"
-        sx={{ display: "flex", justifyContent: "center" }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+        }}
         mt={2}
       >
         <Stack spacing={2}>
           <FormLabel>
             <Typography variant="h6">Novel Details</Typography>
           </FormLabel>
-          <TextField required id="name" label="Novel Name" />
+          <TextField id="name" label="Novel Name" value={novel.title} />
           <TextField
-            required
             id="synopsis"
             label="Novel Description"
+            value={novel.desc}
             multiline
-            rows={5}
           />
+          <FormControl>
+            <RadioGroupComponent
+              id="status"
+              label="Status"
+              value={statusValue}
+              itemList={status}
+              setValue={setStatusValue}
+            />
+          </FormControl>
+          <Divider />
           <FormLabel>
             <Typography variant="h6">Genres</Typography>
           </FormLabel>
@@ -87,12 +107,12 @@ export default function EditNovel() {
           </FormGroup>
           <Divider />
           <FormLabel>
-            <Typography variant="h6">Upload Book Cover Art</Typography>
+            <Typography variant="h6">Upload New Book Cover Art</Typography>
           </FormLabel>
           <ImageUpload />
           <Divider />
           <Stack direction="row" justifyContent="flex-end" spacing={2}>
-            <Button variant="contained">Create Novel</Button>
+            <Button variant="contained">Save Changes</Button>
             <Button onClick={handleClear}>Clear All</Button>
           </Stack>
         </Stack>
