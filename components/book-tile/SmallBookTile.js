@@ -1,22 +1,29 @@
 import * as React from "react";
-import Image from "next/image";
 import {
-  Button,
   Typography,
-  Stack,
   Box,
   CardMedia,
-  Card,
   CardActionArea,
   CardContent,
   useMediaQuery,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
+
+const StyledCardActionArea = styled(CardActionArea)(
+  ({ theme }) => `
+  color: ${theme.palette.background.paper};
+
+  :hover {
+    color: ${theme.palette.background.paper};
+  }
+`
+);
 
 export default function SmallBookTile({ book }) {
   const mobileView = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   return (
     <Box>
-      <CardActionArea>
+      <StyledCardActionArea>
         <CardMedia
           component="img"
           image={book.img}
@@ -34,7 +41,7 @@ export default function SmallBookTile({ book }) {
             {book.title}
           </Typography>
         </CardContent>
-      </CardActionArea>
+      </StyledCardActionArea>
     </Box>
   );
 }
