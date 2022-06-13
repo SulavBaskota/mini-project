@@ -19,11 +19,11 @@ import ImageUpload from "../components/ImageUpload";
 import RadioGroupComponent from "../components/RadioButtonComponent";
 
 const genres = {
-  Action: true,
+  Action: false,
   Fantasy: false,
   "Sci Fi": false,
   Mystery: false,
-  Thriller: true,
+  Thriller: false,
   Romance: false,
   Dystopian: false,
   Horror: false,
@@ -33,7 +33,12 @@ const status = ["Ongoing", "Completed", "Hiatus"];
 
 export default function EditNovel() {
   const novel = NOVEL;
-  const [genresValue, setGenresValue] = useState(genres);
+  const updatedGenres = Object.assign(
+    {},
+    genres,
+    ...novel.genre.map((item) => ({ [item]: true }))
+  );
+  const [genresValue, setGenresValue] = useState(updatedGenres);
   const [statusValue, setStatusValue] = useState(novel.status);
 
   const handleChange = (event) => {
@@ -43,12 +48,13 @@ export default function EditNovel() {
     });
   };
 
-  const handleClear = () => {
-    setGenresValue(genres);
+  const handleReset = () => {
+    setGenresValue(updatedGenres);
   };
 
   return (
     <Container sx={{ minHeight: "100vh" }}>
+      {console.log(genresValue)}
       <Typography variant="h5" mt={2}>
         Edit Novel
       </Typography>
@@ -111,10 +117,15 @@ export default function EditNovel() {
           </FormLabel>
           <ImageUpload />
           <Divider />
-          <Stack direction="row" justifyContent="flex-end" spacing={2}>
+          <Stack direction="row" justifyContent="flex-start" spacing={2}>
             <Button variant="contained">Save Changes</Button>
-            <Button onClick={handleClear}>Clear All</Button>
+            <Button onClick={handleReset}>Reset</Button>
           </Stack>
+          <Box>
+            <Button href="/novel" color="error" variant="outlined">
+              Cancel
+            </Button>
+          </Box>
         </Stack>
       </Box>
     </Container>

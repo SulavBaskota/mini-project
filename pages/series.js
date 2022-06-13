@@ -43,6 +43,8 @@ export default function Series() {
             itemList={status}
             setValue={setStatusValue}
           />
+        </FormControl>
+        <FormControl>
           <RadioGroupComponent
             id="sort-by"
             label="Sort By"
