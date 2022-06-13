@@ -7,7 +7,6 @@ import {
   Grid,
   Container,
   IconButton,
-  useMediaQuery,
 } from "@mui/material";
 import Copyright from "../src/Copyright";
 import { MENU_ITEMS } from "../constants/MENU_ITEMS";
@@ -26,6 +25,7 @@ const FooterButton = ({ pages }) =>
         color: "white",
         display: "block",
         textTransform: "capitalize",
+        p: 0,
       }}
       href={page.href}
     >
@@ -34,17 +34,15 @@ const FooterButton = ({ pages }) =>
   ));
 
 export default function Footer() {
-  const mobileView = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-
   return (
     <Box component={Paper} mt={10}>
       <Container>
         <Box sx={{ flexGrow: 1, paddingBottom: 4 }}>
           <Grid
             container
-            direction={mobileView ? "column-reverse" : "row"}
+            direction={{ xs: "column-reverse", sm: "row" }}
             justifyContent="flex-start"
-            alignItems={mobileView ? "flex-start" : "center"}
+            alignItems={{ xs: "flex-start", sm: "center" }}
             spacing={4}
           >
             <Grid item sm={4}>
@@ -54,7 +52,7 @@ export default function Footer() {
                 justifyContent="flex-start"
                 marginBottom={2}
               >
-                <PageTitle variant={"h6"} mr={4} flexGrow={0}/>
+                <PageTitle variant={"h6"} mr={4} flexGrow={0} />
               </Stack>
               <Stack
                 direction="row"
@@ -74,7 +72,7 @@ export default function Footer() {
               </Stack>
               <Copyright />
             </Grid>
-            <Grid container item sm={8} spacing={4}>
+            <Grid container item sm={8} spacing={8}>
               <Grid item>
                 <FooterButton pages={USEFUL_LINKS} />
               </Grid>

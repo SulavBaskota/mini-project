@@ -82,7 +82,7 @@ export default function MyNovels() {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="small">Update</Button>
+                      <Button size="small" href="/novel">Update</Button>
                     </CardActions>
                   </Box>
                 </Grid>

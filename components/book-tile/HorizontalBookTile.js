@@ -12,6 +12,8 @@ import {
   Box,
   useMediaQuery,
 } from "@mui/material";
+import DisplayTags from "../DisplayTags";
+import NovelSynopsis from "../NovelSynopsis";
 
 export default function HorizontalBookTile({ book }) {
   const mobileView = useMediaQuery((theme) => theme.breakpoints.down("md"));
@@ -65,28 +67,12 @@ export default function HorizontalBookTile({ book }) {
                       {book.rating} stars
                     </Typography>
                   </Stack>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
+                  <NovelSynopsis
+                    desc={book.desc}
+                    expandable={false}
                     align="left"
-                    sx={{
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      display: "-webkit-box",
-                      WebkitLineClamp: "3",
-                      WebkitBoxOrient: "vertical",
-                      textTransform: "none",
-                    }}
-                  >
-                    {book.desc}
-                  </Typography>
-                  <Stack direction="row" spacing={1}>
-                    {book.genre.map((item, index) => (
-                      <Paper key={index}>
-                        <Typography sx={{ p: 0.5 }}>{item}</Typography>
-                      </Paper>
-                    ))}
-                  </Stack>
+                  />
+                  <DisplayTags tags={book.genre} />
                 </Stack>
               </CardContent>
             </Grid>
