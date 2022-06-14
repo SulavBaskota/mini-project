@@ -6,10 +6,6 @@ import {
   Divider,
   Button,
   FormLabel,
-  FormControlLabel,
-  FormGroup,
-  Checkbox,
-  Grid,
   Stack,
   FormControl,
 } from "@mui/material";
@@ -17,58 +13,22 @@ import { useState } from "react";
 import { NOVEL } from "../constants/NOVEL";
 import ImageUpload from "../components/ImageUpload";
 import RadioGroupComponent from "../components/RadioButtonComponent";
-
-const genres = {
-  Action: false,
-  Fantasy: false,
-  "Sci Fi": false,
-  Mystery: false,
-  Thriller: false,
-  Romance: false,
-  Dystopian: false,
-  Horror: false,
-};
+import CheckboxesTags from "../components/CheckboxesTags";
 
 const status = ["Ongoing", "Completed", "Hiatus"];
 
 export default function EditNovel() {
   const novel = NOVEL;
-  const updatedGenres = Object.assign(
-    {},
-    genres,
-    ...novel.genre.map((item) => ({ [item]: true }))
-  );
-  const [genresValue, setGenresValue] = useState(updatedGenres);
   const [statusValue, setStatusValue] = useState(novel.status);
-
-  const handleChange = (event) => {
-    setGenresValue({
-      ...genresValue,
-      [event.target.name]: event.target.checked,
-    });
-  };
-
-  const handleReset = () => {
-    setGenresValue(updatedGenres);
-  };
+  const [selectedGenres, setSelectedGenres] = useState(novel.genre);
 
   return (
     <Container sx={{ minHeight: "100vh" }}>
-      {console.log(genresValue)}
       <Typography variant="h5" mt={2}>
         Edit Novel
       </Typography>
       <Divider sx={{ border: 1, mt: 2 }} />
-      <Box
-        component="form"
-        noValidate
-        autoComplete="off"
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-        mt={2}
-      >
+      <Box component="form" noValidate autoComplete="off" mt={2}>
         <Stack spacing={2}>
           <FormLabel>
             <Typography variant="h6">Novel Details</Typography>
@@ -90,42 +50,26 @@ export default function EditNovel() {
             />
           </FormControl>
           <Divider />
-          <FormLabel>
-            <Typography variant="h6">Genres</Typography>
-          </FormLabel>
-          <FormGroup>
-            <Grid container direction="row" columns={{ xs: 1, sm: 2 }}>
-              {Object.keys(genresValue).map((item, index) => (
-                <Grid item xs={1} sm={1} key={index}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={genresValue[item]}
-                        onChange={handleChange}
-                        name={item}
-                      />
-                    }
-                    label={item}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </FormGroup>
+          <CheckboxesTags
+            selectedGenres={selectedGenres}
+            setSelectedGenres={setSelectedGenres}
+          />
           <Divider />
           <FormLabel>
             <Typography variant="h6">Upload New Book Cover Art</Typography>
           </FormLabel>
           <ImageUpload />
           <Divider />
-          <Stack direction="row" justifyContent="flex-start" spacing={2}>
-            <Button variant="contained">Save Changes</Button>
-            <Button onClick={handleReset}>Reset</Button>
-          </Stack>
-          <Box>
+          <Stack
+            direction={{ xs: "row-reverse", md: "row" }}
+            justifyContent="flex-end"
+            spacing={2}
+          >
             <Button href="/novel" color="error" variant="outlined">
               Cancel
             </Button>
-          </Box>
+            <Button variant="contained">Save Changes</Button>
+          </Stack>
         </Stack>
       </Box>
     </Container>

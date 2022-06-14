@@ -11,26 +11,16 @@ import { useState } from "react";
 import RadioGroupComponent from "../components/RadioButtonComponent";
 import { BOOKS_WITH_TAGS } from "../constants/BOOKS_WITH_TAGS";
 import HorizontalBookTile from "../components/book-tile/HorizontalBookTile";
-import GenreAccordion from "../components/GenreAccordion";
+import CheckboxesTags from "../components/CheckboxesTags";
 
 const status = ["Any", "Ongoing", "Completed", "Hiatus"];
 const sortBy = ["Name", "Popular", "New", "Rating"];
-const genres = {
-  Action: false,
-  Fantasy: false,
-  "Sci Fi": false,
-  Mystery: false,
-  Thriller: false,
-  Romance: false,
-  Dystopian: false,
-  Horror: false,
-};
 
 export default function Series() {
   const mobileView = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const [statusValue, setStatusValue] = useState("Any");
   const [sortByValue, setSortByValue] = useState("Name");
-  const [genresValue, setGenresValue] = useState(genres);
+  const [selectedGenres, setSelectedGenres] = useState([]);
 
   return (
     <Container sx={{ minHeight: "100vh" }}>
@@ -53,10 +43,9 @@ export default function Series() {
             setValue={setSortByValue}
           />
         </FormControl>
-        <GenreAccordion
-          value={genresValue}
-          itemDict={genres}
-          setValue={setGenresValue}
+        <CheckboxesTags
+          selectedGenres={selectedGenres}
+          setSelectedGenres={setSelectedGenres}
         />
         <Box
           sx={{
