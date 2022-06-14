@@ -1,5 +1,27 @@
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Box, Button, ToggleButton } from "@mui/material";
 import { useState } from "react";
+
+const ToogleButton = ({ handleToogle }) => (
+  <Box
+    sx={{
+      display: "flex",
+      justifyContent: "flex-end",
+    }}
+  >
+    <Button
+      variant="text"
+      size="small"
+      sx={{
+        textTransform: "capitalize",
+        textDecoration: "underline",
+        color: "text.secondary",
+      }}
+      onClick={handleToogle}
+    >
+      {showDesc ? "Less" : "More"}
+    </Button>
+  </Box>
+);
 
 export default function NovelSynopsis({
   desc,
@@ -27,25 +49,7 @@ export default function NovelSynopsis({
       >
         {desc}
       </Typography>
-      <Box
-        sx={{
-          display: expandable ? "flex" : "none",
-          justifyContent: "flex-end",
-        }}
-      >
-        <Button
-          variant="text"
-          size="small"
-          sx={{
-            textTransform: "capitalize",
-            textDecoration: "underline",
-            color: "text.secondary",
-          }}
-          onClick={toogleNovelDesc}
-        >
-          {showDesc ? "Less" : "More"}
-        </Button>
-      </Box>
+      {expandable && <ToogleButton handleToogle={toogleNovelDesc} />}
     </>
   );
 }
