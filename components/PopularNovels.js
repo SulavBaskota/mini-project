@@ -21,7 +21,7 @@ const MyDot = ({ isActive }) => (
 
 const CarouselSubComponent = ({ mobileView }) => (
   <Carousel
-    cols={mobileView ? 3 : 4}
+    cols={mobileView ? 2 : 4}
     rows={1}
     gap={10}
     loop={true}

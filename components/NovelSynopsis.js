@@ -1,7 +1,7 @@
 import { Typography, Box, Button, ToggleButton } from "@mui/material";
 import { useState } from "react";
 
-const ToogleButton = ({ handleToogle }) => (
+const ToogleButton = ({ handleToogle, showDesc }) => (
   <Box
     sx={{
       display: "flex",
@@ -49,7 +49,9 @@ export default function NovelSynopsis({
       >
         {desc}
       </Typography>
-      {expandable && <ToogleButton handleToogle={toogleNovelDesc} />}
+      {expandable && (
+        <ToogleButton handleToogle={toogleNovelDesc} showDesc={showDesc} />
+      )}
     </>
   );
 }
