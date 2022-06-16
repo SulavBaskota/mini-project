@@ -25,16 +25,16 @@ export default function BookmarkTile({ bookmark }) {
         alignItems="flex-start"
         sx={{ p: 1 }}
       >
-        <Grid item xs={4} sx={{ paddingRight: 1.5 }}>
+        <Grid item xs={4} md={3} sx={{ paddingRight: 1.5 }}>
           <CardMedia
             component="img"
             image={bookmark.img}
             alt={bookmark.title}
-            height={mobileView ? "160" : "220"}
+            height="160"
             sx={{ objectFit: "fill" }}
           />
         </Grid>
-        <Grid item xs={6} align="left">
+        <Grid item xs={6} md={7} align="left">
           <Stack spacing={2}>
             <Typography variant={mobileView ? "subtitle1" : "h5"}>
               {bookmark.title}
@@ -52,7 +52,7 @@ export default function BookmarkTile({ bookmark }) {
             </Button>
           </Stack>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={2} md={2}>
           <Box sx={{ display: "flex", justifyContent: "right" }}>
             <IconButton aria-label="delete" size="small">
               <ClearIcon />
