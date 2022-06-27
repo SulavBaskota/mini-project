@@ -8,9 +8,14 @@ export default function Novel() {
   return (
     <>
       <Box sx={{ minHeight: "100vh" }}>
-        <Stack spacing={4}>
+        <Stack
+          spacing={4}
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
           <CompleteNovelDetail novel={novel} />
-          <TabsComponent />
+          <TabsComponent chapters={novel.chapterList} />
         </Stack>
       </Box>
     </>
