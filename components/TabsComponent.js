@@ -1,8 +1,8 @@
-import * as React from "react";
 import PropTypes from "prop-types";
 import { Container, Box, Tabs, Tab } from "@mui/material";
 import ChapterList from "./ChapterList";
-
+import NovelReviews from "./NovelReviews";
+import { useState } from "react";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -15,7 +15,7 @@ const TabPanel = (props) => {
       aria-labelledby={`tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{pt: 2}}>{children}</Box>}
+      {value === index && <Box sx={{ pt: 2 }}>{children}</Box>}
     </div>
   );
 };
@@ -33,8 +33,10 @@ const a11yProps = (index) => {
   };
 };
 
-export default function TabsComponent({ chapters }) {
-  const [value, setValue] = React.useState(0);
+export default function TabsComponent({ chapters, reviews }) {
+  const [value, setValue] = useState(0);
+  const [descOrderChapter, setDescOrderChapter] = useState(true);
+  const [descOrderReview, setDescOrderReview] = useState(true);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -44,16 +46,24 @@ export default function TabsComponent({ chapters }) {
     <Box sx={{ width: "100%", maxWidth: "md" }}>
       <Container sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={value} onChange={handleChange}>
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
+          <Tab label="Chapter" {...a11yProps(0)} />
+          <Tab label="Reviews" {...a11yProps(1)} />
         </Tabs>
       </Container>
       <Container>
         <TabPanel value={value} index={0}>
-          <ChapterList chapters={chapters} />
+          <ChapterList
+            chapters={chapters}
+            descOrderChapter={descOrderChapter}
+            setDescOrderChapter={setDescOrderChapter}
+          />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Item Two
+          <NovelReviews
+            reviews={reviews}
+            descOrderReview={descOrderReview}
+            setDescOrderReview={setDescOrderReview}
+          />
         </TabPanel>
       </Container>
     </Box>

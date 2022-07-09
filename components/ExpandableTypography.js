@@ -1,4 +1,4 @@
-import { Typography, Box, Button, ToggleButton } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
 import { useState } from "react";
 
 const ToogleButton = ({ handleToogle, showDesc }) => (
@@ -23,12 +23,14 @@ const ToogleButton = ({ handleToogle, showDesc }) => (
   </Box>
 );
 
-export default function NovelSynopsis({
+export default function ExpandableTypography({
   desc,
   expandable = false,
   align = "left",
+  lineClamp = "4",
 }) {
   const [showDesc, setShowDesc] = useState(false);
+  const paragraphs = desc.split("\n");
   const toogleNovelDesc = (event) => {
     setShowDesc(!showDesc);
   };
@@ -37,17 +39,22 @@ export default function NovelSynopsis({
     <>
       <Typography
         variant="body2"
+        component="div"
         color="text.secondary"
         align={align}
         sx={{
           overflow: "hidden",
           textOverflow: "ellipsis",
           display: showDesc ? "block" : "-webkit-box",
-          WebkitLineClamp: "3",
+          WebkitLineClamp: lineClamp,
           WebkitBoxOrient: "vertical",
         }}
       >
-        {desc}
+        <Box component="div">
+          {paragraphs.map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
+        </Box>
       </Typography>
       {expandable && (
         <ToogleButton handleToogle={toogleNovelDesc} showDesc={showDesc} />

@@ -13,7 +13,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import DisplayTags from "../DisplayTags";
-import NovelSynopsis from "../NovelSynopsis";
+import ExpandableTypography from "../ExpandableTypography";
 
 export default function HorizontalBookTile({ book }) {
   const mobileView = useMediaQuery((theme) => theme.breakpoints.down("md"));
@@ -67,7 +67,7 @@ export default function HorizontalBookTile({ book }) {
                       {book.rating} stars
                     </Typography>
                   </Stack>
-                  <NovelSynopsis
+                  <ExpandableTypography
                     desc={book.desc}
                     expandable={false}
                     align="left"

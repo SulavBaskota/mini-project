@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import Recommendation from "../components/Recommendation";
 import DisplayTags from "../components/DisplayTags";
-import NovelSynopsis from "../components/NovelSynopsis";
+import ExpandableTypography from "../components/ExpandableTypography";
 import TitleInfo from "../components/TitleInfo";
 import ContinueReadingButton from "../components/ContinueReadingButton";
 
@@ -47,7 +47,7 @@ export default function CompleteNovelDetail({ novel }) {
                 rating={novel.rating}
                 recommendation={novel.recommendation}
               />
-              <NovelSynopsis desc={novel.desc} expandable={true} align="left" />
+              <ExpandableTypography desc={novel.desc} expandable={true} align="left" />
               <DisplayTags tags={novel.genre} />
               <ContinueReadingButton />
             </Stack>

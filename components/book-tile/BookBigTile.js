@@ -8,7 +8,7 @@ import {
   Paper,
   useMediaQuery,
 } from "@mui/material";
-import NovelSynopsis from "../NovelSynopsis";
+import ExpandableTypography from "../ExpandableTypography";
 
 export default function BookBigTile({ book }) {
   const mobileView = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -26,7 +26,7 @@ export default function BookBigTile({ book }) {
           <Typography gutterBottom variant="h5" component="div" align="center">
             {book.title}
           </Typography>
-          <NovelSynopsis desc={book.desc} expandable={false} align="center" />
+          <ExpandableTypography desc={book.desc} expandable={false} align="center" />
         </CardContent>
         <CardActions sx={{ display: "flex", justifyContent: "center" }}>
           <Button size="small">More</Button>

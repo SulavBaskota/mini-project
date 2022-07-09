@@ -2,6 +2,7 @@ import { Stack, Box } from "@mui/material";
 import TabsComponent from "../components/TabsComponent";
 import CompleteNovelDetail from "../components/CompleteNovelDetail";
 import { NOVEL } from "../constants/NOVEL";
+import { REVIEWS } from "../constants/REVIEWS";
 
 export default function Novel() {
   const novel = NOVEL;
@@ -15,7 +16,7 @@ export default function Novel() {
           alignItems="center"
         >
           <CompleteNovelDetail novel={novel} />
-          <TabsComponent chapters={novel.chapterList} />
+          <TabsComponent chapters={novel.chapterList} reviews={REVIEWS} />
         </Stack>
       </Box>
     </>
