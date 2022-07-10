@@ -46,7 +46,7 @@ export default function TabsComponent({ chapters, reviews }) {
     <Box sx={{ width: "100%", maxWidth: "md" }}>
       <Container sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={value} onChange={handleChange}>
-          <Tab label="Chapter" {...a11yProps(0)} />
+          <Tab label="Chapters" {...a11yProps(0)} />
           <Tab label="Reviews" {...a11yProps(1)} />
         </Tabs>
       </Container>

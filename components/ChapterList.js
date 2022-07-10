@@ -9,7 +9,7 @@ const ChapterListSubComponent = ({ list }) => (
         <Typography
           variant="body1"
           component="a"
-          href="/"
+          href="/chapter"
           color="secondary"
           sx={{ textDecoration: "none" }}
         >
