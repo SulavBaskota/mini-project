@@ -28,7 +28,7 @@ export default function NovelReviews({
   setDescOrderReview,
 }) {
   // Initial reviews array should be in descending order
-  const itemPerPage = 3;
+  const itemPerPage = 5;
   const [list, setList] = useState(reviews.slice(0, itemPerPage));
   // reviewValue might need to be converted to JSON string while saving into database
   const [reviewValue, setReviewValue] = useState("");

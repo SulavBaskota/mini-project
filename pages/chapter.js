@@ -59,14 +59,18 @@ export default function Chapter() {
                 <Button
                   disableRipple={true}
                   sx={{ "&:hover": { background: "inherit" } }}
+                  disabled={chapterInfo.previous ? false : true}
+                  href="/chapter"
                 >
-                  <ArrowBackOutlinedIcon color="secondary" />
+                  <ArrowBackOutlinedIcon />
                 </Button>
                 <Button
                   disableRipple={true}
                   sx={{ "&:hover": { background: "inherit" } }}
+                  disabled={chapterInfo.next ? false : true}
+                  href="/chapter"
                 >
-                  <ArrowForwardOutlinedIcon color="secondary" />
+                  <ArrowForwardOutlinedIcon />
                 </Button>
               </Stack>
             </Stack>
