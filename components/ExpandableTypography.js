@@ -1,5 +1,5 @@
 import { Typography, Box, Button } from "@mui/material";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 const ToogleButton = ({ handleToogle, showDesc }) => (
   <Box
@@ -79,15 +79,17 @@ export default function ExpandableTypography({
         align={align}
       >
         {paragraphs.map((paragraph, index) => (
-          <Typography
-            paragraph
-            variant="body2"
-            key={index}
-            sx={{ display: "inline" }}
-            color="text.secondary"
-          >
-            {paragraph}
-          </Typography>
+          <Fragment key={index}>
+            <Typography
+              paragraph
+              variant="body2"
+              sx={{ display: "inline" }}
+              color="text.secondary"
+            >
+              {paragraph}
+            </Typography>
+            <br />
+          </Fragment>
         ))}
       </Box>
       {expandable && (
