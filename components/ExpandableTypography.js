@@ -37,7 +37,7 @@ export default function ExpandableTypography({
 
   return (
     <>
-      <Typography
+      {/* <Typography
         variant="body2"
         component="div"
         color="text.secondary"
@@ -49,8 +49,8 @@ export default function ExpandableTypography({
           WebkitLineClamp: lineClamp,
           WebkitBoxOrient: "vertical",
         }}
-      >
-        {/* {mobileView ? (
+      > */}
+      {/* {mobileView ? (
           desc
         ) : (
           <Box component="div">
@@ -59,14 +59,37 @@ export default function ExpandableTypography({
             ))}
           </Box>
         )} */}
-        <Box component="div">
+      {/* <Box component="div">
           {paragraphs.map((paragraph, index) => (
             <Typography paragraph key={index} sx={{ display: "inline-block" }}>
               {paragraph}
             </Typography>
           ))}
         </Box>
-      </Typography>
+      </Typography> */}
+      <Box
+        component="div"
+        sx={{
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          display: showDesc ? "block" : "-webkit-box",
+          WebkitLineClamp: lineClamp,
+          WebkitBoxOrient: "vertical",
+        }}
+        align={align}
+      >
+        {paragraphs.map((paragraph, index) => (
+          <Typography
+            paragraph
+            variant="body2"
+            key={index}
+            sx={{ display: "inline" }}
+            color="text.secondary"
+          >
+            {paragraph}
+          </Typography>
+        ))}
+      </Box>
       {expandable && (
         <ToogleButton handleToogle={toogleNovelDesc} showDesc={showDesc} />
       )}
