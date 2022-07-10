@@ -61,10 +61,12 @@ export default function ExpandableTypography({
           </Box>
         )} */}
         <Box component="div">
-            {paragraphs.map((paragraph, index) => (
-              <Typography paragraph key={index}>{paragraph}</Typography>
-            ))}
-          </Box>
+          {paragraphs.map((paragraph, index) => (
+            <Typography paragraph key={index} sx={{ display: "inline" }}>
+              {paragraph}
+            </Typography>
+          ))}
+        </Box>
       </Typography>
       {expandable && (
         <ToogleButton handleToogle={toogleNovelDesc} showDesc={showDesc} />
