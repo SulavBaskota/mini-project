@@ -51,11 +51,15 @@ export default function ExpandableTypography({
           WebkitBoxOrient: "vertical",
         }}
       >
-        <Box component="div">
-          {paragraphs.map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
-          ))}
-        </Box>
+        {mobileView ? (
+          desc
+        ) : (
+          <Box component="div">
+            {paragraphs.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+          </Box>
+        )}
       </Typography>
       {expandable && (
         <ToogleButton handleToogle={toogleNovelDesc} showDesc={showDesc} />
