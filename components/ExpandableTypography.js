@@ -37,36 +37,6 @@ export default function ExpandableTypography({
 
   return (
     <>
-      {/* <Typography
-        variant="body2"
-        component="div"
-        color="text.secondary"
-        align={align}
-        sx={{
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          display: showDesc ? "block" : "-webkit-box",
-          WebkitLineClamp: lineClamp,
-          WebkitBoxOrient: "vertical",
-        }}
-      > */}
-      {/* {mobileView ? (
-          desc
-        ) : (
-          <Box component="div">
-            {paragraphs.map((paragraph, index) => (
-              <Typography paragraph key={index}>{paragraph}</Typography>
-            ))}
-          </Box>
-        )} */}
-      {/* <Box component="div">
-          {paragraphs.map((paragraph, index) => (
-            <Typography paragraph key={index} sx={{ display: "inline-block" }}>
-              {paragraph}
-            </Typography>
-          ))}
-        </Box>
-      </Typography> */}
       <Box
         component="div"
         sx={{

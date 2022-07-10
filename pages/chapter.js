@@ -1,18 +1,14 @@
 import {
   Box,
   Container,
-  Stack,
-  Typography,
-  Button,
   useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState, useCallback } from "react";
 import { CHAPTER } from "../constants/CHAPTER";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
-import ArrowForwardOutlinedIcon from "@mui/icons-material/ArrowForwardOutlined";
-import { Divider } from "@mui/material";
 import FontSizeSpeedDial from "../components/FontSizeSpeedDail";
+import ChapterCoreContent from "../components/ChapterCoreContent";
+import ChapterComments from "../components/ChapterComments";
+import ChapterNavigationButtons from "../components/ChapterNavigationButtons";
 
 export default function Chapter() {
   const chapterInfo = CHAPTER;
@@ -44,48 +40,13 @@ export default function Chapter() {
     <Container sx={{ minHeight: "100vh", pt: 4 }}>
       <Box display="flex" alignItems="center" justifyContent="center">
         <Box sx={{ width: 900, maxWidth: "100%" }}>
-          <Stack spacing={4}>
-            <Stack justifyContent="space-between" direction="row">
-              <Button
-                color="secondary"
-                href="/novel"
-                sx={{ "&:hover": { background: "inherit" } }}
-                disableRipple={true}
-              >
-                <ArrowBackIosIcon fontSize="large" />
-                <Typography variant="h6">{chapterInfo.book}</Typography>
-              </Button>
-              <Stack direction="row">
-                <Button
-                  disableRipple={true}
-                  sx={{ "&:hover": { background: "inherit" } }}
-                  disabled={chapterInfo.previous ? false : true}
-                  href="/chapter"
-                >
-                  <ArrowBackOutlinedIcon />
-                </Button>
-                <Button
-                  disableRipple={true}
-                  sx={{ "&:hover": { background: "inherit" } }}
-                  disabled={chapterInfo.next ? false : true}
-                  href="/chapter"
-                >
-                  <ArrowForwardOutlinedIcon />
-                </Button>
-              </Stack>
-            </Stack>
-            <Divider />
-            <Typography variant="h5" fontWeight="bold">
-              Chapter {chapterInfo.id}: {chapterInfo.title}
-            </Typography>
-            <Stack spacing={2}>
-              {paragraphs.map((paragraph, index) => (
-                <Typography variant="body1" key={index} fontSize={fontSize}>
-                  {paragraph}
-                </Typography>
-              ))}
-            </Stack>
-          </Stack>
+          <ChapterCoreContent
+            chapterInfo={chapterInfo}
+            paragraphs={paragraphs}
+            fontSize={fontSize}
+          />
+          <ChapterNavigationButtons chapterInfo={chapterInfo} />
+          <ChapterComments comments={chapterInfo.comments}/>
           {isVisible && (
             <FontSizeSpeedDial fontSize={fontSize} setFontSize={setFontSize} />
           )}
