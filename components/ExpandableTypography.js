@@ -1,4 +1,4 @@
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Box, Button, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 
 const ToogleButton = ({ handleToogle, showDesc }) => (
@@ -31,6 +31,7 @@ export default function ExpandableTypography({
 }) {
   const [showDesc, setShowDesc] = useState(false);
   const paragraphs = desc.split("\n");
+  const mobileView = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const toogleNovelDesc = (event) => {
     setShowDesc(!showDesc);
   };
@@ -46,7 +47,7 @@ export default function ExpandableTypography({
           overflow: "hidden",
           textOverflow: "ellipsis",
           display: showDesc ? "block" : "-webkit-box",
-          WebkitLineClamp: lineClamp,
+          WebkitLineClamp: mobileView ? "3" : lineClamp,
           WebkitBoxOrient: "vertical",
         }}
       >
