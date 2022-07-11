@@ -1,3 +1,3 @@
-const USER_SETTINGS = ["Profile", "Settings", "Logout"];
+const USER_SETTINGS = ["Profile", "Logout"];
 
 export { USER_SETTINGS };

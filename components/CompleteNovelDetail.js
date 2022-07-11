@@ -11,6 +11,7 @@ import DisplayTags from "../components/DisplayTags";
 import ExpandableTypography from "../components/ExpandableTypography";
 import TitleInfo from "../components/TitleInfo";
 import ContinueReadingButton from "../components/ContinueReadingButton";
+import AddNewChapterButton from "./AddNewChapterButton";
 
 export default function CompleteNovelDetail({ novel }) {
   return (
@@ -50,6 +51,7 @@ export default function CompleteNovelDetail({ novel }) {
               <ExpandableTypography desc={novel.desc} expandable={true} align="left" />
               <DisplayTags tags={novel.genre} />
               <ContinueReadingButton />
+              <AddNewChapterButton />
             </Stack>
           </Grid>
         </Grid>

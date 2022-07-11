@@ -1,5 +1,5 @@
 const NOVEL = {
-  title: "The Shining - Stephen King",
+  title: "The Shining",
   img: "/assets/images/cover_the_shining.webp",
   status: "Completed",
   author: "Stephen King",
