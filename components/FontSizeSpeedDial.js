@@ -14,12 +14,18 @@ export default function FontSizeSpeedDial({ fontSize, setFontSize }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const storeFontSize = (fontSize) => {
+    localStorage.setItem("fontSize", JSON.stringify(fontSize));
+  };
+
   const handleIncrease = () => {
     setFontSize(fontSize + 1);
+    storeFontSize(fontSize + 1);
   };
 
   const handleDecrease = () => {
     setFontSize(fontSize - 1);
+    storeFontSize(fontSize - 1);
   };
 
   return (
@@ -43,6 +49,7 @@ export default function FontSizeSpeedDial({ fontSize, setFontSize }) {
           />
         ))}
       </SpeedDial>
+      {console.log(fontSize)}
     </Box>
   );
 }

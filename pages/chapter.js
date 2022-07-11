@@ -1,11 +1,7 @@
-import {
-  Box,
-  Container,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Container, useMediaQuery } from "@mui/material";
 import { useEffect, useState, useCallback } from "react";
 import { CHAPTER } from "../constants/CHAPTER";
-import FontSizeSpeedDial from "../components/FontSizeSpeedDail";
+import FontSizeSpeedDial from "../components/FontSizeSpeedDial";
 import ChapterCoreContent from "../components/ChapterCoreContent";
 import ChapterComments from "../components/ChapterComments";
 import ChapterNavigationButtons from "../components/ChapterNavigationButtons";
@@ -23,11 +19,18 @@ export default function Chapter() {
     return () => window.removeEventListener("scroll", listenToScroll);
   }, []);
 
+  useEffect(() => {
+    const fontSize = JSON.parse(localStorage.getItem("fontSize"));
+    if (fontSize) {
+      setFontSize(fontSize);
+    }
+  }, []);
+
   const listenToScroll = useCallback((event) => {
     let heightToHideFrom =
       document.documentElement.scrollHeight -
       document.documentElement.clientHeight -
-      (mobileView ? 350 : 200);
+      (mobileView ? 250 : 200);
     const winScroll = document.documentElement.scrollTop;
     if (winScroll > heightToHideFrom) {
       isVisible && setIsVisible(false);
@@ -46,7 +49,7 @@ export default function Chapter() {
             fontSize={fontSize}
           />
           <ChapterNavigationButtons chapterInfo={chapterInfo} />
-          <ChapterComments comments={chapterInfo.comments}/>
+          <ChapterComments comments={chapterInfo.comments} />
           {isVisible && (
             <FontSizeSpeedDial fontSize={fontSize} setFontSize={setFontSize} />
           )}

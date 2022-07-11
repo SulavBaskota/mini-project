@@ -32,6 +32,8 @@ export default function EditNovel() {
   const novel = NOVEL;
   const [statusValue, setStatusValue] = useState(novel.status);
   const [selectedGenres, setSelectedGenres] = useState(novel.genre);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
 
   return (
     <EditNovelTemplate
@@ -41,6 +43,10 @@ export default function EditNovel() {
       buttonLabel={"Save Changes"}
       selectedGenres={selectedGenres}
       setSelectedGenres={setSelectedGenres}
+      selectedImage={selectedImage}
+      setSelectedImage={setSelectedImage}
+      imageUrl={imageUrl}
+      setImageUrl={setImageUrl}
       textFieldComponents={
         <EditNovelTextFieldComponents
           desc={novel.desc}

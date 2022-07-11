@@ -17,6 +17,10 @@ export default function EditNovelTemplate({
   buttonLabel,
   selectedGenres,
   setSelectedGenres,
+  selectedImage,
+  setSelectedImage,
+  imageUrl,
+  setImageUrl,
   textFieldComponents,
 }) {
   return (
@@ -49,7 +53,12 @@ export default function EditNovelTemplate({
             <FormLabel>
               <Typography variant="h6">{imageLabel}</Typography>
             </FormLabel>
-            <ImageUpload />
+            <ImageUpload
+              selectedImage={selectedImage}
+              setSelectedImage={setSelectedImage}
+              imageUrl={imageUrl}
+              setImageUrl={setImageUrl}
+            />
             <Divider />
             <Stack
               direction={{ xs: "row-reverse", md: "row" }}

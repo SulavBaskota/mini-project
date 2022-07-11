@@ -6,6 +6,7 @@ import {
   Stack,
   Button,
   TextField,
+  FormLabel,
 } from "@mui/material";
 import { useState } from "react";
 import { NOVEL } from "../constants/NOVEL";
@@ -40,6 +41,10 @@ export default function CreateChapter() {
       >
         <Box sx={{ width: 900, maxWidth: "100%" }}>
           <Stack spacing={2}>
+            <FormLabel>
+              <Typography variant="h6">Chapter Details</Typography>
+            </FormLabel>
+            <Divider />
             <TextField
               id="novelName"
               label="Novel Title"
@@ -67,7 +72,7 @@ export default function CreateChapter() {
               label="Chapter Content"
               placeholder="Add Chapter Content"
               multiline
-              rows={20}
+              rows={15}
               onChange={handleChapterContentChange}
             />
             <Divider />
