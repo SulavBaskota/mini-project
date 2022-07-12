@@ -12,6 +12,7 @@ import ExpandableTypography from "../components/ExpandableTypography";
 import TitleInfo from "../components/TitleInfo";
 import ContinueReadingButton from "../components/ContinueReadingButton";
 import AddNewChapterButton from "./AddNewChapterButton";
+import StartReadingButton from "./StartReadingButton";
 
 export default function CompleteNovelDetail({ novel }) {
   return (
@@ -50,7 +51,8 @@ export default function CompleteNovelDetail({ novel }) {
               />
               <ExpandableTypography desc={novel.desc} expandable={true} align="left" />
               <DisplayTags tags={novel.genre} />
-              <ContinueReadingButton />
+              {/* <StartReadingButton /> */}
+              {/* <ContinueReadingButton /> */}
               <AddNewChapterButton />
             </Stack>
           </Grid>

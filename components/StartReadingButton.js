@@ -1,6 +1,6 @@
 import { Box, Button, useMediaQuery } from "@mui/material";
 
-export default function ContinueReadingButton() {
+export default function StartReadingButton() {
   const mobileView = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   return (
     <Box
@@ -11,7 +11,7 @@ export default function ContinueReadingButton() {
       }}
     >
       <Button variant="contained" size="large" sx={{ borderRadius: 8 }}>
-        Continue Reading
+        Start Reading
       </Button>
     </Box>
   );
