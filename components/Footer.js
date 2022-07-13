@@ -30,7 +30,6 @@ const FooterButton = ({ pages }) => (
           color: "white",
           display: "block",
           textTransform: "capitalize",
-          p: 0,
         }}
         href={page.href}
       >

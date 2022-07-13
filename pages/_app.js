@@ -9,12 +9,16 @@ import createEmotionCache from "../src/createEmotionCache";
 import Layout from "../components/Layout";
 import Loader from "../components/Loader";
 import { useState, useEffect } from "react";
+import { SessionProvider } from "next-auth/react";
 
-// Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
-export default function MyApp(props) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+export default function MyApp({
+  Component,
+  emotionCache = clientSideEmotionCache,
+  pageProps: { session, ...pageProps },
+}) {
+  // const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,14 +31,15 @@ export default function MyApp(props) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         {loading ? (
           <Loader open={loading} />
         ) : (
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <SessionProvider session={session}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </SessionProvider>
         )}
       </ThemeProvider>
     </CacheProvider>
