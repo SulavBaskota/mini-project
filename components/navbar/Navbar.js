@@ -12,9 +12,23 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { USER_SETTINGS } from "../../constants/USER_SETTINGS";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { useRouter } from "next/router";
+
+const LoggedInMenuItems = ({ handleClick }) => (
+  <>
+    <MenuItem onClick={() => handleClick("profile")}>
+      <Typography textAlign="center">Profile</Typography>
+    </MenuItem>
+    <MenuItem onClick={() => handleClick("logout")}>
+      <Typography textAlign="center">Logout</Typography>
+    </MenuItem>
+  </>
+);
 
 export default function Navbar() {
+  const { data: session } = useSession();
+  const router = useRouter();
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const mobileView = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
@@ -24,6 +38,17 @@ export default function Navbar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleClick = (onClickType) => {
+    handleCloseUserMenu();
+    if (onClickType === "profile") {
+      router.push("/profile");
+    } else if (onClickType === "logout") {
+      signOut({ callbackUrl: "/" });
+    } else if (onClickType === "login") {
+      signIn();
+    }
   };
 
   return (
@@ -58,11 +83,13 @@ export default function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {USER_SETTINGS.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {session ? (
+                <LoggedInMenuItems handleClick={handleClick} />
+              ) : (
+                <MenuItem onClick={() => handleClick("login")}>
+                  <Typography textAlign="center">Sign In</Typography>
                 </MenuItem>
-              ))}
+              )}
             </Menu>
           </Box>
         </Toolbar>

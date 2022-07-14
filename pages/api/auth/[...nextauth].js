@@ -5,11 +5,10 @@ export default NextAuth({
   providers: [
     CredentialsProvider({
       name: "Credentials",
-
-      credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" },
-      },
+      // credentials: {
+      //   username: { label: "username", type: "text" },
+      //   password: { label: "password", type: "password" },
+      // },
       async authorize(credentials, req) {
         // const res = await fetch("/api/login", {
         //   method: "POST",
@@ -59,5 +58,8 @@ export default NextAuth({
   jwt: {
     secret: "test",
     encryption: true,
+  },
+  pages: {
+    signIn: "/auth/signIn",
   },
 });
