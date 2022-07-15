@@ -8,28 +8,40 @@ import {
 } from "@mui/material";
 import { getSession } from "next-auth/react";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function ForgotPassword() {
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [data, setData] = useState(null);
 
   const handleSubmit = async () => {
-    const res = await fetch("/api/change-password", {
+    await fetch("/api/change-password", {
       method: "POST",
       body: JSON.stringify({ username: username, email: email }),
       headers: {
         "Content-Type": "application/json",
       },
-    });
-    const data = await res.json();
-    console.log(data);
+    })
+      .then((res) => {
+        if (res.ok)
+          router.push(
+            {
+              pathname: "/change-password-success",
+              query: { username: username },
+            },
+            "/change-password-success"
+          );
+        return res.json();
+      })
+      .then((data) => setData(data));
   };
+
   return (
     <Container sx={{ minHeight: "100vh" }}>
       <Box
         component="form"
-        // method="post"
-        // action="/api/change-password"
         autoComplete="off"
         display="flex"
         alignItems="center"
@@ -46,16 +58,22 @@ export default function ForgotPassword() {
           }}
         >
           <Stack spacing={2}>
-            <Typography variant="body1">Enter you account details.</Typography>
+            <Typography variant="h5" align="center">
+              Enter your account details
+            </Typography>
+            {data && data.error && (
+              <Typography variant="body1" color="error">
+                Password change failed. Check the details you provided are
+                correct.
+              </Typography>
+            )}
             <TextField
-              //   name="username"
               label="Username"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
-              //   name="email"
               label="Email"
               type="email"
               value={email}

@@ -12,7 +12,6 @@ import {
 export default function SignIn({ csrfToken }) {
   const router = useRouter();
   const { error } = router.query;
-  
 
   return (
     <Container sx={{ minHeight: "100vh" }}>
@@ -36,6 +35,9 @@ export default function SignIn({ csrfToken }) {
           }}
         >
           <Stack spacing={2}>
+            <Typography variant="h5" align="center">
+              Welcome to ReadHub
+            </Typography>
             <TextField
               name="csrfToken"
               type="hidden"
@@ -49,7 +51,7 @@ export default function SignIn({ csrfToken }) {
             )}
             <TextField name="username" label="Username" type="text" />
             <TextField name="password" label="Password" type="password" />
-            <Button href="/forgotPassword">Forgot password?</Button>
+            <Button href="/forgot-password">Forgot password?</Button>
             <Button type="submit" variant="contained">
               Sign in
             </Button>
