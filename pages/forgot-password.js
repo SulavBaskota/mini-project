@@ -17,25 +17,24 @@ export default function ForgotPassword() {
   const [data, setData] = useState(null);
 
   const handleSubmit = async () => {
-    await fetch("/api/change-password", {
+    const res = await fetch("/api/change-password", {
       method: "POST",
       body: JSON.stringify({ username: username, email: email }),
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then((res) => {
-        if (res.ok)
-          router.push(
-            {
-              pathname: "/change-password-success",
-              query: { username: username },
-            },
-            "/change-password-success"
-          );
-        return res.json();
-      })
-      .then((data) => setData(data));
+    });
+    const data = await res.json();
+
+    if (res.ok)
+      router.push(
+        {
+          pathname: "/change-password-success",
+          query: { username: username },
+        },
+        "/change-password-success"
+      );
+    else setData(data);
   };
 
   return (
