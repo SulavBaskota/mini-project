@@ -1,35 +1,12 @@
-const generatePassword = (letters = 5, numbers = 3, either = 2) => {
-  var chars = [
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-    "0123456789",
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
-  ];
-
-  return [letters, numbers, either]
-    .map((len, i) => {
-      return Array(len)
-        .fill(chars[i])
-        .map(function (x) {
-          return x[Math.floor(Math.random() * x.length)];
-        })
-        .join("");
-    })
-    .concat()
-    .join("")
-    .split("")
-    .sort(() => {
-      return 0.5 - Math.random();
-    })
-    .join("");
-};
+import { generatePassword } from "../../src/Utils";
 
 export default function handler(req, res) {
   if (req.method === "POST") {
     const { username, email } = req.body;
 
     if (username === "sulav" && email === "sulav.baskota0419@gmail.com") {
-      let newPassword = generatePassword();
       let nodemailer = require("nodemailer");
+      let newPassword = generatePassword();
 
       let message = `Hi ${username},\n You recently requested to reset your password for your ReadHub account.\n
       Your new password is ${newPassword}\nPlease change this password after you login to your account.\nThanks,\nThe ReadHub Team`;
@@ -39,7 +16,7 @@ export default function handler(req, res) {
         host: "smtp.gmail.com",
         auth: {
           user: "readhub99",
-          pass: process.env.nodemailer_password,
+          pass: process.env.GMAIL_PASS,
         },
         secure: true,
       });
@@ -53,17 +30,24 @@ export default function handler(req, res) {
         Your new password is <b>${newPassword}</b><br />Please change this password after you login to your account.<br />Thanks,<br />The ReadHub Team</div>`,
       };
 
-      transporter.sendMail(mailData, (err, info) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(info);
-        }
-      });
-      res.status(200).json({ message: "success" });
+      const result = async () =>
+        await transporter
+          .sendMail(mailData)
+          .then((info) => {
+            console.log(info);
+            return res
+              .status(200)
+              .json({ message: "email successfully sent." });
+          })
+          .catch((err) => {
+            console.log(err);
+            return res.status(500).json({ error: "failed to send email." });
+          });
+
+      return result();
     } else {
       res.status(500).json({
-        error: "incorrect username or email",
+        error: "invalid username or email",
       });
     }
   }
