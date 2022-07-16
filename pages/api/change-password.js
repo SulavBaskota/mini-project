@@ -9,7 +9,7 @@ export default function handler(req, res) {
       let newPassword = generatePassword();
 
       let message = `Hi ${username},\n You recently requested to reset your password for your ReadHub account.\n
-      Your new password is ${newPassword}\nPlease change this password after you login to your account.\nThanks,\nThe ReadHub Team`;
+      Your new password is ${newPassword}\nPlease change this password after you login to your account.\n\nThanks,\nThe ReadHub Team`;
 
       const transporter = nodemailer.createTransport({
         port: 465,
@@ -27,7 +27,7 @@ export default function handler(req, res) {
         subject: "Account Password Changed",
         text: message,
         html: `<div>Hi ${username},<br /> You recently requested to reset your password for your ReadHub account.<br />
-        Your new password is <b>${newPassword}</b><br />Please change this password after you login to your account.<br />Thanks,<br />The ReadHub Team</div>`,
+        Your new password is <b>${newPassword}</b><br />Please change this password after you login to your account.<br /><br />Thanks,<br />The ReadHub Team</div>`,
       };
 
       const result = async () =>

@@ -9,13 +9,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { signIn } from "next-auth/react";
-import {
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  FormLabel,
-} from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 export default function Register() {
   const handleSubmit = (event) => {
@@ -94,21 +88,18 @@ export default function Register() {
               />
             </Grid>
             <Grid item xs={12}>
-              <FormControl>
-                <FormLabel id="userrole">Choose a role</FormLabel>
-                <RadioGroup row name="userrole" defaultValue="reader">
-                  <FormControlLabel
-                    value="reader"
-                    control={<Radio />}
-                    label="Reader"
-                  />
-                  <FormControlLabel
-                    value="author"
-                    control={<Radio />}
-                    label="Author"
-                  />
-                </RadioGroup>
-              </FormControl>
+              <TextField
+                required
+                fullWidth
+                id="userrole"
+                name="userrole"
+                label="Role"
+                select
+                defaultValue="reader"
+              >
+                <MenuItem value="reader">Reader</MenuItem>
+                <MenuItem value="author">Author</MenuItem>
+              </TextField>
             </Grid>
           </Grid>
           <Button
