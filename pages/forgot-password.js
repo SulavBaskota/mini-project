@@ -1,25 +1,24 @@
-import {
-  Container,
-  Box,
-  TextField,
-  Typography,
-  Button,
-  Stack,
-} from "@mui/material";
+import { Container, Box, TextField, Typography, Button } from "@mui/material";
 import { getSession } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Avatar from "@mui/material/Avatar";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 export default function ForgotPassword() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
   const [data, setData] = useState(null);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const requestData = {
+      username: formData.get("username"),
+      email: formData.get("email"),
+    };
     const res = await fetch("/api/change-password", {
       method: "POST",
-      body: JSON.stringify({ username: username, email: email }),
+      body: JSON.stringify(requestData),
       headers: {
         "Content-Type": "application/json",
       },
@@ -30,7 +29,7 @@ export default function ForgotPassword() {
       router.push(
         {
           pathname: "/change-password-success",
-          query: { username: username },
+          query: { username: requestData.username },
         },
         "/change-password-success"
       );
@@ -38,50 +37,60 @@ export default function ForgotPassword() {
   };
 
   return (
-    <Container sx={{ minHeight: "100vh" }}>
+    <Container component="main" maxWidth="xs" sx={{ minHeight: "100vh" }}>
       <Box
-        component="form"
-        autoComplete="off"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
       >
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Change Password
+        </Typography>
         <Box
-          sx={{
-            width: 400,
-            maxWidth: "100%",
-            border: { xs: "none", sm: "1px solid" },
-            borderRadius: { xs: 0, sm: 2 },
-            padding: 2,
-            marginTop: { xs: "0", sm: "30%" },
-          }}
+          component="form"
+          autoComplete="off"
+          noValidate
+          onSubmit={handleSubmit}
+          sx={{ mt: 1 }}
         >
-          <Stack spacing={2}>
-            <Typography variant="h5" align="center">
-              Enter your account details
+          {data && data.error && (
+            <Typography variant="body1" color="error" align="center">
+              Password change failed. Check the details you provided are
+              correct.
             </Typography>
-            {data && data.error && (
-              <Typography variant="body1" color="error">
-                Password change failed. Check the details you provided are
-                correct.
-              </Typography>
-            )}
-            <TextField
-              label="Username"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <TextField
-              label="Email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Button onClick={handleSubmit} variant="contained">
-              Change Password
-            </Button>
-          </Stack>
+          )}
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            name="username"
+            label="Username"
+            type="text"
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            name="email"
+            label="Email"
+            type="email"
+          />
+          <Button
+            fullWidth
+            type="submit"
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Request New Password
+          </Button>
         </Box>
       </Box>
     </Container>
