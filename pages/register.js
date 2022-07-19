@@ -9,19 +9,41 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { signIn } from "next-auth/react";
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { MenuItem } from "@mui/material";
+import { useState } from "react";
 
 export default function Register() {
-  const handleSubmit = (event) => {
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const requestData = {
+      username: data.get("username"),
       firstname: data.get("firstname"),
       lastname: data.get("lastname"),
       email: data.get("email"),
       password: data.get("password"),
       userrole: data.get("userrole"),
-    });
+    };
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        body: JSON.stringify(requestData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw data.error;
+      }
+
+      
+    } catch (error) {
+      setError(error);
+    }
   };
   return (
     <Container component="main" maxWidth="xs" sx={{ minHeight: "100vh" }}>
@@ -41,17 +63,24 @@ export default function Register() {
         </Typography>
         <Box
           component="form"
-          noValidate
+          // noValidate
           autoComplete="off"
           onSubmit={handleSubmit}
           sx={{ mt: 3 }}
         >
           <Grid container spacing={2}>
+            {error && (
+              <Grid item xs={12}>
+                <Typography variant="body1" color="error" align="center">
+                  {error}
+                </Typography>
+              </Grid>
+            )}
             <Grid item xs={12} sm={6}>
               <TextField
                 required
                 fullWidth
-                id="firstName"
+                id="firstname"
                 label="First Name"
                 name="firstname"
                 type="text"
@@ -61,9 +90,19 @@ export default function Register() {
               <TextField
                 required
                 fullWidth
-                id="lastName"
+                id="lastname"
                 label="Last Name"
-                name="lastName"
+                name="lastname"
+                type="text"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="username"
+                label="User Name"
+                name="username"
                 type="text"
               />
             </Grid>
