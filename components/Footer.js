@@ -10,32 +10,53 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Copyright from "../src/Copyright";
-import { MENU_ITEMS } from "../constants/MENU_ITEMS";
 import PageTitle from "./PageTitle";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import RedditIcon from "@mui/icons-material/Reddit";
+import { useSession } from "next-auth/react";
 
-const FooterButton = ({ pages }) => (
+const FooterButton = ({ session }) => (
   <Stack
     direction={{ xs: "column", sm: "row" }}
     mt={{ xs: 0.5, sm: 0 }}
     spacing={2}
     justifyContent="center"
   >
-    {pages.map((page) => (
+    <Button
+      sx={{
+        color: "white",
+        display: "block",
+        textTransform: "capitalize",
+      }}
+      href="/series"
+    >
+      <Typography variant="body1">Series</Typography>
+    </Button>
+    {session && (
       <Button
-        key={page.title}
         sx={{
           color: "white",
           display: "block",
           textTransform: "capitalize",
         }}
-        href={page.href}
+        href="/bookmarks"
       >
-        <Typography variant="body1">{page.title}</Typography>
+        <Typography variant="body1">Bookmarks</Typography>
       </Button>
-    ))}
+    )}
+    {session?.user.userrole === "author" && (
+      <Button
+        sx={{
+          color: "white",
+          display: "block",
+          textTransform: "capitalize",
+        }}
+        href="/my-novels"
+      >
+        <Typography variant="body1">My Novels</Typography>
+      </Button>
+    )}
   </Stack>
 );
 
@@ -59,6 +80,7 @@ const SocialMediaLinksComponent = () => (
 );
 
 export default function Footer() {
+  const { data: session } = useSession();
   const mobileView = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   return (
     <Box component={Paper} mt={10}>
@@ -82,7 +104,7 @@ export default function Footer() {
               {mobileView && <SocialMediaLinksComponent />}
             </Grid>
             <Grid item xs={6} sm={6}>
-              <FooterButton pages={MENU_ITEMS} />
+              <FooterButton session={session} />
             </Grid>
 
             {!mobileView && (

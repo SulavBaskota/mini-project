@@ -10,9 +10,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { Divider } from "@mui/material";
 import PageTitle from "../PageTitle";
-import { MENU_ITEMS } from "../../constants/MENU_ITEMS";
+import { useSession } from "next-auth/react";
 
 export default function MobileNavbar() {
+  const { data: session } = useSession();
   const [openDrawer, setOpenDrawer] = React.useState(false);
 
   const toggleDrawer = (open) => (event) => {
@@ -53,13 +54,25 @@ export default function MobileNavbar() {
                 <ListItemText primary="Menu" />
               </ListItem>
               <Divider />
-              {MENU_ITEMS.map((page, index) => (
-                <ListItem key={page.title} disablePadding>
-                  <ListItemButton component="a" href={page.href}>
-                    <ListItemText primary={page.title} />
+              <ListItem disablePadding>
+                <ListItemButton component="a" href={"/series"}>
+                  <ListItemText primary={"Series"} />
+                </ListItemButton>
+              </ListItem>
+              {session && (
+                <ListItem disablePadding>
+                  <ListItemButton component="a" href={"/bookmarks"}>
+                    <ListItemText primary={"Bookmarks"} />
                   </ListItemButton>
                 </ListItem>
-              ))}
+              )}
+              {session?.user.userrole === "author" && (
+                <ListItem disablePadding>
+                  <ListItemButton component="a" href={"/my-novels"}>
+                    <ListItemText primary={"My Novels"} />
+                  </ListItemButton>
+                </ListItem>
+              )}
             </List>
           </Box>
         </Drawer>
