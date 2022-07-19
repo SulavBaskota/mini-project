@@ -35,7 +35,7 @@ export default function SignIn({ csrfToken }) {
           method="post"
           action="/api/auth/callback/credentials"
           autoComplete="off"
-          noValidate
+          // noValidate
           sx={{ mt: 1 }}
         >
           {error === "CredentialsSignin" && (

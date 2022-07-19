@@ -1,40 +1,31 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth from "next-auth";
+import dbConnect from "../../../lib/dbConnect";
+import User from "../../../models/User";
+import bcrypt from "bcrypt";
 
 export default NextAuth({
   providers: [
     CredentialsProvider({
       name: "Credentials",
-      // credentials: {
-      //   username: { label: "username", type: "text" },
-      //   password: { label: "password", type: "password" },
-      // },
       async authorize(credentials, req) {
-        // const res = await fetch("/api/login", {
-        //   method: "POST",
-        //   body: JSON.stringify(credentials),
-        //   headers: { "Content-Type": "application/json" },
-        // });
-        // const user = await res.json();
-        // if (res.ok && user) {
-        //   return user;
-        // }
-        // return null;
+        await dbConnect();
 
-        const user = {
-          id: 2,
-          name: "sulav",
-          role: "reader",
+        const { username, password } = credentials;
+        const user = await await User.findOne(
+          { username },
+          "username password userrole"
+        );
+
+        if (!user) return null;
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return null;
+        const responseData = {
+          id: user._id,
+          username: user.username,
+          userrole: user.userrole,
         };
-
-        if (
-          credentials.username === "sulav" &&
-          credentials.password === "test"
-        ) {
-          return user;
-        } else {
-          return null;
-        }
+        return responseData;
       },
     }),
   ],
@@ -42,21 +33,23 @@ export default NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.userRole = user.role;
+        token.username = user.username;
+        token.userRole = user.userrole;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
         session.id = token.id;
+        session.username = token.username;
         session.userRole = token.userRole;
       }
       return session;
     },
   },
-  secret: "test",
+  secret: process.env.NEXTAUTH_SECRET,
   jwt: {
-    secret: "test",
+    secret: process.env.NEXTAUTH_SECRET,
     encryption: true,
   },
   pages: {

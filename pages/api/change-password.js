@@ -1,10 +1,15 @@
 import { generatePassword } from "../../src/Utils";
+import dbConnect from "../../lib/dbConnect";
+import User from "../../models/User";
+import bcrypt from "bcrypt";
 
-export default function handler(req, res) {
-  if (req.method === "POST") {
+export default async function handler(req, res) {
+  if (req.method === "PUT") {
     const { username, email } = req.body;
+    await dbConnect();
 
-    if (username === "sulav" && email === "sulav.baskota0419@gmail.com") {
+    const user = await User.findOne({ username }, "username email");
+    if (user && username === user.username && email === user.email) {
       let nodemailer = require("nodemailer");
       let newPassword = generatePassword();
 
@@ -29,7 +34,8 @@ export default function handler(req, res) {
         html: `<div>Hi ${username},<br /> You recently requested to reset your password for your ReadHub account.<br />
         Your new password is <b>${newPassword}</b><br />Please change this password after you login to your account.<br /><br />Thanks,<br />The ReadHub Team</div>`,
       };
-
+      const hash = await bcrypt.hash(newPassword, 10);
+      await User.updateOne({ username: username }, { password: hash });
       const result = async () =>
         await transporter
           .sendMail(mailData)
@@ -37,18 +43,19 @@ export default function handler(req, res) {
             console.log(info);
             return res
               .status(200)
-              .json({ message: "email successfully sent." });
+              .json({ success: true, message: "email successfully sent." });
           })
           .catch((err) => {
             console.log(err);
-            return res.status(500).json({ error: "failed to send email." });
+            return res
+              .status(500)
+              .json({ success: false, error: "failed to send email." });
           });
-
       return result();
     } else {
-      res.status(500).json({
-        error: "invalid username or email",
-      });
+      res
+        .status(500)
+        .json({ success: false, error: "invalid username or email" });
     }
   }
 }

@@ -11,8 +11,10 @@ import Container from "@mui/material/Container";
 import { signIn } from "next-auth/react";
 import { MenuItem } from "@mui/material";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Register() {
+  const router = useRouter();
   const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
@@ -39,8 +41,13 @@ export default function Register() {
       if (!res.ok) {
         throw data.error;
       }
-
-      
+      router.push(
+        {
+          pathname: "/registration-success",
+          query: { username: requestData.username },
+        },
+        "/registration-success"
+      );
     } catch (error) {
       setError(error);
     }

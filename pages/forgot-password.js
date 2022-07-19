@@ -7,7 +7,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 export default function ForgotPassword() {
   const router = useRouter();
-  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,7 +17,7 @@ export default function ForgotPassword() {
       email: formData.get("email"),
     };
     const res = await fetch("/api/change-password", {
-      method: "POST",
+      method: "PUT",
       body: JSON.stringify(requestData),
       headers: {
         "Content-Type": "application/json",
@@ -33,7 +33,7 @@ export default function ForgotPassword() {
         },
         "/change-password-success"
       );
-    else setData(data);
+    else setError(data.error);
   };
 
   return (
@@ -55,11 +55,11 @@ export default function ForgotPassword() {
         <Box
           component="form"
           autoComplete="off"
-          noValidate
+          // noValidate
           onSubmit={handleSubmit}
           sx={{ mt: 1 }}
         >
-          {data && data.error && (
+          {error && (
             <Typography variant="body1" color="error" align="center">
               Password change failed. Check the details you provided are
               correct.

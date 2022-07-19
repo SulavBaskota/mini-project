@@ -18,11 +18,10 @@ export default function MyApp({
   emotionCache = clientSideEmotionCache,
   pageProps: { session, ...pageProps },
 }) {
-  // const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 50);
+    setTimeout(() => setLoading(false), 500);
   });
 
   return (

@@ -4,8 +4,10 @@ import NewOngoingReleases from "../components/NewOngoingReleases";
 import CompletedBooks from "../components/CompletedBooks";
 import PopularNovels from "../components/PopularNovels";
 import RecentlyUpdated from "../components/recently-updated/RecentlyUpdated";
+import { useSession } from "next-auth/react";
 
 export default function Index() {
+  const { data: session } = useSession();
   return (
     <Container
       sx={{
@@ -14,6 +16,7 @@ export default function Index() {
         minHeight: "100vh",
       }}
     >
+      {session && console.log(session)}
       <NewOngoingReleases />
       <PopularNovels />
       <CompletedBooks />
