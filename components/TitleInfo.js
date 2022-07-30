@@ -25,7 +25,7 @@ export default function TitleInfo({ status, title }) {
           variant="outlined"
           size="small"
           startIcon={<EditIcon />}
-          href="/edit-novel"
+          href="/author/edit-novel"
         >
           Edit
         </Button>

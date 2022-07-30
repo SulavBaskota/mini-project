@@ -59,16 +59,14 @@ export default function MobileNavbar() {
                   <ListItemText primary={"Series"} />
                 </ListItemButton>
               </ListItem>
-              {session && (
-                <ListItem disablePadding>
-                  <ListItemButton component="a" href={"/bookmarks"}>
-                    <ListItemText primary={"Bookmarks"} />
-                  </ListItemButton>
-                </ListItem>
-              )}
+              <ListItem disablePadding>
+                <ListItemButton component="a" href={"/user/bookmarks"}>
+                  <ListItemText primary={"Bookmarks"} />
+                </ListItemButton>
+              </ListItem>
               {session?.user.userrole === "author" && (
                 <ListItem disablePadding>
-                  <ListItemButton component="a" href={"/my-novels"}>
+                  <ListItemButton component="a" href={"/author/my-novels"}>
                     <ListItemText primary={"My Novels"} />
                   </ListItemButton>
                 </ListItem>

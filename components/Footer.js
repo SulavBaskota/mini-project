@@ -19,8 +19,7 @@ import { useSession } from "next-auth/react";
 const FooterButton = ({ session }) => (
   <Stack
     direction={{ xs: "column", sm: "row" }}
-    mt={{ xs: 0.5, sm: 0 }}
-    spacing={2}
+    spacing={{ sm: 2 }}
     justifyContent="center"
   >
     <Button
@@ -33,18 +32,16 @@ const FooterButton = ({ session }) => (
     >
       <Typography variant="body1">Series</Typography>
     </Button>
-    {session && (
-      <Button
-        sx={{
-          color: "white",
-          display: "block",
-          textTransform: "capitalize",
-        }}
-        href="/bookmarks"
-      >
-        <Typography variant="body1">Bookmarks</Typography>
-      </Button>
-    )}
+    <Button
+      sx={{
+        color: "white",
+        display: "block",
+        textTransform: "capitalize",
+      }}
+      href="/user/bookmarks"
+    >
+      <Typography variant="body1">Bookmarks</Typography>
+    </Button>
     {session?.user.userrole === "author" && (
       <Button
         sx={{
@@ -52,7 +49,7 @@ const FooterButton = ({ session }) => (
           display: "block",
           textTransform: "capitalize",
         }}
-        href="/my-novels"
+        href="/author/my-novels"
       >
         <Typography variant="body1">My Novels</Typography>
       </Button>
@@ -106,7 +103,6 @@ export default function Footer() {
             <Grid item xs={6} sm={6}>
               <FooterButton session={session} />
             </Grid>
-
             {!mobileView && (
               <Grid item sm={3}>
                 <SocialMediaLinksComponent />

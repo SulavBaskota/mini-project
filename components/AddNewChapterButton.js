@@ -11,7 +11,7 @@ export default function AddNewChapterButton({}) {
       }}
     >
       <Button
-        href="/create-chapter"
+        href="/author/create-chapter"
         variant="contained"
         size="large"
         sx={{ borderRadius: 8 }}

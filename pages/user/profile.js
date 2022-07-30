@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import ImageUpload from "../components/ImageUpload";
+import ImageUpload from "../../components/ImageUpload";
 
 export default function Profile() {
   const [selectedImage, setSelectedImage] = useState(null);

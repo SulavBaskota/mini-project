@@ -5,9 +5,9 @@ import {
   Divider,
   Grid,
 } from "@mui/material";
-import { BOOKMARKS_INFO } from "../constants/BOOKMARKS_INFO";
+import { BOOKMARKS_INFO } from "../../constants/BOOKMARKS_INFO";
 import { useState } from "react";
-import BookmarkTile from "../components/book-tile/BookmarkTile";
+import BookmarkTile from "../../components/book-tile/BookmarkTile";
 
 export default function Bookmarks() {
   const [page, setPage] = useState(1);

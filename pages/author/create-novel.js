@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material";
 import { useState } from "react";
-import EditNovelTemplate from "../components/EditNovelTemplate";
+import EditNovelTemplate from "../../components/EditNovelTemplate";
 
 const CreateNovelTextFieldComponents = () => (
   <>
@@ -24,7 +24,7 @@ export default function CreateNovel() {
     <EditNovelTemplate
       pageTitle={"Create New Novel"}
       imageLabel={"Upload Book Cover Art"}
-      buttonLink={"my-novels"}
+      buttonLink={"author/my-novels"}
       buttonLabel={"Create Novel"}
       selectedGenres={selectedGenres}
       setSelectedGenres={setSelectedGenres}

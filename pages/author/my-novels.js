@@ -13,7 +13,7 @@ import {
   Rating,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { MY_NOVELS } from "../constants/MY_NOVELS";
+import { MY_NOVELS } from "../../constants/MY_NOVELS";
 
 export default function MyNovels() {
   return (
@@ -26,7 +26,11 @@ export default function MyNovels() {
         mt={2}
       >
         <Typography variant="h5">My Novels</Typography>
-        <Button variant="contained" startIcon={<AddIcon />} href="/create-novel">
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          href="/author/create-novel"
+        >
           Create New Novel
         </Button>
       </Stack>
@@ -82,7 +86,9 @@ export default function MyNovels() {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="small" href="/novel">Update</Button>
+                      <Button size="small" href="/novel">
+                        Update
+                      </Button>
                     </CardActions>
                   </Box>
                 </Grid>

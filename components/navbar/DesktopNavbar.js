@@ -13,19 +13,16 @@ export default function DesktopNavbar() {
         <Button sx={{ my: 2, color: "white", display: "block" }} href="/series">
           Series
         </Button>
-
-        {session && (
-          <Button
-            sx={{ my: 2, color: "white", display: "block" }}
-            href="/bookmarks"
-          >
-            Bookmarks
-          </Button>
-        )}
+        <Button
+          sx={{ my: 2, color: "white", display: "block" }}
+          href="/user/bookmarks"
+        >
+          Bookmarks
+        </Button>
         {session?.user.userrole === "author" && (
           <Button
             sx={{ my: 2, color: "white", display: "block" }}
-            href="/my-novels"
+            href="/author/my-novels"
           >
             My Novels
           </Button>

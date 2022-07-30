@@ -1,8 +1,8 @@
 import { TextField, FormControl } from "@mui/material";
 import { useState } from "react";
-import { NOVEL } from "../constants/NOVEL";
-import RadioGroupComponent from "../components/RadioButtonComponent";
-import EditNovelTemplate from "../components/EditNovelTemplate";
+import { NOVEL } from "../../constants/NOVEL";
+import RadioGroupComponent from "../../components/RadioButtonComponent";
+import EditNovelTemplate from "../../components/EditNovelTemplate";
 
 const status = ["Ongoing", "Completed", "Hiatus"];
 
