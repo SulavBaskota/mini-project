@@ -2,6 +2,7 @@ import { generatePassword } from "../../src/Utils";
 import dbConnect from "../../lib/dbConnect";
 import User from "../../models/User";
 import bcrypt from "bcrypt";
+import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
   if (req.method === "PUT") {
@@ -10,7 +11,6 @@ export default async function handler(req, res) {
 
     const user = await User.findOne({ username }, "username email");
     if (user && username === user.username && email === user.email) {
-      let nodemailer = require("nodemailer");
       let newPassword = generatePassword();
 
       let message = `Hi ${username},\n You recently requested to reset your password for your ReadHub account.\n
@@ -53,9 +53,10 @@ export default async function handler(req, res) {
           });
       return result();
     } else {
-      res
+      return res
         .status(500)
         .json({ success: false, error: "invalid username or email" });
     }
   }
+  return res.status(400).json({ success: false, error: "bad request" });
 }

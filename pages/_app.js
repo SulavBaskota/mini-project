@@ -35,7 +35,7 @@ export default function MyApp({
         {loading ? (
           <Loader open={loading} />
         ) : (
-          <SessionProvider session={session}>
+          <SessionProvider session={session} refetchInterval={20 * 60}>
             <Layout>
               <Component {...pageProps} />
             </Layout>

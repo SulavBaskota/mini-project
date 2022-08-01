@@ -43,7 +43,7 @@ export default function Navbar() {
   const handleClick = (onClickType) => {
     handleCloseUserMenu();
     if (onClickType === "profile") {
-      router.push("/profile");
+      router.push("/user/profile");
     } else if (onClickType === "logout") {
       signOut({ callbackUrl: "/" });
     } else if (onClickType === "login") {
