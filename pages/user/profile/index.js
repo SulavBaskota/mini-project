@@ -11,9 +11,9 @@ import { useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ImageUpload from "../../../components/ImageUpload";
 import { getSession } from "next-auth/react";
-import UpdateEmailForm from "./updateEmailForm";
-import UpdateNameForm from "./updateNameForm";
-import UpdatePasswordForm from "./updatePasswordForm";
+import UpdateEmailForm from "./components/updateEmailForm";
+import UpdateNameForm from "./components/updateNameForm";
+import UpdatePasswordForm from "./components/updatePasswordForm";
 
 export default function Profile({ accountInfo }) {
   const [userInfo, setUserInfo] = useState(accountInfo);

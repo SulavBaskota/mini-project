@@ -1,10 +1,10 @@
 import React from "react";
 import { useMediaQuery } from "@mui/material";
 import Carousel from "react-grid-carousel";
-import SmallBookTile from "./book-tile/SmallBookTile";
-import { POPULAR_BOOKS } from "../constants/POPULAR_BOOKS";
+import SmallBookTile from "../../../components/book-tile/SmallBookTile";
+import { POPULAR_BOOKS } from "../../../constants/POPULAR_BOOKS";
 import HomeSectionTemplate from "./HomeSectionTemplate";
-import PopularMobileBookCard from "./book-tile/PopularMobileBookCard";
+import PopularMobileBookCard from "../../../components/book-tile/PopularMobileBookCard";
 
 const MyDot = ({ isActive }) => (
   <span
