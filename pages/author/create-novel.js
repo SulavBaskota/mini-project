@@ -18,7 +18,6 @@ const CreateNovelTextFieldComponents = () => (
 export default function CreateNovel() {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
 
   return (
     <EditNovelTemplate
@@ -30,8 +29,6 @@ export default function CreateNovel() {
       setSelectedGenres={setSelectedGenres}
       selectedImage={selectedImage}
       setSelectedImage={setSelectedImage}
-      imageUrl={imageUrl}
-      setImageUrl={setImageUrl}
       textFieldComponents={<CreateNovelTextFieldComponents />}
     />
   );

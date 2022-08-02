@@ -29,6 +29,8 @@ const UpdatePasswordForm = ({ userInfo }) => {
       oldPassword: formData.get("oldPassword"),
       newPassword: formData.get("newPassword"),
     };
+    if (requestData.oldPassword === "" || requestData.newPassword === "")
+      return;
     try {
       const res = await fetch("/api/user/udpate-account/update-password", {
         method: "PUT",
@@ -48,7 +50,7 @@ const UpdatePasswordForm = ({ userInfo }) => {
       if (error === "incorrect password") setError({ ...error, oldPass: true });
     }
   };
-  
+
   return (
     <Box
       component="form"

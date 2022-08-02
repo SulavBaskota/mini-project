@@ -12,8 +12,9 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn, signOut, getSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { Avatar } from "@mui/material";
 
 const LoggedInMenuItems = ({ handleClick }) => (
   <>
@@ -64,7 +65,15 @@ export default function Navbar() {
                 onClick={handleOpenUserMenu}
                 sx={{ p: 0 }}
               >
-                <AccountCircle />
+                {session ? (
+                  <Avatar
+                    alt={session.user.username}
+                    src={session.user.imgUrl}
+                    sx={{ width: 30, height: 30 }}
+                  />
+                ) : (
+                  <AccountCircle />
+                )}
               </IconButton>
             </Tooltip>
             <Menu

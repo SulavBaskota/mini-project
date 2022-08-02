@@ -2,15 +2,16 @@ import dbConnect from "../../../../lib/dbConnect";
 import User from "../../../../models/User";
 
 export default async function handler(req, res) {
-  if (req.method === "GET") {
-    const { id } = req.query;
+  if (req.method === "PUT") {
+    const { id, imgUrl } = req.body;
     await dbConnect();
-    const user = await User.findById(
-      { _id: id },
-      "username firstname lastname email imgUrl"
-    );
+    const user = await User.findByIdAndUpdate(id, {
+      imgUrl: imgUrl,
+    });
     if (user) {
-      return res.status(200).json({ success: true, data: user });
+      return res
+        .status(200)
+        .json({ success: true, message: "profile image successfully updated" });
     }
     return res.status(404).json({ success: false, error: "user not found" });
   }

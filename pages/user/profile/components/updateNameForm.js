@@ -20,6 +20,11 @@ const UpdateNameForm = ({ userInfo, setUserInfo }) => {
       firstname: formData.get("firstname"),
       lastname: formData.get("lastname"),
     };
+    if (
+      userInfo.firstname === requestData.firstname &&
+      userInfo.lastname === requestData.lastname
+    )
+      return;
     const res = await fetch("/api/user/udpate-account/update-name", {
       method: "PUT",
       body: JSON.stringify(requestData),

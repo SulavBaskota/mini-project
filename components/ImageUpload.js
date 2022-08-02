@@ -1,18 +1,15 @@
 import { Button, TextField, Grid, Box, Typography } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import { styled } from "@mui/material/styles";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Input = styled("input")({
   display: "none",
 });
 
-export default function ImageUpload({
-  selectedImage,
-  setSelectedImage,
-  imageUrl,
-  setImageUrl,
-}) {
+export default function ImageUpload({ selectedImage, setSelectedImage }) {
+  const [imageUrl, setImageUrl] = useState(null);
+
   const handleChange = (event) => {
     setSelectedImage(event.target.files[0]);
   };
@@ -59,10 +56,16 @@ export default function ImageUpload({
       <Grid item xs={12}>
         {imageUrl && selectedImage && (
           <Box mt={2} mb={2}>
-            <Typography variant="body1" color="text.secondary">
-              Image Preview:
-            </Typography>
-            <img src={imageUrl} alt={selectedImage.name} height="200px" />
+            <Grid container direction="column" spacing={2}>
+              <Grid item>
+                <Typography variant="body1" color="text.secondary">
+                  Image Preview:
+                </Typography>
+              </Grid>
+              <Grid item>
+                <img src={imageUrl} alt={selectedImage.name} height="200px" />
+              </Grid>
+            </Grid>
           </Box>
         )}
       </Grid>

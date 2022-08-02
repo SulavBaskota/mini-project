@@ -14,7 +14,7 @@ export default NextAuth({
         const { username, password } = credentials;
         const user = await await User.findOne(
           { username },
-          "username password userrole"
+          "username password userrole imgUrl"
         );
 
         if (!user) return null;
@@ -24,6 +24,7 @@ export default NextAuth({
           id: user._id,
           username: user.username,
           userrole: user.userrole,
+          imgUrl: user.imgUrl,
         };
         return responseData;
       },
@@ -39,17 +40,17 @@ export default NextAuth({
     async session({ session, token }) {
       if (token) {
         session.user = token.user;
+        const res = await User.findById(session.user.id, "imgUrl");
+        session.user.imgUrl = res.imgUrl;
       }
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
     maxAge: 3 * 60 * 60,
   },
   jwt: {
-    secret: process.env.NEXTAUTH_SECRET,
     encryption: true,
   },
   pages: {

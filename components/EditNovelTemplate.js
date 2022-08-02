@@ -19,8 +19,6 @@ export default function EditNovelTemplate({
   setSelectedGenres,
   selectedImage,
   setSelectedImage,
-  imageUrl,
-  setImageUrl,
   textFieldComponents,
 }) {
   return (
@@ -56,8 +54,6 @@ export default function EditNovelTemplate({
             <ImageUpload
               selectedImage={selectedImage}
               setSelectedImage={setSelectedImage}
-              imageUrl={imageUrl}
-              setImageUrl={setImageUrl}
             />
             <Divider />
             <Stack

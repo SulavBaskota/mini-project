@@ -19,6 +19,7 @@ const UpdateEmailForm = ({ userInfo, setUserInfo }) => {
       id: userInfo._id,
       email: formData.get("email"),
     };
+    if (userInfo.email === requestData.email) return;
     const res = await fetch("/api/user/udpate-account/update-email", {
       method: "PUT",
       body: JSON.stringify(requestData),
@@ -26,8 +27,10 @@ const UpdateEmailForm = ({ userInfo, setUserInfo }) => {
         "Content-Type": "application/json",
       },
     });
-    if (res.ok) setAlert(true);
-    setUserInfo({ ...userInfo, email: requestData.email });
+    if (res.ok) {
+      setUserInfo({ ...userInfo, email: requestData.email });
+      setAlert(true);
+    }
   };
 
   return (
