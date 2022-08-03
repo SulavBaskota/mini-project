@@ -1,9 +1,10 @@
 import { TextField, FormControl } from "@mui/material";
 import { useState } from "react";
-import { NOVEL } from "../../constants/NOVEL";
 import RadioGroupComponent from "../../components/RadioButtonComponent";
-import EditNovelTemplate from "../../components/EditNovelTemplate";
-import { useSession } from "next-auth/react";
+import EditNovelTemplate from "./components/EditNovelTemplate";
+import { getSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import Loader from "../../components/Loader";
 
 const status = ["Ongoing", "Completed", "Hiatus"];
 
@@ -15,8 +16,24 @@ const EditNovelTextFieldComponents = ({
   setStatusValue,
 }) => (
   <>
-    <TextField id="name" label="Novel Name" value={title} />
-    <TextField id="synopsis" label="Novel Description" value={desc} multiline />
+    <TextField
+      required
+      id="name"
+      name="title"
+      label="Novel Name"
+      value={title}
+      InputProps={{
+        readOnly: true,
+      }}
+    />
+    <TextField
+      required
+      id="synopsis"
+      name="desc"
+      label="Novel Description"
+      defaultValue={desc}
+      multiline
+    />
     <FormControl>
       <RadioGroupComponent
         id="status"
@@ -29,40 +46,97 @@ const EditNovelTextFieldComponents = ({
   </>
 );
 
-export default function EditNovel() {
-  const novel = NOVEL;
-
-  const { data: session } = useSession();
-  const [statusValue, setStatusValue] = useState(novel.status);
-  const [selectedGenres, setSelectedGenres] = useState(novel.genre);
+export default function EditNovel({ novelInfo }) {
+  const router = useRouter();
+  const [statusValue, setStatusValue] = useState(novelInfo.status);
+  const [selectedGenres, setSelectedGenres] = useState(novelInfo.genre);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const formData = new FormData(event.currentTarget);
+    const requestData = {
+      id: novelInfo._id,
+      desc: formData.get("desc"),
+      genre: selectedGenres,
+      status: statusValue,
+      img: novelInfo.img,
+    };
+
+    if (
+      requestData.title === novelInfo.title &&
+      requestData.desc === novelInfo.desc &&
+      requestData.genre === novelInfo.genre &&
+      requestData.status === novelInfo.status &&
+      !selectedImage
+    ) {
+      setLoading(false);
+      return;
+    }
+    if (selectedImage) {
+      const imgData = new FormData();
+      imgData.append("file", selectedImage);
+      imgData.append("upload_preset", "book-cover-pics");
+      const cloudinaryResponse = await fetch(
+        "https://api.cloudinary.com/v1_1/readhub/image/upload",
+        {
+          method: "POST",
+          body: imgData,
+        }
+      ).then((res) => res.json());
+
+      requestData.img = cloudinaryResponse.secure_url;
+    }
+    const res = await fetch("/api/author/edit-novel", {
+      method: "POST",
+      body: JSON.stringify(requestData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json());
+    setLoading(false);
+    if (!res.ok) {
+      router.push("/400");
+    }
+    router.push({
+      pathname: "/novel",
+      query: { novel_id: encodeURIComponent(novelInfo._id) },
+    });
+  };
 
   return (
-    <EditNovelTemplate
-      pageTitle={"Edit Novel"}
-      imageLabel={"Upload New Book Cover Art"}
-      buttonLink={"novel"}
-      buttonLabel={"Save Changes"}
-      selectedGenres={selectedGenres}
-      setSelectedGenres={setSelectedGenres}
-      selectedImage={selectedImage}
-      setSelectedImage={setSelectedImage}
-      textFieldComponents={
-        <EditNovelTextFieldComponents
-          desc={novel.desc}
-          title={novel.title}
-          status={status}
-          statusValue={statusValue}
-          setStatusValue={setStatusValue}
-        />
-      }
-    />
+    <>
+      {loading && <Loader open={loading} />}
+      <EditNovelTemplate
+        pageTitle={"Edit Novel"}
+        imageLabel={"Upload New Book Cover Art"}
+        buttonLink={`novel?novel_id=${encodeURIComponent(novelInfo._id)}`}
+        buttonLabel={"Save Changes"}
+        selectedGenres={selectedGenres}
+        setSelectedGenres={setSelectedGenres}
+        selectedImage={selectedImage}
+        setSelectedImage={setSelectedImage}
+        textFieldComponents={
+          <EditNovelTextFieldComponents
+            desc={novelInfo.desc}
+            title={novelInfo.title}
+            status={status}
+            statusValue={statusValue}
+            setStatusValue={setStatusValue}
+          />
+        }
+        handleSubmit={handleSubmit}
+      />
+    </>
   );
 }
 
 export async function getServerSideProps(context) {
+  const session = await getSession(context);
   const { novel_id } = context.query;
-  if (!novel_id) {
+  if (!session || !novel_id || session.user.userrole !== "author") {
     return {
       redirect: {
         destination: "/400",
@@ -72,7 +146,7 @@ export async function getServerSideProps(context) {
   }
   const hostUrl = process.env.NEXTAUTH_URL;
   const requestUrl =
-    hostUrl + "/api/author/novel-info/" + encodeURIComponent(novel_id);
+    hostUrl + "/api/novel/novel-info/" + encodeURIComponent(novel_id);
   let novelInfo = {};
   await fetch(requestUrl, {
     method: "GET",
@@ -82,10 +156,17 @@ export async function getServerSideProps(context) {
   })
     .then((res) => res.json())
     .then((res) => (novelInfo = res.data));
-
+  if (session.user.id !== novelInfo.author_id) {
+    return {
+      redirect: {
+        destination: "/400",
+        permanent: false,
+      },
+    };
+  }
   return {
     props: {
-      novel: novelInfo,
+      novelInfo: novelInfo,
     },
   };
 }

@@ -7,8 +7,8 @@ import {
   FormLabel,
   Stack,
 } from "@mui/material";
-import ImageUpload from "../components/ImageUpload";
-import CheckboxesTags from "../components/CheckboxesTags";
+import ImageUpload from "../../../components/ImageUpload";
+import CheckboxesTags from "../../../components/CheckboxesTags";
 
 export default function EditNovelTemplate({
   pageTitle,

@@ -18,7 +18,6 @@ import { useRouter } from "next/router";
 
 export default function MyNovels({ novelList }) {
   const router = useRouter();
-  console.log(novelList);
   return (
     <Container sx={{ minHeight: "100vh" }}>
       <Stack

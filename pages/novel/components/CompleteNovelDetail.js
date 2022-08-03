@@ -6,15 +6,18 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import Recommendation from "../components/Recommendation";
-import DisplayTags from "../components/DisplayTags";
-import ExpandableTypography from "../components/ExpandableTypography";
-import TitleInfo from "../components/TitleInfo";
-import ContinueReadingButton from "../components/ContinueReadingButton";
+import Recommendation from "../../../components/Recommendation";
+import DisplayTags from "../../../components/DisplayTags";
+import ExpandableTypography from "../../../components/ExpandableTypography";
+import TitleInfo from "./TitleInfo";
+import ContinueReadingButton from "./ContinueReadingButton";
 import AddNewChapterButton from "./AddNewChapterButton";
 import StartReadingButton from "./StartReadingButton";
+import { useSession } from "next-auth/react";
 
 export default function CompleteNovelDetail({ novel }) {
+  const { data: session } = useSession();
+
   return (
     <Container sx={{ display: "flex", justifyContent: "center" }}>
       <Box sx={{ maxWidth: "md" }}>
@@ -40,13 +43,14 @@ export default function CompleteNovelDetail({ novel }) {
               <TitleInfo
                 status={novel.status}
                 title={novel.title}
-                novelId={novel._id}
+                novel_id={novel._id}
+                author_id={novel.author_id}
               />
               <Typography variant="body1" color="text.secondary">
                 {novel.last_chapter} Chapters
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Author: {novel.author}
+                Author: {novel.author_name}
               </Typography>
               <Recommendation
                 title={novel.title}
@@ -59,9 +63,16 @@ export default function CompleteNovelDetail({ novel }) {
                 align="left"
               />
               <DisplayTags tags={novel.genre} />
-              {/* <StartReadingButton /> */}
-              {/* <ContinueReadingButton /> */}
-              <AddNewChapterButton />
+              {session ? (
+                session.user.userrole === "author" &&
+                session.user.id === novel.author_id ? (
+                  <AddNewChapterButton />
+                ) : (
+                  <ContinueReadingButton />
+                )
+              ) : (
+                <StartReadingButton />
+              )}
             </Stack>
           </Grid>
         </Grid>

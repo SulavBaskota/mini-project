@@ -1,11 +1,10 @@
 import { Stack, Box } from "@mui/material";
-import TabsComponent from "../components/TabsComponent";
-import CompleteNovelDetail from "../components/CompleteNovelDetail";
-import { NOVEL } from "../constants/NOVEL";
-import { REVIEWS } from "../constants/REVIEWS";
+import TabsComponent from "../../components/TabsComponent";
+import CompleteNovelDetail from "./components/CompleteNovelDetail";
+import { NOVEL } from "../../constants/NOVEL";
+import { REVIEWS } from "../../constants/REVIEWS";
 
 export default function Novel({ novelInfo }) {
-  console.log(novelInfo);
   return (
     <>
       <Box sx={{ minHeight: "100vh" }}>

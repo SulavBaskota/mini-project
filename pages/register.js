@@ -12,13 +12,16 @@ import { signIn } from "next-auth/react";
 import { MenuItem } from "@mui/material";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Loader from "../components/Loader";
 
 export default function Register() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const data = new FormData(event.currentTarget);
     const requestData = {
       username: data.get("username"),
@@ -39,8 +42,10 @@ export default function Register() {
       const data = await res.json();
 
       if (!res.ok) {
+        setLoading(false);
         throw data.error;
       }
+      setLoading(false);
       router.push({
         pathname: "/registration-success",
         query: { username: encodeURIComponent(requestData.username) },
@@ -50,119 +55,126 @@ export default function Register() {
     }
   };
   return (
-    <Container component="main" maxWidth="xs" sx={{ minHeight: "100vh" }}>
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
+    <>
+      {loading && <Loader open={loading} />}
+      <Container component="main" maxWidth="xs" sx={{ minHeight: "100vh" }}>
         <Box
-          component="form"
-          // noValidate
-          autoComplete="off"
-          onSubmit={handleSubmit}
-          sx={{ mt: 3 }}
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
         >
-          <Grid container spacing={2}>
-            {error && (
-              <Grid item xs={12}>
-                <Typography variant="body1" color="error" align="center">
-                  {error}
-                </Typography>
-              </Grid>
-            )}
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="firstname"
-                label="First Name"
-                name="firstname"
-                type="text"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastname"
-                label="Last Name"
-                name="lastname"
-                type="text"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="username"
-                label="User Name"
-                name="username"
-                type="text"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                type="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="password"
-                name="password"
-                label="Password"
-                type="password"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="userrole"
-                name="userrole"
-                label="Role"
-                select
-                defaultValue="reader"
-              >
-                <MenuItem value="reader">Reader</MenuItem>
-                <MenuItem value="author">Author</MenuItem>
-              </TextField>
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <Box
+            component="form"
+            // noValidate
+            autoComplete="off"
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
           >
-            Sign Up
-          </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link component="button" onClick={() => signIn()} variant="body2">
-                Already have an account? Sign in
-              </Link>
+            <Grid container spacing={2}>
+              {error && (
+                <Grid item xs={12}>
+                  <Typography variant="body1" color="error" align="center">
+                    {error}
+                  </Typography>
+                </Grid>
+              )}
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="firstname"
+                  label="First Name"
+                  name="firstname"
+                  type="text"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="lastname"
+                  label="Last Name"
+                  name="lastname"
+                  type="text"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="username"
+                  label="User Name"
+                  name="username"
+                  type="text"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  type="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="password"
+                  name="password"
+                  label="Password"
+                  type="password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="userrole"
+                  name="userrole"
+                  label="Role"
+                  select
+                  defaultValue="reader"
+                >
+                  <MenuItem value="reader">Reader</MenuItem>
+                  <MenuItem value="author">Author</MenuItem>
+                </TextField>
+              </Grid>
             </Grid>
-          </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign Up
+            </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link
+                  component="button"
+                  onClick={() => signIn()}
+                  variant="body2"
+                >
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </>
   );
 }
 

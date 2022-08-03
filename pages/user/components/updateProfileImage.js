@@ -1,11 +1,13 @@
 import { Typography, Box, Stack, Button, FormLabel } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import { useState } from "react";
-import ImageUpload from "../../../../components/ImageUpload";
+import ImageUpload from "../../../components/ImageUpload";
+import Loader from "../../../components/Loader";
 
 const UpdateProfileImageForm = ({ userInfo, setUserInfo }) => {
   const [alert, setAlert] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const reloadSession = () => {
     const event = new Event("visibilitychange");
@@ -15,6 +17,7 @@ const UpdateProfileImageForm = ({ userInfo, setUserInfo }) => {
   const handleUpdateProfilePicture = async (event) => {
     event.preventDefault();
     if (!selectedImage) return;
+    setLoading(true);
     const formData = new FormData();
     formData.append("file", selectedImage);
     formData.append("upload_preset", "profile-pics");
@@ -39,6 +42,7 @@ const UpdateProfileImageForm = ({ userInfo, setUserInfo }) => {
         "Content-Type": "application/json",
       },
     });
+    setLoading(false);
     if (res.ok) {
       setSelectedImage(null);
       setUserInfo({ ...userInfo, imgUrl: requestData.imgUrl });
@@ -48,32 +52,35 @@ const UpdateProfileImageForm = ({ userInfo, setUserInfo }) => {
   };
 
   return (
-    <Box
-      component="form"
-      name="updateProfilePicture"
-      autoComplete="off"
-      onSubmit={handleUpdateProfilePicture}
-    >
-      <Stack spacing={2}>
-        <FormLabel>
-          <Typography variant="h6">Upload Profile Picture</Typography>
-        </FormLabel>
-        <ImageUpload
-          selectedImage={selectedImage}
-          setSelectedImage={setSelectedImage}
-        />
-        {alert && (
-          <Alert onClose={() => setAlert(false)}>
-            Profile picture successfully changed!!!
-          </Alert>
-        )}
-        <Box>
-          <Button variant="contained" type="submit">
-            Change Profile Picture
-          </Button>
-        </Box>
-      </Stack>
-    </Box>
+    <>
+      {loading && <Loader open={loading} />}
+      <Box
+        component="form"
+        name="updateProfilePicture"
+        autoComplete="off"
+        onSubmit={handleUpdateProfilePicture}
+      >
+        <Stack spacing={2}>
+          <FormLabel>
+            <Typography variant="h6">Upload Profile Picture</Typography>
+          </FormLabel>
+          <ImageUpload
+            selectedImage={selectedImage}
+            setSelectedImage={setSelectedImage}
+          />
+          {alert && (
+            <Alert onClose={() => setAlert(false)}>
+              Profile picture successfully changed!!!
+            </Alert>
+          )}
+          <Box>
+            <Button variant="contained" type="submit">
+              Change Profile Picture
+            </Button>
+          </Box>
+        </Stack>
+      </Box>
+    </>
   );
 };
 

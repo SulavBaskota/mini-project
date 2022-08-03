@@ -12,7 +12,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useSession, signIn, signOut, getSession } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { Avatar } from "@mui/material";
 
@@ -23,6 +23,17 @@ const LoggedInMenuItems = ({ handleClick }) => (
     </MenuItem>
     <MenuItem onClick={() => handleClick("logout")}>
       <Typography textAlign="center">Logout</Typography>
+    </MenuItem>
+  </>
+);
+
+const LoggedOutMenuItems = ({ handleClick }) => (
+  <>
+    <MenuItem onClick={() => handleClick("login")}>
+      <Typography textAlign="center">Sign In</Typography>
+    </MenuItem>
+    <MenuItem onClick={() => handleClick("register")}>
+      <Typography textAlign="center">Register</Typography>
     </MenuItem>
   </>
 );
@@ -49,6 +60,8 @@ export default function Navbar() {
       signOut({ callbackUrl: "/" });
     } else if (onClickType === "login") {
       signIn();
+    } else if (onClickType === "register") {
+      router.push("/register");
     }
   };
 
@@ -95,9 +108,7 @@ export default function Navbar() {
               {session ? (
                 <LoggedInMenuItems handleClick={handleClick} />
               ) : (
-                <MenuItem onClick={() => handleClick("login")}>
-                  <Typography textAlign="center">Sign In</Typography>
-                </MenuItem>
+                <LoggedOutMenuItems handleClick={handleClick} />
               )}
             </Menu>
           </Box>

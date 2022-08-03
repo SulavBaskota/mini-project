@@ -49,7 +49,6 @@ export default function FontSizeSpeedDial({ fontSize, setFontSize }) {
           />
         ))}
       </SpeedDial>
-      {console.log(fontSize)}
     </Box>
   );
 }

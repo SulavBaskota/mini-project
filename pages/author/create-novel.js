@@ -1,8 +1,9 @@
 import { TextField } from "@mui/material";
 import { useState } from "react";
-import EditNovelTemplate from "../../components/EditNovelTemplate";
+import EditNovelTemplate from "./components/EditNovelTemplate";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import Loader from "../../components/Loader";
 
 const CreateNovelTextFieldComponents = ({ error }) => (
   <>
@@ -31,10 +32,13 @@ export default function CreateNovel() {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!selectedGenres || !selectedImage) return;
+
+    setLoading(true);
     const formData = new FormData(event.currentTarget);
 
     const imgData = new FormData();
@@ -64,6 +68,7 @@ export default function CreateNovel() {
     }).then((res) => res.json());
     if (!res.ok) {
       if (res.error === "title not available") {
+        setLoading(false);
         setError(true);
         return;
       }
@@ -71,6 +76,7 @@ export default function CreateNovel() {
     }
     setError(false);
     const data = await res.data;
+    setLoading(false);
     router.push({
       pathname: "/novel",
       query: { novel_id: encodeURIComponent(data._id) },
@@ -78,17 +84,20 @@ export default function CreateNovel() {
   };
 
   return (
-    <EditNovelTemplate
-      pageTitle={"Create New Novel"}
-      imageLabel={"Upload Book Cover Art"}
-      buttonLink={"author/my-novels"}
-      buttonLabel={"Create Novel"}
-      selectedGenres={selectedGenres}
-      setSelectedGenres={setSelectedGenres}
-      selectedImage={selectedImage}
-      setSelectedImage={setSelectedImage}
-      textFieldComponents={<CreateNovelTextFieldComponents error={error} />}
-      handleSubmit={handleSubmit}
-    />
+    <>
+      {loading && <Loader open={loading} />}
+      <EditNovelTemplate
+        pageTitle={"Create New Novel"}
+        imageLabel={"Upload Book Cover Art"}
+        buttonLink={"author/my-novels"}
+        buttonLabel={"Create Novel"}
+        selectedGenres={selectedGenres}
+        setSelectedGenres={setSelectedGenres}
+        selectedImage={selectedImage}
+        setSelectedImage={setSelectedImage}
+        textFieldComponents={<CreateNovelTextFieldComponents error={error} />}
+        handleSubmit={handleSubmit}
+      />
+    </>
   );
 }
