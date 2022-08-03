@@ -13,9 +13,12 @@ import {
   Rating,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { MY_NOVELS } from "../../constants/MY_NOVELS";
+import { getSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
-export default function MyNovels() {
+export default function MyNovels({ novelList }) {
+  const router = useRouter();
+  console.log(novelList);
   return (
     <Container sx={{ minHeight: "100vh" }}>
       <Stack
@@ -35,8 +38,8 @@ export default function MyNovels() {
         </Button>
       </Stack>
       <Divider sx={{ border: 1, mt: 2 }} />
-      <Grid container columns={{ xs: 1, sm: 2, md: 3 }} spacing={3} mt={2}>
-        {MY_NOVELS.map((novel, index) => (
+      <Grid container columns={{ xs: 1, sm: 2, md: 2 }} spacing={3} mt={2}>
+        {novelList.map((novel, index) => (
           <Grid item xs={1} sm={1} md={1} key={index}>
             <Card>
               <Grid container direction="row">
@@ -45,7 +48,7 @@ export default function MyNovels() {
                     component="img"
                     image={novel.img}
                     alt={novel.title}
-                    height="200"
+                    height="230"
                     sx={{ objectFit: "fill" }}
                   />
                 </Grid>
@@ -86,7 +89,15 @@ export default function MyNovels() {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="small" href="/novel">
+                      <Button
+                        size="small"
+                        onClick={() =>
+                          router.push({
+                            pathname: "/novel",
+                            query: { novel_id: encodeURIComponent(novel._id) },
+                          })
+                        }
+                      >
                         Update
                       </Button>
                     </CardActions>
@@ -99,4 +110,34 @@ export default function MyNovels() {
       </Grid>
     </Container>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/400",
+        permanent: false,
+      },
+    };
+  }
+  const hostUrl = process.env.NEXTAUTH_URL;
+  const requestUrl =
+    hostUrl + "/api/novel/get-my-novels/" + encodeURIComponent(session.user.id);
+  let novelInfo = {};
+  await fetch(requestUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((res) => (novelInfo = res.data));
+
+  return {
+    props: {
+      novelList: novelInfo,
+    },
+  };
 }

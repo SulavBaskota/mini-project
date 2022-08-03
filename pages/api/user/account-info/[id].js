@@ -3,10 +3,10 @@ import User from "../../../../models/User";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
-    const { id } = req.query;
     await dbConnect();
+    const { id } = req.query;
     const user = await User.findById(
-      { _id: id },
+      id,
       "username firstname lastname email imgUrl"
     );
     if (user) {

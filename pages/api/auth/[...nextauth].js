@@ -14,7 +14,7 @@ export default NextAuth({
         const { username, password } = credentials;
         const user = await await User.findOne(
           { username },
-          "username password userrole imgUrl"
+          "username password userrole"
         );
 
         if (!user) return null;
@@ -24,7 +24,6 @@ export default NextAuth({
           id: user._id,
           username: user.username,
           userrole: user.userrole,
-          imgUrl: user.imgUrl,
         };
         return responseData;
       },

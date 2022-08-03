@@ -31,16 +31,16 @@ export default function MyApp({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {loading ? (
-          <Loader open={loading} />
-        ) : (
-          <SessionProvider session={session} refetchInterval={20 * 60}>
+        <SessionProvider session={session} refetchInterval={20 * 60}>
+          <CssBaseline />
+          {loading ? (
+            <Loader open={loading} />
+          ) : (
             <Layout>
               <Component {...pageProps} />
             </Layout>
-          </SessionProvider>
-        )}
+          )}
+        </SessionProvider>
       </ThemeProvider>
     </CacheProvider>
   );

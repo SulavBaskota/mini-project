@@ -20,6 +20,7 @@ export default function EditNovelTemplate({
   selectedImage,
   setSelectedImage,
   textFieldComponents,
+  handleSubmit,
 }) {
   return (
     <Container sx={{ minHeight: "100vh" }}>
@@ -29,7 +30,7 @@ export default function EditNovelTemplate({
       <Divider sx={{ border: 1, mt: 2 }} />
       <Box
         component="form"
-        noValidate
+        onSubmit={handleSubmit}
         autoComplete="off"
         mt={2}
         display="flex"
@@ -64,7 +65,9 @@ export default function EditNovelTemplate({
               <Button href={`/${buttonLink}`} color="error" variant="outlined">
                 Cancel
               </Button>
-              <Button variant="contained">{buttonLabel}</Button>
+              <Button variant="contained" type="submit">
+                {buttonLabel}
+              </Button>
             </Stack>
           </Stack>
         </Box>

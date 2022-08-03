@@ -37,9 +37,13 @@ export default function CompleteNovelDetail({ novel }) {
           </Grid>
           <Grid item xs={1} sm={8}>
             <Stack spacing={2}>
-              <TitleInfo status={novel.status} title={novel.title} />
+              <TitleInfo
+                status={novel.status}
+                title={novel.title}
+                novelId={novel._id}
+              />
               <Typography variant="body1" color="text.secondary">
-                {novel.latestChapter} Chapters
+                {novel.last_chapter} Chapters
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Author: {novel.author}
@@ -49,7 +53,11 @@ export default function CompleteNovelDetail({ novel }) {
                 rating={novel.rating}
                 recommendation={novel.recommendation}
               />
-              <ExpandableTypography desc={novel.desc} expandable={true} align="left" />
+              <ExpandableTypography
+                desc={novel.desc}
+                expandable={true}
+                align="left"
+              />
               <DisplayTags tags={novel.genre} />
               {/* <StartReadingButton /> */}
               {/* <ContinueReadingButton /> */}

@@ -8,6 +8,7 @@ export default function CheckboxesTags({ selectedGenres, setSelectedGenres }) {
     <Autocomplete
       multiple
       id="checkboxes-tags"
+      name="genre"
       options={GENRES_LIST}
       value={selectedGenres}
       onChange={(event, value) => {

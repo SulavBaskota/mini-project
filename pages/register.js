@@ -41,13 +41,10 @@ export default function Register() {
       if (!res.ok) {
         throw data.error;
       }
-      router.push(
-        {
-          pathname: "/registration-success",
-          query: { username: requestData.username },
-        },
-        "/registration-success"
-      );
+      router.push({
+        pathname: "/registration-success",
+        query: { username: encodeURIComponent(requestData.username) },
+      });
     } catch (error) {
       setError(error);
     }
