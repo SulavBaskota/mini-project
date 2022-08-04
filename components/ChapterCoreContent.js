@@ -4,33 +4,45 @@ import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import ArrowForwardOutlinedIcon from "@mui/icons-material/ArrowForwardOutlined";
 import { Divider } from "@mui/material";
 
-export default function ChapterCoreContent({ chapterInfo, paragraphs, fontSize }) {
+export default function ChapterCoreContent({
+  chapterInfo,
+  paragraphs,
+  fontSize,
+}) {
   return (
     <Stack spacing={4}>
       <Stack justifyContent="space-between" direction="row">
         <Button
           color="secondary"
-          href="/novel"
+          href={`/novel?novel_id=${encodeURIComponent(chapterInfo.novel_id)}`}
           sx={{ "&:hover": { background: "inherit" } }}
           disableRipple={true}
         >
           <ArrowBackIosIcon fontSize="large" />
-          <Typography variant="h6">{chapterInfo.book}</Typography>
+          <Typography variant="h6">{chapterInfo.novel_title}</Typography>
         </Button>
         <Stack direction="row">
           <Button
             disableRipple={true}
             sx={{ "&:hover": { background: "inherit" } }}
-            disabled={chapterInfo.previous ? false : true}
-            href="/chapter"
+            disabled={chapterInfo.previous_chapter ? false : true}
+            href={`/chapter?novel_id=${encodeURIComponent(
+              chapterInfo.novel_id
+            )}&chapter_number=${encodeURIComponent(
+              chapterInfo.chapter_number - 1
+            )}`}
           >
             <ArrowBackOutlinedIcon />
           </Button>
           <Button
             disableRipple={true}
             sx={{ "&:hover": { background: "inherit" } }}
-            disabled={chapterInfo.next ? false : true}
-            href="/chapter"
+            disabled={chapterInfo.next_chapter ? false : true}
+            href={`/chapter?novel_id=${encodeURIComponent(
+              chapterInfo.novel_id
+            )}&chapter_number=${encodeURIComponent(
+              chapterInfo.chapter_number + 1
+            )}`}
           >
             <ArrowForwardOutlinedIcon />
           </Button>
@@ -38,7 +50,7 @@ export default function ChapterCoreContent({ chapterInfo, paragraphs, fontSize }
       </Stack>
       <Divider />
       <Typography variant="h5" fontWeight="bold">
-        Chapter {chapterInfo.id}: {chapterInfo.title}
+        Chapter {chapterInfo.chapter_number}: {chapterInfo.chapter_title}
       </Typography>
       <Stack spacing={2}>
         {paragraphs.map((paragraph, index) => (

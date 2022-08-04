@@ -73,6 +73,7 @@ export default function CreateNovel() {
         return;
       }
       if (res.error === "bad request") router.push("/400");
+      return;
     }
     setError(false);
     const data = await res.data;

@@ -5,10 +5,10 @@ import FontSizeSpeedDial from "../components/FontSizeSpeedDial";
 import ChapterCoreContent from "../components/ChapterCoreContent";
 import ChapterComments from "../components/ChapterComments";
 import ChapterNavigationButtons from "../components/ChapterNavigationButtons";
+import { getSession } from "next-auth/react";
 
-export default function Chapter() {
-  const chapterInfo = CHAPTER;
-  const paragraphs = chapterInfo.content.split("\n");
+export default function Chapter({ chapterInfo }) {
+  const paragraphs = chapterInfo.chapter_content.split("\n");
   const mobileView = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   const [isVisible, setIsVisible] = useState(true);
@@ -49,7 +49,7 @@ export default function Chapter() {
             fontSize={fontSize}
           />
           <ChapterNavigationButtons chapterInfo={chapterInfo} />
-          <ChapterComments comments={chapterInfo.comments} />
+          <ChapterComments comments={CHAPTER.comments} />
           {isVisible && (
             <FontSizeSpeedDial fontSize={fontSize} setFontSize={setFontSize} />
           )}
@@ -57,4 +57,39 @@ export default function Chapter() {
       </Box>
     </Container>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  const { novel_id, chapter_number } = context.query;
+  if (!novel_id || !chapter_number) {
+    return {
+      redirect: {
+        destination: "/400",
+        permanent: false,
+      },
+    };
+  }
+  const hostUrl = process.env.NEXTAUTH_URL;
+  let user_id = null;
+  if (session) user_id = session.user.id;
+  console.log(session);
+  const requestUrl = `${hostUrl}/api/chapter/chapter-info/${encodeURIComponent(
+    novel_id
+  )}/${encodeURIComponent(chapter_number)}/${encodeURIComponent(user_id)}`;
+  let chapterInfo = {};
+  await fetch(requestUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((res) => (chapterInfo = res.data));
+
+  return {
+    props: {
+      chapterInfo: chapterInfo,
+    },
+  };
 }

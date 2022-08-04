@@ -27,25 +27,29 @@ export default function TabsComponentTemplate({
 
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button
-          variant="outlined"
-          onClick={handleClick}
-          color="secondary"
-          endIcon={descending ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
-        >
-          <Typography variant="body1">{descending ? "AZ" : "ZA"}</Typography>
-        </Button>
-      </Box>
+      {itemList.length > 0 ? (
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            variant="outlined"
+            onClick={handleClick}
+            color="secondary"
+            endIcon={descending ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
+          >
+            <Typography variant="body1">{descending ? "AZ" : "ZA"}</Typography>
+          </Button>
+        </Box>
+      ) : null}
       {subComponent}
-      <Pagination
-        count={count}
-        page={page}
-        variant="outlined"
-        shape="rounded"
-        onChange={handleChange}
-        sx={{ mt: 4 }}
-      />
+      {itemList.length > 0 ? (
+        <Pagination
+          count={count}
+          page={page}
+          variant="outlined"
+          shape="rounded"
+          onChange={handleChange}
+          sx={{ mt: 4 }}
+        />
+      ) : null}
     </>
   );
 }

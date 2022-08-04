@@ -1,6 +1,6 @@
 import dbConnect from "../../../../lib/dbConnect";
 import Novel from "../../../../models/Novel";
-import moment from "moment";
+import { timeSince } from "../../../../src/Utils";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
           img: novel.img,
           status: novel.status,
           last_chapter: novel.last_chapter,
-          updated_on: moment(novel.updated_on).fromNow(),
+          updated_on: timeSince(novel.updated_on),
         };
         if (novel.total_rating === 0) data.rating = 0;
         else data.rating = novel.total_rating / novel.reviews_count;

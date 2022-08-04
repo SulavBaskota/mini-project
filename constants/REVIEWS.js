@@ -43,4 +43,5 @@ const REVIEWS = [
   },
 ];
 
+// const REVIEWS = [];
 export { REVIEWS };

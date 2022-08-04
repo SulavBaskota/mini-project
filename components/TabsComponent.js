@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Container, Box, Tabs, Tab } from "@mui/material";
+import { Container, Box, Tabs, Tab, Typography } from "@mui/material";
 import ChapterList from "./ChapterList";
 import NovelReviews from "./NovelReviews";
 import { useState } from "react";
@@ -33,7 +33,12 @@ const a11yProps = (index) => {
   };
 };
 
-export default function TabsComponent({ chapters, reviews }) {
+export default function TabsComponent({
+  chapters,
+  reviews,
+  novel_id,
+  author_id,
+}) {
   const [value, setValue] = useState(0);
   const [descOrderChapter, setDescOrderChapter] = useState(true);
   const [descOrderReview, setDescOrderReview] = useState(true);
@@ -52,15 +57,28 @@ export default function TabsComponent({ chapters, reviews }) {
       </Container>
       <Container>
         <TabPanel value={value} index={0}>
-          <ChapterList
-            chapters={chapters}
-            descOrderChapter={descOrderChapter}
-            setDescOrderChapter={setDescOrderChapter}
-          />
+          {chapters.length > 0 ? (
+            <ChapterList
+              novel_id={novel_id}
+              chapters={chapters}
+              descOrderChapter={descOrderChapter}
+              setDescOrderChapter={setDescOrderChapter}
+            />
+          ) : (
+            <Typography
+              variant="body1"
+              align="center"
+              color="text.secondary"
+              mt={3}
+            >
+              No Chapters Yet!!!
+            </Typography>
+          )}
         </TabPanel>
         <TabPanel value={value} index={1}>
           <NovelReviews
             reviews={reviews}
+            author_id={author_id}
             descOrderReview={descOrderReview}
             setDescOrderReview={setDescOrderReview}
           />

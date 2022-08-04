@@ -66,7 +66,11 @@ export default function CompleteNovelDetail({ novel }) {
               {session ? (
                 session.user.userrole === "author" &&
                 session.user.id === novel.author_id ? (
-                  <AddNewChapterButton />
+                  <AddNewChapterButton
+                    novel_title={novel.title}
+                    novel_id={novel._id}
+                    last_chapter={novel.last_chapter}
+                  />
                 ) : (
                   <ContinueReadingButton />
                 )

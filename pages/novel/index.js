@@ -1,10 +1,10 @@
 import { Stack, Box } from "@mui/material";
 import TabsComponent from "../../components/TabsComponent";
 import CompleteNovelDetail from "./components/CompleteNovelDetail";
-import { NOVEL } from "../../constants/NOVEL";
 import { REVIEWS } from "../../constants/REVIEWS";
 
 export default function Novel({ novelInfo }) {
+  console.log(novelInfo);
   return (
     <>
       <Box sx={{ minHeight: "100vh" }}>
@@ -15,7 +15,12 @@ export default function Novel({ novelInfo }) {
           alignItems="center"
         >
           <CompleteNovelDetail novel={novelInfo} />
-          <TabsComponent chapters={NOVEL.chapterList} reviews={REVIEWS} />
+          <TabsComponent
+            chapters={novelInfo.chapter_list}
+            reviews={REVIEWS}
+            novel_id={novelInfo._id}
+            author_id={novelInfo.author_id}
+          />
         </Stack>
       </Box>
     </>

@@ -99,6 +99,7 @@ export default function EditNovel({ novelInfo }) {
     setLoading(false);
     if (!res.ok) {
       router.push("/400");
+      return;
     }
     router.push({
       pathname: "/novel",

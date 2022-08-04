@@ -1,6 +1,7 @@
 import dbConnect from "../../../../lib/dbConnect";
 import Novel from "../../../../models/Novel";
 import User from "../../../../models/User";
+import Chapter from "../../../../models/Chapter";
 
 const recommendationValue = {
   0: "Undecided",
@@ -18,6 +19,7 @@ export default async function handler(req, res) {
     const novel = await Novel.findById(novelId);
     if (novel) {
       const author = await User.findById(novel.author, "firstname lastname");
+      const chapter_list = await Chapter.find({ novel: novel._id }, "title chapter_number");
       let responseData = {
         _id: novel._id,
         title: novel.title,
@@ -28,6 +30,7 @@ export default async function handler(req, res) {
         last_chapter: novel.last_chapter,
         genre: novel.genre,
         desc: novel.desc,
+        chapter_list: chapter_list
       };
       if (novel.total_rating === 0) responseData.rating = 0;
       else responseData.rating = novel.total_rating / novel.reviews_count;
