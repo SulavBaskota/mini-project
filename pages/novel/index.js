@@ -3,7 +3,7 @@ import TabsComponent from "../../components/TabsComponent";
 import CompleteNovelDetail from "./components/CompleteNovelDetail";
 import { REVIEWS } from "../../constants/REVIEWS";
 
-export default function Novel({ novelInfo }) {
+export default function Novel({ novelInfo, tabValue }) {
   console.log(novelInfo);
   return (
     <>
@@ -16,6 +16,7 @@ export default function Novel({ novelInfo }) {
         >
           <CompleteNovelDetail novel={novelInfo} />
           <TabsComponent
+            tabValue={tabValue}
             chapters={novelInfo.chapter_list}
             reviews={REVIEWS}
             novel_id={novelInfo._id}
@@ -28,7 +29,7 @@ export default function Novel({ novelInfo }) {
 }
 
 export async function getServerSideProps(context) {
-  const { novel_id } = context.query;
+  const { novel_id, tabValue } = context.query;
   if (!novel_id) {
     return {
       redirect: {
@@ -53,6 +54,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       novelInfo: novelInfo,
+      tabValue: tabValue ? parseInt(tabValue) : 0,
     },
   };
 }

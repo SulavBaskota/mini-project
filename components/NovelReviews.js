@@ -4,6 +4,8 @@ import TabsComponentTemplate from "./TabsComponentTemplate";
 import ReviewComponent from "./ReviewComponent";
 import UserReviewField from "./UserReviewField";
 import { useSession } from "next-auth/react";
+import Loader from "../components/Loader";
+import { useRouter } from "next/router";
 
 const NovelReviewsSubComponent = ({
   list,
@@ -13,6 +15,9 @@ const NovelReviewsSubComponent = ({
   ratingValue,
   handleReviewChange,
   handleRatingChange,
+  handleSubmit,
+  error,
+  handleCloseAlert,
 }) => (
   <Box>
     {list.length === 0 && author_id !== session?.user.id ? (
@@ -26,6 +31,9 @@ const NovelReviewsSubComponent = ({
         ratingValue={ratingValue}
         handleReviewChange={handleReviewChange}
         handleRatingChange={handleRatingChange}
+        handleSubmit={handleSubmit}
+        error={error}
+        handleCloseAlert={handleCloseAlert}
       />
     )}
     {session?.user.id === author_id && list.length === 0 && (
@@ -40,6 +48,7 @@ const NovelReviewsSubComponent = ({
 export default function NovelReviews({
   reviews,
   author_id,
+  novel_id,
   descOrderReview,
   setDescOrderReview,
 }) {
@@ -50,6 +59,9 @@ export default function NovelReviews({
   const [reviewValue, setReviewValue] = useState("");
   const [ratingValue, setRatingValue] = useState(0);
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const router = useRouter();
 
   const handleReviewChange = (event) => {
     setReviewValue(event.target.value);
@@ -59,8 +71,55 @@ export default function NovelReviews({
     setRatingValue(event.target.value);
   };
 
+  const handleCloseAlert = () => {
+    setError(false);
+    setReviewValue("");
+    setRatingValue(0);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const requestData = {
+      user: session.user.id,
+      novel: novel_id,
+      rating: parseFloat(ratingValue),
+      review: reviewValue,
+    };
+    console.log(requestData);
+    const res = await fetch("/api/review/create-review", {
+      method: "POST",
+      body: JSON.stringify(requestData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json());
+    console.log(res);
+    setLoading(false);
+    if (!res.ok) {
+      if (res.error === "review already exists") {
+        setError(true);
+        setReviewValue("");
+        setRatingValue(0);
+        return;
+      }
+      if (res.error === "bad request") {
+        router.push("/400");
+        return;
+      }
+    }
+    setReviewValue("");
+    setRatingValue(0);
+    router.push({
+      pathname: "/novel",
+      query: { novel_id: novel_id, tabValue: 1 },
+    });
+    return;
+  };
+
   return (
     <>
+      {loading && <Loader open={loading} />}
       <TabsComponentTemplate
         itemList={reviews}
         itemPerPage={itemPerPage}
@@ -76,6 +135,9 @@ export default function NovelReviews({
             ratingValue={ratingValue}
             handleReviewChange={handleReviewChange}
             handleRatingChange={handleRatingChange}
+            handleSubmit={handleSubmit}
+            error={error}
+            handleCloseAlert={handleCloseAlert}
           />
         }
       />
