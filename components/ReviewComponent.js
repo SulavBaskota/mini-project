@@ -1,14 +1,7 @@
-import {
-  Box,
-  Typography,
-  Stack,
-  Rating,
-  Paper,
-  Avatar,
-  Button,
-} from "@mui/material";
+import { Box, Typography, Stack, Rating, Paper, Button } from "@mui/material";
 import ExpandableTypography from "./ExpandableTypography";
 import { useSession } from "next-auth/react";
+import UserPostAccountInfo from "./UserPostAccountInfo";
 
 export default function ReviewComponent({
   reviewList,
@@ -17,43 +10,16 @@ export default function ReviewComponent({
   handleDelete,
 }) {
   const { data: session } = useSession();
-
-  const convertToLocalString = (date) => {
-    return new Date(date).toLocaleString();
-  };
   return (
     <>
       {reviewList.map((review, index) => (
         <Paper elevation={2} sx={{ mt: 2, p: 1 }} key={index}>
           <Stack spacing={2}>
-            <Box>
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Stack direction="row" spacing={1} alignItems="center">
-                  {review.user.imgUrl ? (
-                    <Avatar
-                      src={review.user.imgUrl}
-                      alt={review.user.username}
-                    />
-                  ) : (
-                    <Avatar>
-                      {review.user.username.slice(0, 2).toUpperCase()}
-                    </Avatar>
-                  )}
-                  <Typography variant="h6">{review.user.username}</Typography>
-                </Stack>
-                <Typography variant="subtitle2" color="secondary.light">
-                  {convertToLocalString(review.date)}
-                </Typography>
-              </Stack>
-            </Box>
+            <UserPostAccountInfo info={review} />
             <ExpandableTypography
               desc={review.review}
               expandable={true}
-              lineClamp="5"
+              lineClamp="4"
             />
             <Box>
               <Stack

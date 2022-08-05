@@ -49,7 +49,10 @@ export default function Chapter({ chapterInfo }) {
             fontSize={fontSize}
           />
           <ChapterNavigationButtons chapterInfo={chapterInfo} />
-          <ChapterComments comments={CHAPTER.comments} />
+          <ChapterComments
+            comments={chapterInfo.comment_list}
+            chapter_id={chapterInfo._id}
+          />
           {isVisible && (
             <FontSizeSpeedDial fontSize={fontSize} setFontSize={setFontSize} />
           )}

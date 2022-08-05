@@ -1,6 +1,7 @@
 import dbConnect from "../../../../lib/dbConnect";
 import Chapter from "../../../../models/Chapter";
 import Novel from "../../../../models/Novel";
+import Comment from "../../../../models/Comment";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
@@ -30,6 +31,13 @@ export default async function handler(req, res) {
       $inc: { view_count: 1 },
     });
 
+    const comment_list = await Comment.find(
+      { chapter: chapter._id },
+      "user comment date"
+    )
+      .populate({ path: "user", select: "username imgUrl" })
+      .sort({ date: 1 });
+
     const responseData = {
       _id: chapter._id,
       novel_id: chapter.novel._id,
@@ -40,6 +48,7 @@ export default async function handler(req, res) {
       previous_chapter: chapter.chapter_number === 1 ? false : true,
       next_chapter:
         chapter.novel.last_chapter > chapter.chapter_number ? true : false,
+      comment_list: comment_list,
     };
     return res.status(200).json({ success: true, data: responseData });
   }

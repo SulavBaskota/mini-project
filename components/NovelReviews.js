@@ -1,9 +1,9 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import { useState } from "react";
 import TabsComponentTemplate from "./TabsComponentTemplate";
 import ReviewComponent from "./ReviewComponent";
 import UserReviewField from "./UserReviewField";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Loader from "../components/Loader";
 import { useRouter } from "next/router";
 
@@ -25,10 +25,25 @@ const NovelReviewsSubComponent = ({
   handleDelete,
 }) => (
   <Box>
-    {list.length === 0 && author_id !== session?.user.id ? (
-      <Typography variant="body1" align="center" color="text.secondary" mt={3}>
-        Be the first to review this novel!!!
+    {session && list.length === 0 && author_id !== session?.user.id ? (
+      <Typography variant="body1" align="center" color="text.secondary" mb={3}>
+        Be the first to review this novel.
       </Typography>
+    ) : null}
+    {!session ? (
+      <Button
+        disableRipple={true}
+        variant="body1"
+        onClick={signIn}
+        mt={3}
+        sx={{
+          textTransform: "capitalize",
+          textDecoration: "underline",
+          "&:hover": { background: "inherit" },
+        }}
+      >
+        Log in to leave a review.
+      </Button>
     ) : null}
     {session && session?.user.id !== author_id && (
       <UserReviewField
@@ -46,7 +61,7 @@ const NovelReviewsSubComponent = ({
     )}
     {session?.user.id === author_id && list.length === 0 && (
       <Typography variant="body1" align="center" color="text.secondary" mt={3}>
-        No Reviews Yet!!!
+        No Reviews Yet.
       </Typography>
     )}
     {list.length > 0 ? (
