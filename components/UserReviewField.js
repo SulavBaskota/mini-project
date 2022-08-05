@@ -17,9 +17,12 @@ export default function UserReviewField({
   handleSubmit,
   error,
   handleCloseAlert,
+  editing,
+  handleCancel,
+  handleUpdate,
 }) {
   return (
-    <Box component="form" autoComplete="off" onSubmit={handleSubmit}>
+    <Box component="form" autoComplete="off">
       <Paper sx={{ p: 1, mt: 2 }}>
         <Stack spacing={2}>
           <Box>
@@ -36,7 +39,6 @@ export default function UserReviewField({
             onChange={handleRatingChange}
           />
           <TextField
-            required
             multiline
             fullWidth
             id="user-review"
@@ -45,21 +47,46 @@ export default function UserReviewField({
             onChange={handleReviewChange}
             sx={{ background: (theme) => theme.palette.background.paper }}
             error={error}
+            focused={editing}
           />
           {error && (
-            <Alert onClose={handleCloseAlert} severity="error">
-              You cannot post more than one review for a novel. Consider editing
-              your previous review.
+            <Alert onClose={() => handleCloseAlert(editing)} severity="error">
+              {editing
+                ? "Please change your review before updating."
+                : "You cannot post more than one review for a novel. Consider editing your previous review."}
             </Alert>
           )}
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button
-              type="submit"
-              variant="contained"
-              disabled={reviewValue == "" || ratingValue == 0 ? true : false}
-            >
-              Submit review
-            </Button>
+            {editing ? (
+              <>
+                <Stack direction="row" spacing={1}>
+                  <Button
+                    color="error"
+                    variant="outlined"
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleUpdate}
+                    variant="contained"
+                    disabled={
+                      reviewValue == "" || ratingValue == 0 ? true : false
+                    }
+                  >
+                    Update review
+                  </Button>
+                </Stack>
+              </>
+            ) : (
+              <Button
+                onClick={handleSubmit}
+                variant="contained"
+                disabled={reviewValue == "" || ratingValue == 0 ? true : false}
+              >
+                Submit review
+              </Button>
+            )}
           </Box>
         </Stack>
       </Paper>

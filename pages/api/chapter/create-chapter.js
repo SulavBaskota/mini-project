@@ -23,13 +23,12 @@ export default async function handler(req, res) {
       updated_on: new Date(),
     });
 
-    const newChapter = await Chapter.create({
+    await Chapter.create({
       title: chapter_title,
       novel: novel._id,
       content: chapter_content,
       chapter_number: parseInt(chapter_number),
     });
-    console.log(newChapter);
     return res
       .status(200)
       .json({ success: true, message: "chapter successfully created" });

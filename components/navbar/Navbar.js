@@ -79,13 +79,19 @@ export default function Navbar() {
                 sx={{ p: 0 }}
               >
                 {session ? (
-                  <Avatar
-                    alt={session.user.username}
-                    src={session.user.imgUrl}
-                    sx={{ width: 30, height: 30 }}
-                  />
+                  session.user.imgUrl ? (
+                    <Avatar
+                      alt={session.user.username}
+                      src={session.user.imgUrl}
+                      sx={{ width: 30, height: 30 }}
+                    />
+                  ) : (
+                    <Avatar sx={{ width: 30, height: 30 }}>
+                      {session.user.username.slice(0, 2).toUpperCase()}
+                    </Avatar>
+                  )
                 ) : (
-                  <AccountCircle />
+                  <AccountCircle size="large" />
                 )}
               </IconButton>
             </Tooltip>

@@ -34,13 +34,12 @@ const a11yProps = (index) => {
 };
 
 export default function TabsComponent({
-  tabValue,
   chapters,
   reviews,
   novel_id,
   author_id,
 }) {
-  const [value, setValue] = useState(tabValue);
+  const [value, setValue] = useState(0);
   const [descOrderChapter, setDescOrderChapter] = useState(true);
   const [descOrderReview, setDescOrderReview] = useState(true);
 

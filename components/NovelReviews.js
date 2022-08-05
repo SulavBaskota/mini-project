@@ -18,6 +18,11 @@ const NovelReviewsSubComponent = ({
   handleSubmit,
   error,
   handleCloseAlert,
+  editing,
+  handleEdit,
+  handleCancel,
+  handleUpdate,
+  handleDelete,
 }) => (
   <Box>
     {list.length === 0 && author_id !== session?.user.id ? (
@@ -34,6 +39,9 @@ const NovelReviewsSubComponent = ({
         handleSubmit={handleSubmit}
         error={error}
         handleCloseAlert={handleCloseAlert}
+        editing={editing}
+        handleCancel={handleCancel}
+        handleUpdate={handleUpdate}
       />
     )}
     {session?.user.id === author_id && list.length === 0 && (
@@ -41,7 +49,14 @@ const NovelReviewsSubComponent = ({
         No Reviews Yet!!!
       </Typography>
     )}
-    {list.length > 0 ? <ReviewComponent reviewList={list} /> : null}
+    {list.length > 0 ? (
+      <ReviewComponent
+        reviewList={list}
+        handleEdit={handleEdit}
+        editing={editing}
+        handleDelete={handleDelete}
+      />
+    ) : null}
   </Box>
 );
 
@@ -52,16 +67,34 @@ export default function NovelReviews({
   descOrderReview,
   setDescOrderReview,
 }) {
-  // Initial reviews array should be in descending order
   const itemPerPage = 3;
   const [list, setList] = useState(reviews.slice(0, itemPerPage));
-  // reviewValue might need to be converted to JSON string while saving into database
   const [reviewValue, setReviewValue] = useState("");
   const [ratingValue, setRatingValue] = useState(0);
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [editing, setEditing] = useState(false);
   const router = useRouter();
+
+  const getRequestOptions = (requestData) => {
+    return {
+      method: "POST",
+      body: JSON.stringify(requestData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+  };
+
+  const getRequestData = () => {
+    return {
+      user: session.user.id,
+      novel: novel_id,
+      rating: parseFloat(ratingValue),
+      review: reviewValue,
+    };
+  };
 
   const handleReviewChange = (event) => {
     setReviewValue(event.target.value);
@@ -71,30 +104,35 @@ export default function NovelReviews({
     setRatingValue(event.target.value);
   };
 
-  const handleCloseAlert = () => {
+  const handleCloseAlert = (editing) => {
     setError(false);
+    if (!editing) {
+      setReviewValue("");
+      setRatingValue(0);
+    }
+  };
+
+  const handleEdit = (prevReview, prevRating) => {
+    setReviewValue(prevReview);
+    setRatingValue(prevRating);
+    setEditing(true);
+  };
+
+  const handleCancel = () => {
     setReviewValue("");
     setRatingValue(0);
+    setError(false);
+    setEditing(false);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-    const requestData = {
-      user: session.user.id,
-      novel: novel_id,
-      rating: parseFloat(ratingValue),
-      review: reviewValue,
-    };
-    console.log(requestData);
-    const res = await fetch("/api/review/create-review", {
-      method: "POST",
-      body: JSON.stringify(requestData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json());
-    console.log(res);
+    const requestData = getRequestData();
+    const res = await fetch(
+      "/api/review/create-review",
+      getRequestOptions(requestData)
+    ).then((res) => res.json());
     setLoading(false);
     if (!res.ok) {
       if (res.error === "review already exists") {
@@ -110,10 +148,58 @@ export default function NovelReviews({
     }
     setReviewValue("");
     setRatingValue(0);
-    router.push({
-      pathname: "/novel",
-      query: { novel_id: novel_id, tabValue: 1 },
-    });
+    router.reload();
+    return;
+  };
+
+  const handleUpdate = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const requestData = getRequestData();
+
+    const res = await fetch(
+      "/api/review/update-review",
+      getRequestOptions(requestData)
+    ).then((res) => res.json());
+    if (!res.ok) {
+      setLoading(false);
+      if (res.error === "review already exists") {
+        setError(true);
+        return;
+      }
+      if (res.error === "bad request") {
+        router.push("/400");
+        return;
+      }
+    }
+    handleCancel();
+    router.reload();
+    return;
+  };
+
+  const handleDelete = async (review_id, user_id) => {
+    setLoading(true);
+    const requestData = {
+      review_id: review_id,
+      user_id: user_id,
+    };
+
+    const res = await fetch(
+      "/api/review/delete-review",
+      getRequestOptions(requestData)
+    ).then((res) => res.json());
+    if (!res.ok) {
+      setLoading(false);
+      if (res.error === "unauthorized") {
+        router.push("/401");
+        return;
+      }
+      if (res.error === "bad request") {
+        router.push("/400");
+        return;
+      }
+    }
+    router.reload();
     return;
   };
 
@@ -138,6 +224,11 @@ export default function NovelReviews({
             handleSubmit={handleSubmit}
             error={error}
             handleCloseAlert={handleCloseAlert}
+            editing={editing}
+            handleEdit={handleEdit}
+            handleCancel={handleCancel}
+            handleUpdate={handleUpdate}
+            handleDelete={handleDelete}
           />
         }
       />

@@ -1,8 +1,26 @@
-import { Box, Typography, Stack, Rating, Paper } from "@mui/material";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import {
+  Box,
+  Typography,
+  Stack,
+  Rating,
+  Paper,
+  Avatar,
+  Button,
+} from "@mui/material";
 import ExpandableTypography from "./ExpandableTypography";
+import { useSession } from "next-auth/react";
 
-export default function ReviewComponent({ reviewList }) {
+export default function ReviewComponent({
+  reviewList,
+  handleEdit,
+  editing,
+  handleDelete,
+}) {
+  const { data: session } = useSession();
+
+  const convertToLocalString = (date) => {
+    return new Date(date).toLocaleString();
+  };
   return (
     <>
       {reviewList.map((review, index) => (
@@ -15,11 +33,20 @@ export default function ReviewComponent({ reviewList }) {
                 justifyContent="space-between"
               >
                 <Stack direction="row" spacing={1} alignItems="center">
-                  <AccountCircleIcon fontSize="large" />
-                  <Typography variant="h6">{review.username}</Typography>
+                  {review.user.imgUrl ? (
+                    <Avatar
+                      src={review.user.imgUrl}
+                      alt={review.user.username}
+                    />
+                  ) : (
+                    <Avatar>
+                      {review.user.username.slice(0, 2).toUpperCase()}
+                    </Avatar>
+                  )}
+                  <Typography variant="h6">{review.user.username}</Typography>
                 </Stack>
                 <Typography variant="subtitle2" color="secondary.light">
-                  {review.date}
+                  {convertToLocalString(review.date)}
                 </Typography>
               </Stack>
             </Box>
@@ -29,21 +56,41 @@ export default function ReviewComponent({ reviewList }) {
               lineClamp="5"
             />
             <Box>
-              <Stack direction="row" alignItems="center" spacing={1}>
-                <Rating
-                  name={review.username}
-                  size="small"
-                  value={parseFloat(review.rating)}
-                  precision={0.1}
-                  readOnly
-                />
-                <Typography
-                  variant="subtitle1"
-                  color="text.secondary"
-                  sx={{ textDecoration: "underline" }}
-                >
-                  {review.rating} stars
-                </Typography>
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                justifyContent="space-between"
+              >
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <Rating
+                    name={review.user.username}
+                    size="small"
+                    value={parseFloat(review.rating)}
+                    precision={0.1}
+                    readOnly
+                  />
+                  <Typography
+                    variant="subtitle1"
+                    color="text.secondary"
+                    sx={{ textDecoration: "underline" }}
+                  >
+                    {review.rating} stars
+                  </Typography>
+                </Stack>
+                {!editing && session?.user.id === review.user._id && (
+                  <Stack direction="row" justifyContent="flex-end">
+                    <Button
+                      color="error"
+                      onClick={() => handleDelete(review._id, review.user._id)}
+                    >
+                      Delete
+                    </Button>
+                    <Button
+                      onClick={() => handleEdit(review.review, review.rating)}
+                    >
+                      Edit
+                    </Button>
+                  </Stack>
+                )}
               </Stack>
             </Box>
           </Stack>

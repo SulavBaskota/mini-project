@@ -1,10 +1,8 @@
 import { Stack, Box } from "@mui/material";
 import TabsComponent from "../../components/TabsComponent";
 import CompleteNovelDetail from "./components/CompleteNovelDetail";
-import { REVIEWS } from "../../constants/REVIEWS";
 
-export default function Novel({ novelInfo, tabValue }) {
-  console.log(novelInfo);
+export default function Novel({ novelInfo }) {
   return (
     <>
       <Box sx={{ minHeight: "100vh" }}>
@@ -16,9 +14,8 @@ export default function Novel({ novelInfo, tabValue }) {
         >
           <CompleteNovelDetail novel={novelInfo} />
           <TabsComponent
-            tabValue={tabValue}
             chapters={novelInfo.chapter_list}
-            reviews={REVIEWS}
+            reviews={novelInfo.review_list}
             novel_id={novelInfo._id}
             author_id={novelInfo.author_id}
           />
@@ -29,7 +26,7 @@ export default function Novel({ novelInfo, tabValue }) {
 }
 
 export async function getServerSideProps(context) {
-  const { novel_id, tabValue } = context.query;
+  const { novel_id } = context.query;
   if (!novel_id) {
     return {
       redirect: {
@@ -54,7 +51,6 @@ export async function getServerSideProps(context) {
   return {
     props: {
       novelInfo: novelInfo,
-      tabValue: tabValue ? parseInt(tabValue) : 0,
     },
   };
 }
