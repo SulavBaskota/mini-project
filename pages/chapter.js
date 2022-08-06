@@ -1,6 +1,5 @@
 import { Box, Container, useMediaQuery } from "@mui/material";
 import { useEffect, useState, useCallback } from "react";
-import { CHAPTER } from "../constants/CHAPTER";
 import FontSizeSpeedDial from "../components/FontSizeSpeedDial";
 import ChapterCoreContent from "../components/ChapterCoreContent";
 import ChapterComments from "../components/ChapterComments";
@@ -76,7 +75,6 @@ export async function getServerSideProps(context) {
   const hostUrl = process.env.NEXTAUTH_URL;
   let user_id = null;
   if (session) user_id = session.user.id;
-  console.log(session);
   const requestUrl = `${hostUrl}/api/chapter/chapter-info/${encodeURIComponent(
     novel_id
   )}/${encodeURIComponent(chapter_number)}/${encodeURIComponent(user_id)}`;

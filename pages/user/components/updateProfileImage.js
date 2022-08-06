@@ -41,9 +41,9 @@ const UpdateProfileImageForm = ({ userInfo, setUserInfo }) => {
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    }).then((res) => res.json());
     setLoading(false);
-    if (res.ok) {
+    if (res.success) {
       setSelectedImage(null);
       setUserInfo({ ...userInfo, imgUrl: requestData.imgUrl });
       setAlert(true);

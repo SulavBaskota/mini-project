@@ -1,6 +1,7 @@
 import { Stack, Box } from "@mui/material";
 import TabsComponent from "../../components/TabsComponent";
 import CompleteNovelDetail from "./components/CompleteNovelDetail";
+import { getSession } from "next-auth/react";
 
 export default function Novel({ novelInfo }) {
   return (
@@ -27,6 +28,7 @@ export default function Novel({ novelInfo }) {
 
 export async function getServerSideProps(context) {
   const { novel_id } = context.query;
+  const session = await getSession(context);
   if (!novel_id) {
     return {
       redirect: {
@@ -36,8 +38,11 @@ export async function getServerSideProps(context) {
     };
   }
   const hostUrl = process.env.NEXTAUTH_URL;
-  const requestUrl =
-    hostUrl + "/api/novel/novel-info/" + encodeURIComponent(novel_id);
+  let user_id = null;
+  if (session) user_id = session.user.id;
+  const requestUrl = `${hostUrl}/api/novel/novel-info/${encodeURIComponent(
+    novel_id
+  )}/${encodeURIComponent(user_id)}`;
   let novelInfo = {};
   await fetch(requestUrl, {
     method: "GET",

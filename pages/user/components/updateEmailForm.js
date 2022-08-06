@@ -32,9 +32,9 @@ const UpdateEmailForm = ({ userInfo, setUserInfo }) => {
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    }).then((res) => res.json());
     setLoading(false);
-    if (res.ok) {
+    if (res.success) {
       setUserInfo({ ...userInfo, email: requestData.email });
       setAlert(true);
     }

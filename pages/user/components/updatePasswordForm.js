@@ -44,14 +44,14 @@ const UpdatePasswordForm = ({ userInfo }) => {
         headers: {
           "Content-Type": "application/json",
         },
-      });
-      const data = await res.json();
+      }).then((res) => res.json());
+
       setLoading(false);
-      if (!res.ok) {
-        throw data.error;
+      if (!res.success) {
+        throw res.error;
       }
       setError({ ...error, oldPass: false });
-      if (res.ok) setAlert(true);
+      if (res.success) setAlert(true);
       event.target.reset();
     } catch (error) {
       if (error === "incorrect password") setError({ ...error, oldPass: true });

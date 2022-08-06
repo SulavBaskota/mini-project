@@ -2,6 +2,7 @@ import dbConnect from "../../../../lib/dbConnect";
 import Chapter from "../../../../models/Chapter";
 import Novel from "../../../../models/Novel";
 import Comment from "../../../../models/Comment";
+import Bookmark from "../../../../models/Bookmark";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
@@ -13,9 +14,7 @@ export default async function handler(req, res) {
     if (!novel_id || !chapter_number)
       return res.status(400).json({ success: false, error: "bad request" });
 
-    // use user_id later to update bookmark if not null
     const user_id = slug[2];
-    console.log("user_id: ", user_id);
 
     const chapter = await Chapter.findOne({
       novel: novel_id,
@@ -30,6 +29,20 @@ export default async function handler(req, res) {
     await Novel.findByIdAndUpdate(novel_id, {
       $inc: { view_count: 1 },
     });
+
+    if (user_id !== "null") {
+      await Bookmark.findOneAndUpdate(
+        {
+          user: user_id,
+          novel: novel_id,
+        },
+        { bookmark: chapter_number },
+        {
+          new: true,
+          upsert: true,
+        }
+      );
+    }
 
     const comment_list = await Comment.find(
       { chapter: chapter._id },

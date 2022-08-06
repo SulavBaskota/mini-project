@@ -66,7 +66,7 @@ export default function CreateNovel() {
         "Content-Type": "application/json",
       },
     }).then((res) => res.json());
-    if (!res.ok) {
+    if (!res.success) {
       if (res.error === "title not available") {
         setLoading(false);
         setError(true);

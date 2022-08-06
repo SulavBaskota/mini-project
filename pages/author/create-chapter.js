@@ -40,7 +40,6 @@ export default function CreateChapter({ novel_title, novel_id, last_chapter }) {
       content: chapterContent,
     };
 
-    console.log(requestData);
     const res = await fetch("/api/chapter/create-chapter", {
       method: "POST",
       body: JSON.stringify(requestData),
@@ -50,7 +49,7 @@ export default function CreateChapter({ novel_title, novel_id, last_chapter }) {
     }).then((res) => res.json());
 
     setLoading(false);
-    if (!res.ok) {
+    if (!res.success) {
       router.push("/400");
       return;
     }

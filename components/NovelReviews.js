@@ -149,7 +149,7 @@ export default function NovelReviews({
       getRequestOptions(requestData)
     ).then((res) => res.json());
     setLoading(false);
-    if (!res.ok) {
+    if (!res.success) {
       if (res.error === "review already exists") {
         setError(true);
         setReviewValue("");
@@ -176,7 +176,7 @@ export default function NovelReviews({
       "/api/review/update-review",
       getRequestOptions(requestData)
     ).then((res) => res.json());
-    if (!res.ok) {
+    if (!res.success) {
       setLoading(false);
       if (res.error === "review already exists") {
         setError(true);
@@ -203,7 +203,7 @@ export default function NovelReviews({
       "/api/review/delete-review",
       getRequestOptions(requestData)
     ).then((res) => res.json());
-    if (!res.ok) {
+    if (!res.success) {
       setLoading(false);
       if (res.error === "unauthorized") {
         router.push("/401");

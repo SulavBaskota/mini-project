@@ -63,19 +63,21 @@ export default function CompleteNovelDetail({ novel }) {
                 align="left"
               />
               <DisplayTags tags={novel.genre} />
-              {session ? (
-                session.user.userrole === "author" &&
-                session.user.id === novel.author_id ? (
-                  <AddNewChapterButton
-                    novel_title={novel.title}
-                    novel_id={novel._id}
-                    last_chapter={novel.last_chapter}
-                  />
-                ) : (
-                  <ContinueReadingButton />
-                )
+              {!session ? (
+                <StartReadingButton novel_id={novel._id} />
+              ) : session.user.id === novel.author_id ? (
+                <AddNewChapterButton
+                  novel_title={novel.title}
+                  novel_id={novel._id}
+                  last_chapter={novel.last_chapter}
+                />
+              ) : novel.bookmark ? (
+                <ContinueReadingButton
+                  novel_id={novel._id}
+                  bookmark={novel.bookmark}
+                />
               ) : (
-                <StartReadingButton />
+                <StartReadingButton novel_id={novel._id} />
               )}
             </Stack>
           </Grid>

@@ -25,15 +25,14 @@ export default function ForgotPassword() {
       headers: {
         "Content-Type": "application/json",
       },
-    });
-    const data = await res.json();
+    }).then((res) => res.json());
     setLoading(false);
-    if (res.ok)
+    if (res.success)
       router.push({
         pathname: "/change-password-success",
         query: { username: encodeURIComponent(requestData.username) },
       });
-    else setError(data.error);
+    else setError(res.error);
   };
 
   return (

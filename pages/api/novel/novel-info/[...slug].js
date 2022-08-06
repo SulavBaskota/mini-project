@@ -3,6 +3,7 @@ import Novel from "../../../../models/Novel";
 import User from "../../../../models/User";
 import Chapter from "../../../../models/Chapter";
 import Review from "../../../../models/Review";
+import Bookmark from "../../../../models/Bookmark";
 
 const recommendationValue = {
   0: "Undecided",
@@ -16,7 +17,10 @@ const recommendationValue = {
 export default async function handler(req, res) {
   if (req.method === "GET") {
     await dbConnect();
-    const { novelId } = req.query;
+    const { slug } = req.query;
+    const novelId = slug[0];
+    const userId = slug[1];
+
     const novel = await Novel.findById(novelId);
     if (novel) {
       const author = await User.findById(novel.author, "firstname lastname");
@@ -43,6 +47,17 @@ export default async function handler(req, res) {
         chapter_list: chapter_list,
         review_list: review_list,
       };
+
+      if (userId !== "null") {
+        const bookmark = await Bookmark.findOne(
+          {
+            user: userId,
+            novel: novelId,
+          },
+          "bookmark"
+        );
+        if (bookmark) responseData.bookmark = bookmark.bookmark;
+      }
       if (novel.total_rating === 0) responseData.rating = 0;
       else
         responseData.rating = (

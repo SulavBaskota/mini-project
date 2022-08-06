@@ -126,11 +126,9 @@ export default function ChapterComments({ comments, chapter_id }) {
       getRequestOptions(requestData)
     ).then((res) => res.json());
     setLoading(false);
-    if (!res.ok) {
-      if (res.error === "bad request") {
-        router.push("/400");
-        return;
-      }
+    if (!res.success) {
+      router.push("/400");
+      return;
     }
     setCommentValue("");
     router.reload();
@@ -150,7 +148,7 @@ export default function ChapterComments({ comments, chapter_id }) {
       "/api/comment/update-comment",
       getRequestOptions(requestData)
     ).then((res) => res.json());
-    if (!res.ok) {
+    if (!res.success) {
       setLoading(false);
       if (res.error === "comment already exists") {
         setError(true);
@@ -180,7 +178,7 @@ export default function ChapterComments({ comments, chapter_id }) {
       "/api/comment/delete-comment",
       getRequestOptions(requestData)
     ).then((res) => res.json());
-    if (!res.ok) {
+    if (!res.success) {
       setLoading(false);
       if (res.error === "unauthorized") {
         router.push("/401");

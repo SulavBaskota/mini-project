@@ -97,7 +97,7 @@ export default function EditNovel({ novelInfo }) {
       },
     }).then((res) => res.json());
     setLoading(false);
-    if (!res.ok) {
+    if (!res.success) {
       router.push("/400");
       return;
     }

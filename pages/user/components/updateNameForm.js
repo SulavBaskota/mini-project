@@ -36,9 +36,9 @@ const UpdateNameForm = ({ userInfo, setUserInfo }) => {
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    }).then((res) => res.json());
     setLoading(false);
-    if (res.ok) setAlert(true);
+    if (res.success) setAlert(true);
     setUserInfo({
       ...userInfo,
       firstname: requestData.firstname,
