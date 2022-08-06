@@ -21,7 +21,9 @@ export default function HorizontalBookTile({ book }) {
   return (
     <>
       <Box>
-        <CardActionArea>
+        <CardActionArea
+          href={`/novel?novel_id=${encodeURIComponent(book._id)}`}
+        >
           <Grid container direction="row">
             <Grid item xs={4} md={3}>
               <Paper>

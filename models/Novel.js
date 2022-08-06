@@ -1,14 +1,12 @@
 import mongoose from "mongoose";
 
-// calculate rating, chapterlist, review list later
-
 const NovelSchema = new mongoose.Schema({
   title: String,
   img: String,
   author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   status: {
     type: String,
-    enum: ["Ongoing", "Completed", "Haitus"],
+    enum: ["Ongoing", "Completed", "Hiatus"],
     default: "Ongoing",
   },
   desc: String,

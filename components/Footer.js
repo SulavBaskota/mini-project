@@ -23,20 +23,24 @@ const FooterButton = ({ session }) => (
     justifyContent="center"
   >
     <Button
+      disableRipple={true}
       sx={{
         color: "white",
         display: "block",
         textTransform: "capitalize",
+        "&:hover": { background: "inherit" },
       }}
       href="/series"
     >
       <Typography variant="body1">Series</Typography>
     </Button>
     <Button
+      disableRipple={true}
       sx={{
         color: "white",
         display: "block",
         textTransform: "capitalize",
+        "&:hover": { background: "inherit" },
       }}
       href="/user/bookmarks"
     >
@@ -44,10 +48,12 @@ const FooterButton = ({ session }) => (
     </Button>
     {session?.user.userrole === "author" && (
       <Button
+        disableRipple={true}
         sx={{
           color: "white",
           display: "block",
           textTransform: "capitalize",
+          "&:hover": { background: "inherit" },
         }}
         href="/author/my-novels"
       >

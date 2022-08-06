@@ -9,19 +9,51 @@ export default function DesktopNavbar() {
   return (
     <>
       <PageTitle variant={"h6"} mr={4} flexGrow={18} />
-      <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-        <Button sx={{ my: 2, color: "white", display: "block" }} href="/series">
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: { xs: "none", md: "flex" },
+        }}
+      >
+        <Button
+          disableRipple={true}
+          sx={{
+            my: 2,
+            color: "white",
+            display: "block",
+            "&:hover": {
+              background: "inherit",
+            },
+          }}
+          href="/series"
+        >
           Series
         </Button>
         <Button
-          sx={{ my: 2, color: "white", display: "block" }}
+          disableRipple={true}
+          sx={{
+            my: 2,
+            color: "white",
+            display: "block",
+            "&:hover": {
+              background: "inherit",
+            },
+          }}
           href="/user/bookmarks"
         >
           Bookmarks
         </Button>
         {session?.user.userrole === "author" && (
           <Button
-            sx={{ my: 2, color: "white", display: "block" }}
+            disableRipple={true}
+            sx={{
+              my: 2,
+              color: "white",
+              display: "block",
+              "&:hover": {
+                background: "inherit",
+              },
+            }}
             href="/author/my-novels"
           >
             My Novels

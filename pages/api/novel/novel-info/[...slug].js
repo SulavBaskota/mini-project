@@ -62,7 +62,7 @@ export default async function handler(req, res) {
       else
         responseData.rating = (
           novel.total_rating / novel.reviews_count
-        ).toPrecision(3);
+        ).toPrecision(2);
       responseData.recommendation =
         recommendationValue[Math.round(responseData.rating)];
       return res.status(200).json({ success: true, data: responseData });
