@@ -1,6 +1,6 @@
 import dbConnect from "../../../../lib/dbConnect";
 import Bookmark from "../../../../models/Bookmark";
-import Novel from "../../.../../models/Novel";
+import Novel from "../../../../models/Novel";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
