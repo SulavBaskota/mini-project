@@ -118,7 +118,7 @@ export default function Series({ completeNovelList }) {
 }
 
 export async function getServerSideProps(context) {
-  const hostUrl = process.env.NEXTAUTH_URL;
+  const hostUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
   const requestUrl = `${hostUrl}/api/novel/get-all-novels`;
   let completeNovelList = {};
   await fetch(requestUrl, {

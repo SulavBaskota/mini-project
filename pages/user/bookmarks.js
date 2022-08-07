@@ -90,7 +90,7 @@ export default function Bookmarks({ bookmarkInfo }) {
 export async function getServerSideProps(context) {
   const session = await getSession(context);
 
-  const hostUrl = process.env.NEXTAUTH_URL;
+  const hostUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
 
   const requestUrl = `${hostUrl}/api/bookmark/get-my-bookmarks/${encodeURIComponent(
     session.user.id

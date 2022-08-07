@@ -9,7 +9,7 @@ export default function DisplayTags({ tags }) {
         {tags.map((tag, index) => (
           <Grid item xs={1} key={index}>
             <Paper>
-              <Typography sx={{ p: 1 }} align="center">
+              <Typography variant="body2" align="center" sx={{ p: 0.5 }}>
                 {tag}
               </Typography>
             </Paper>

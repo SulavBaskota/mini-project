@@ -1,6 +1,5 @@
 import * as React from "react";
 import Container from "@mui/material/Container";
-import { useSession } from "next-auth/react";
 import NewOngoingReleases from "./components/NewOngoingReleases";
 import CompletedBooks from "./components/CompletedBooks";
 import PopularNovels from "./components/PopularNovels";
@@ -12,7 +11,6 @@ export default function Home({
   completedNovels,
   recentlyUpdated,
 }) {
-  const { data: session } = useSession();
   return (
     <Container
       sx={{
@@ -21,7 +19,6 @@ export default function Home({
         minHeight: "100vh",
       }}
     >
-      {session && console.log(session)}
       <NewOngoingReleases newNovels={newNovels} />
       <PopularNovels popularNovels={popularNovels} />
       <CompletedBooks completedNovels={completedNovels} />

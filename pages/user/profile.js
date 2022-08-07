@@ -67,7 +67,7 @@ export default function Profile({ accountInfo }) {
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  const hostUrl = process.env.NEXTAUTH_URL;
+  const hostUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
   const id = session.user.id;
   const requestUrl =
     hostUrl + "/api/user/account-info/" + encodeURIComponent(id);

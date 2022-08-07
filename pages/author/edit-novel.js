@@ -144,7 +144,7 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  const hostUrl = process.env.NEXTAUTH_URL;
+  const hostUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
   const requestUrl =
     hostUrl + "/api/novel/novel-info/" + encodeURIComponent(novel_id);
   let novelInfo = {};

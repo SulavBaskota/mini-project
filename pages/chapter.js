@@ -72,7 +72,7 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  const hostUrl = process.env.NEXTAUTH_URL;
+  const hostUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
   let user_id = null;
   if (session) user_id = session.user.id;
   const requestUrl = `${hostUrl}/api/chapter/chapter-info/${encodeURIComponent(

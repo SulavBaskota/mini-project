@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     await dbConnect();
     const novel_list = await Novel.find(
-      { last_chapter: { $gte: 5 }, status: "Ongoing" },
+      { last_chapter: { $gte: 3 }, status: "Ongoing" },
       "title img desc",
       {
         limit: 9,

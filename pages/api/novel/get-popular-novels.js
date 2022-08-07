@@ -1,5 +1,6 @@
 import dbConnect from "../../../lib/dbConnect";
 import Novel from "../../../models/Novel";
+import User from "../../../models/User";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {

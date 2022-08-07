@@ -1,5 +1,6 @@
 import dbConnect from "../../../lib/dbConnect";
 import Chapter from "../../../models/Chapter";
+import Novel from "../../../models/Novel";
 import { timeSince } from "../../../src/Utils";
 
 export default async function handler(req, res) {

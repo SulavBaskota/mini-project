@@ -18,7 +18,7 @@ export default function Index({
 }
 
 export async function getServerSideProps(context) {
-  const hostUrl = process.env.NEXTAUTH_URL;
+  const hostUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
   const newNovelsRequestUrl = `${hostUrl}/api/novel/get-new-novels`;
   const popularNovelsRequestUrl = `${hostUrl}/api/novel/get-popular-novels`;
   const completedNovelsRequestUrl = `${hostUrl}/api/novel/get-completed-novels`;

@@ -3,6 +3,7 @@ import Chapter from "../../../../models/Chapter";
 import Novel from "../../../../models/Novel";
 import Comment from "../../../../models/Comment";
 import Bookmark from "../../../../models/Bookmark";
+import User from "../../../../models/User";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
