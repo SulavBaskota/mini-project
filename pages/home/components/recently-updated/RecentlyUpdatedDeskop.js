@@ -9,8 +9,10 @@ import {
   Stack,
 } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export default function RecentlyUpdatedDesktop({ updateList }) {
+  const router = useRouter();
   return (
     <>
       <TableContainer>
@@ -19,13 +21,24 @@ export default function RecentlyUpdatedDesktop({ updateList }) {
             <TableRow>
               <TableCell>Title</TableCell>
               <TableCell>Release</TableCell>
-              <TableCell>Author</TableCell>
               <TableCell>Time</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {updateList.map((item, index) => (
-              <TableRow key={index}>
+              <TableRow
+                key={index}
+                hover
+                onClick={() =>
+                  router.push({
+                    pathname: "/chapter",
+                    query: {
+                      novel_id: encodeURIComponent(item.novel_id),
+                      chapter_number: encodeURIComponent(item.chapter),
+                    },
+                  })
+                }
+              >
                 <TableCell>
                   <Stack direction="row" spacing={1} alignItems="center">
                     <Image
@@ -42,9 +55,6 @@ export default function RecentlyUpdatedDesktop({ updateList }) {
                   <Typography>
                     Chapter {item.chapter} : {item.chapterTitle}
                   </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>{item.author}</Typography>
                 </TableCell>
                 <TableCell>
                   <Typography>{item.time}</Typography>

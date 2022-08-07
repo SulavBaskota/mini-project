@@ -12,7 +12,7 @@ import {
 export default function PopularMobileBookCard({ book, index }) {
   return (
     <Card sx={{ borderRadius: 2 }}>
-      <CardActionArea>
+      <CardActionArea href={`/novel?novel_id=${encodeURIComponent(book._id)}`}>
         <Grid
           container
           direction="row"

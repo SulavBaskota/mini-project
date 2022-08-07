@@ -8,6 +8,13 @@ const GENRES_LIST = [
   "Romance",
   "Comedy",
   "Dystopian",
+  "Mature",
+  "Tragedy",
+  "Historical",
+  "Western",
+  "Adventure",
+  "Young Adult",
+  "True Crime",
 ];
 
 export { GENRES_LIST };

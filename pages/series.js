@@ -5,13 +5,10 @@ import {
   Grid,
   Box,
   Stack,
-  Typography,
-  Divider,
   Alert,
 } from "@mui/material";
 import { useState } from "react";
 import RadioGroupComponent from "../components/RadioButtonComponent";
-import { BOOKS_WITH_TAGS } from "../constants/BOOKS_WITH_TAGS";
 import HorizontalBookTile from "../components/book-tile/HorizontalBookTile";
 import CheckboxesTags from "../components/CheckboxesTags";
 import Loader from "../components/Loader";

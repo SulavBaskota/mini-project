@@ -19,7 +19,7 @@ const MyDot = ({ isActive }) => (
   ></span>
 );
 
-const CarouselSubComponent = ({ mobileView }) => (
+const CarouselSubComponent = ({ mobileView, popularNovels }) => (
   <Carousel
     cols={mobileView ? 2 : 4}
     rows={1}
@@ -29,7 +29,7 @@ const CarouselSubComponent = ({ mobileView }) => (
     autoplay={mobileView ? 3000 : undefined}
     dot={MyDot}
   >
-    {POPULAR_BOOKS.map((book, index) => (
+    {popularNovels.map((book, index) => (
       <Carousel.Item key={index}>
         {mobileView ? (
           <PopularMobileBookCard book={book} index={index} />
@@ -41,13 +41,18 @@ const CarouselSubComponent = ({ mobileView }) => (
   </Carousel>
 );
 
-export default function PopularNovels() {
+export default function PopularNovels({ popularNovels }) {
   const mobileView = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   return (
     <HomeSectionTemplate
       sectionTitle={"Popular Novels"}
-      lowLevelComp={<CarouselSubComponent mobileView={mobileView} />}
+      lowLevelComp={
+        <CarouselSubComponent
+          mobileView={mobileView}
+          popularNovels={popularNovels}
+        />
+      }
     />
   );
 }

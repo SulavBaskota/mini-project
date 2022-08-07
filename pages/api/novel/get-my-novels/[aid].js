@@ -28,7 +28,6 @@ export default async function handler(req, res) {
           );
         responseData.push(data);
       });
-      console.log(responseData);
       return res.status(200).json({ success: true, data: responseData });
     }
     return res.status(404).json({ success: false, error: "novel not found" });

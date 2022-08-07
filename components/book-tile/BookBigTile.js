@@ -26,10 +26,19 @@ export default function BookBigTile({ book }) {
           <Typography gutterBottom variant="h5" component="div" align="center">
             {book.title}
           </Typography>
-          <ExpandableTypography desc={book.desc} expandable={false} align="center" />
+          <ExpandableTypography
+            desc={book.desc}
+            expandable={false}
+            align="center"
+          />
         </CardContent>
         <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-          <Button size="small">More</Button>
+          <Button
+            size="small"
+            href={`/novel?novel_id=${encodeURIComponent(book._id)}`}
+          >
+            More
+          </Button>
         </CardActions>
       </Card>
     </>

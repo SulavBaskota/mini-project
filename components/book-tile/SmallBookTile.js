@@ -23,7 +23,9 @@ export default function SmallBookTile({ book }) {
   const mobileView = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   return (
     <Box>
-      <StyledCardActionArea>
+      <StyledCardActionArea
+        href={`/novel?novel_id=${encodeURIComponent(book._id)}`}
+      >
         <CardMedia
           component="img"
           image={book.img}

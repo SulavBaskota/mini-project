@@ -18,7 +18,6 @@ import { useRouter } from "next/router";
 
 export default function MyNovels({ novelList }) {
   const router = useRouter();
-  console.log(novelList);
   return (
     <Container sx={{ minHeight: "100vh" }}>
       <Stack
@@ -38,76 +37,84 @@ export default function MyNovels({ novelList }) {
         </Button>
       </Stack>
       <Divider sx={{ border: 1, mt: 2 }} />
-      <Grid container columns={{ xs: 1, sm: 2, md: 2 }} spacing={3} mt={2}>
-        {novelList.map((novel, index) => (
-          <Grid item xs={1} sm={1} md={1} key={index}>
-            <Card>
-              <Grid container direction="row">
-                <Grid item xs={4}>
-                  <CardMedia
-                    component="img"
-                    image={novel.img}
-                    alt={novel.title}
-                    height="230"
-                    sx={{ objectFit: "fill" }}
-                  />
-                </Grid>
-                <Grid item xs={8}>
-                  <Box>
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
-                        {novel.title}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ textTransform: "capitalize" }}
-                      >
-                        Status: {novel.status}
-                      </Typography>
-                      <Stack direction="row" spacing={0.5}>
+      {novelList.length > 0 ? (
+        <Grid container columns={{ xs: 1, sm: 2, md: 2 }} spacing={3} mt={2}>
+          {novelList.map((novel, index) => (
+            <Grid item xs={1} sm={1} md={1} key={index}>
+              <Card>
+                <Grid container direction="row">
+                  <Grid item xs={4}>
+                    <CardMedia
+                      component="img"
+                      image={novel.img}
+                      alt={novel.title}
+                      height="230"
+                      sx={{ objectFit: "fill" }}
+                    />
+                  </Grid>
+                  <Grid item xs={8}>
+                    <Box>
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                          {novel.title}
+                        </Typography>
                         <Typography
                           variant="body2"
                           color="text.secondary"
-                          align="left"
+                          sx={{ textTransform: "capitalize" }}
                         >
-                          Rating:
+                          Status: {novel.status}
                         </Typography>
-                        <Rating
-                          name={novel.title}
+                        <Stack direction="row" spacing={0.5}>
+                          <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            align="left"
+                          >
+                            Rating:
+                          </Typography>
+                          <Rating
+                            name={novel.title}
+                            size="small"
+                            value={parseFloat(novel.rating)}
+                            precision={0.1}
+                            readOnly
+                          />
+                        </Stack>
+                        <Typography variant="body2" color="text.secondary">
+                          Current Chapter: {novel.last_chapter}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Updated On: {novel.updated_on}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button
                           size="small"
-                          value={parseFloat(novel.rating)}
-                          precision={0.1}
-                          readOnly
-                        />
-                      </Stack>
-                      <Typography variant="body2" color="text.secondary">
-                        Current Chapter: {novel.last_chapter}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Updated On: {novel.updated_on}
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button
-                        size="small"
-                        onClick={() =>
-                          router.push({
-                            pathname: "/novel",
-                            query: { novel_id: encodeURIComponent(novel._id) },
-                          })
-                        }
-                      >
-                        Update
-                      </Button>
-                    </CardActions>
-                  </Box>
+                          onClick={() =>
+                            router.push({
+                              pathname: "/novel",
+                              query: {
+                                novel_id: encodeURIComponent(novel._id),
+                              },
+                            })
+                          }
+                        >
+                          Update
+                        </Button>
+                      </CardActions>
+                    </Box>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <Typography variant="h5" color="secondary.light" align="center" mt={5}>
+          No Novels to show
+        </Typography>
+      )}
     </Container>
   );
 }

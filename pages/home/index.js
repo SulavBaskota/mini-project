@@ -6,7 +6,12 @@ import CompletedBooks from "./components/CompletedBooks";
 import PopularNovels from "./components/PopularNovels";
 import RecentlyUpdated from "./components/recently-updated";
 
-export default function Home() {
+export default function Home({
+  newNovels,
+  popularNovels,
+  completedNovels,
+  recentlyUpdated,
+}) {
   const { data: session } = useSession();
   return (
     <Container
@@ -17,10 +22,10 @@ export default function Home() {
       }}
     >
       {session && console.log(session)}
-      <NewOngoingReleases />
-      <PopularNovels />
-      <CompletedBooks />
-      <RecentlyUpdated />
+      <NewOngoingReleases newNovels={newNovels} />
+      <PopularNovels popularNovels={popularNovels} />
+      <CompletedBooks completedNovels={completedNovels} />
+      <RecentlyUpdated recentlyUpdated={recentlyUpdated} />
     </Container>
   );
 }

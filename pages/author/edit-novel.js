@@ -66,7 +66,6 @@ export default function EditNovel({ novelInfo }) {
     };
 
     if (
-      requestData.title === novelInfo.title &&
       requestData.desc === novelInfo.desc &&
       requestData.genre === novelInfo.genre &&
       requestData.status === novelInfo.status &&
