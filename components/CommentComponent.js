@@ -25,12 +25,22 @@ export default function CommentComponent({
             {!editing && session?.user.id === comment.user._id && (
               <Stack direction="row" justifyContent="flex-end">
                 <Button
+                  sx={{
+                    textDecoration: "underline",
+                    textTransform: "lowercase",
+                    "&:hover": { background: "inherit" },
+                  }}
                   color="error"
                   onClick={() => handleDelete(comment._id, comment.user._id)}
                 >
                   Delete
                 </Button>
                 <Button
+                  sx={{
+                    textDecoration: "underline",
+                    textTransform: "lowercase",
+                    "&:hover": { background: "inherit" },
+                  }}
                   onClick={() => handleEdit(comment.comment, comment._id)}
                 >
                   Edit

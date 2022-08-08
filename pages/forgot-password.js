@@ -56,7 +56,6 @@ export default function ForgotPassword() {
           <Box
             component="form"
             autoComplete="off"
-            // noValidate
             onSubmit={handleSubmit}
             sx={{ mt: 1 }}
           >

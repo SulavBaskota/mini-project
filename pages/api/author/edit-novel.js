@@ -1,8 +1,12 @@
 import dbConnect from "../../../lib/dbConnect";
 import Novel from "../../../models/Novel";
+import { getToken } from "next-auth/jwt";
 
 export default async function handler(req, res) {
-  if (req.method === "POST") {
+  const token = await getToken({ req });
+  if (!token) return res.redirect("/401");
+
+  if (req.method === "PUT") {
     await dbConnect();
     const { id, desc, genre, status, img } = req.body;
 

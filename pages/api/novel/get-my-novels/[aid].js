@@ -1,8 +1,11 @@
 import dbConnect from "../../../../lib/dbConnect";
 import Novel from "../../../../models/Novel";
 import { timeSince } from "../../../../src/Utils";
+import { getToken } from "next-auth/jwt";
 
 export default async function handler(req, res) {
+  const token = await getToken({ req });
+  if (!token) return res.redirect("/401");
   if (req.method === "GET") {
     await dbConnect();
     const { aid } = req.query;

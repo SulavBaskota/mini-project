@@ -2,7 +2,6 @@ import React from "react";
 import { useMediaQuery } from "@mui/material";
 import Carousel from "react-grid-carousel";
 import SmallBookTile from "../../../components/book-tile/SmallBookTile";
-import { POPULAR_BOOKS } from "../../../constants/POPULAR_BOOKS";
 import HomeSectionTemplate from "./HomeSectionTemplate";
 import PopularMobileBookCard from "../../../components/book-tile/PopularMobileBookCard";
 

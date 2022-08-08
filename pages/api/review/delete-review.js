@@ -1,9 +1,12 @@
 import dbConnect from "../../../lib/dbConnect";
 import Review from "../../../models/Review";
 import Novel from "../../../models/Novel";
+import { getToken } from "next-auth/jwt";
 
 export default async function handler(req, res) {
-  if (req.method === "POST") {
+  const token = await getToken({ req });
+  if (!token) return res.redirect("/401");
+  if (req.method === "DELETE") {
     await dbConnect();
 
     const review_id = req.body.review_id;

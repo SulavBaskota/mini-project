@@ -1,8 +1,11 @@
 import dbConnect from "../../../lib/dbConnect";
 import Bookmark from "../../../models/Bookmark";
+import { getToken } from "next-auth/jwt";
 
 export default async function handler(req, res) {
-  if (req.method === "POST") {
+  const token = await getToken({ req });
+  if (!token) return res.redirect("/401");
+  if (req.method === "DELETE") {
     await dbConnect();
     const bookmark_id = req.body.bookmark_id;
     const bookmark = await Bookmark.findByIdAndDelete(bookmark_id);

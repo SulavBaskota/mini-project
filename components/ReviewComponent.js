@@ -45,12 +45,22 @@ export default function ReviewComponent({
                 {!editing && session?.user.id === review.user._id && (
                   <Stack direction="row" justifyContent="flex-end">
                     <Button
+                      sx={{
+                        textDecoration: "underline",
+                        textTransform: "lowercase",
+                        "&:hover": { background: "inherit" },
+                      }}
                       color="error"
                       onClick={() => handleDelete(review._id, review.user._id)}
                     >
                       Delete
                     </Button>
                     <Button
+                      sx={{
+                        textDecoration: "underline",
+                        textTransform: "lowercase",
+                        "&:hover": { background: "inherit" },
+                      }}
                       onClick={() => handleEdit(review.review, review.rating)}
                     >
                       Edit

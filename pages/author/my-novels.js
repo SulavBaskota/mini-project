@@ -119,8 +119,8 @@ export default function MyNovels({ novelList }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req });
   if (!session) {
     return {
       redirect: {
@@ -135,8 +135,10 @@ export async function getServerSideProps(context) {
   let novelInfo = {};
   await fetch(requestUrl, {
     method: "GET",
+    withCredentials: true,
     headers: {
       "Content-Type": "application/json",
+      Cookie: req.headers.cookie,
     },
   })
     .then((res) => res.json())

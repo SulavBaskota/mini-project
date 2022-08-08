@@ -1,4 +1,3 @@
-import { NEW_BOOKS } from "../../../constants/NEW_BOOKS";
 import BookTile from "../../../components/book-tile/BookTile";
 import HomeSectionTemplate from "./HomeSectionTemplate";
 

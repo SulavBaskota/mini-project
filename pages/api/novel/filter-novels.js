@@ -62,7 +62,7 @@ export default async function handler(req, res) {
 
       responseData.push(data);
     });
-    if (sort_by === "Rating") responseData.sort((a, b) => a.rating - b.rating);
+    if (sort_by === "Rating") responseData.sort((a, b) => b.rating - a.rating);
     return res.status(200).json({ success: true, data: responseData });
   }
   return res.status(400).json({ success: false, error: "bad request" });

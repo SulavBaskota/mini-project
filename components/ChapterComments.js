@@ -77,9 +77,9 @@ export default function ChapterComments({ comments, chapter_id }) {
   const [editing, setEditing] = useState(false);
   const router = useRouter();
 
-  const getRequestOptions = (requestData) => {
+  const getRequestOptions = (requestData, requestType) => {
     return {
-      method: "POST",
+      method: requestType,
       body: JSON.stringify(requestData),
       headers: {
         "Content-Type": "application/json",
@@ -123,7 +123,7 @@ export default function ChapterComments({ comments, chapter_id }) {
     const requestData = getRequestData();
     const res = await fetch(
       "/api/comment/create-comment",
-      getRequestOptions(requestData)
+      getRequestOptions(requestData, "POST")
     ).then((res) => res.json());
     setLoading(false);
     if (!res.success) {
@@ -146,7 +146,7 @@ export default function ChapterComments({ comments, chapter_id }) {
 
     const res = await fetch(
       "/api/comment/update-comment",
-      getRequestOptions(requestData)
+      getRequestOptions(requestData, "PUT")
     ).then((res) => res.json());
     if (!res.success) {
       setLoading(false);
@@ -176,7 +176,7 @@ export default function ChapterComments({ comments, chapter_id }) {
     };
     const res = await fetch(
       "/api/comment/delete-comment",
-      getRequestOptions(requestData)
+      getRequestOptions(requestData, "DELETE")
     ).then((res) => res.json());
     if (!res.success) {
       setLoading(false);

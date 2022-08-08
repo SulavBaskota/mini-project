@@ -23,7 +23,6 @@ export default function MyApp({
   useEffect(() => {
     setTimeout(() => setLoading(false), 500);
   });
-
   return (
     <CacheProvider value={emotionCache}>
       <Head>
@@ -31,7 +30,7 @@ export default function MyApp({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeProvider theme={theme}>
-        <SessionProvider session={session} refetchInterval={20 * 60}>
+        <SessionProvider session={session}>
           <CssBaseline />
           {loading ? (
             <Loader open={loading} />

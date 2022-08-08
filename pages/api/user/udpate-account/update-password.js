@@ -1,8 +1,11 @@
 import dbConnect from "../../../../lib/dbConnect";
 import User from "../../../../models/User";
 import bcrypt from "bcrypt";
+import { getToken } from "next-auth/jwt";
 
 export default async function handler(req, res) {
+  const token = await getToken({ req });
+  if (!token) return res.redirect("/401");
   if (req.method === "PUT") {
     const { id, oldPassword, newPassword } = req.body;
     await dbConnect();

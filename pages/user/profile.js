@@ -74,8 +74,10 @@ export async function getServerSideProps(context) {
   let accountInfo = {};
   await fetch(requestUrl, {
     method: "GET",
+    withCredentials: true,
     headers: {
       "Content-Type": "application/json",
+      Cookie: context.req.headers.cookie,
     },
   })
     .then((res) => res.json())

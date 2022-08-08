@@ -29,7 +29,7 @@ export default function Bookmarks({ bookmarkInfo }) {
       bookmark_id: bookmark_id,
     };
     const res = await fetch("/api/bookmark/delete-bookmark", {
-      method: "POST",
+      method: "DELETE",
       body: JSON.stringify(requestData),
       headers: {
         "Content-Type": "application/json",
@@ -98,8 +98,10 @@ export async function getServerSideProps(context) {
   let bookmarkInfo = {};
   await fetch(requestUrl, {
     method: "GET",
+    withCredentials: true,
     headers: {
       "Content-Type": "application/json",
+      Cookie: context.req.headers.cookie,
     },
   })
     .then((res) => res.json())

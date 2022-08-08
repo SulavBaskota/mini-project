@@ -89,7 +89,7 @@ export default function EditNovel({ novelInfo }) {
       requestData.img = cloudinaryResponse.secure_url;
     }
     const res = await fetch("/api/author/edit-novel", {
-      method: "POST",
+      method: "PUT",
       body: JSON.stringify(requestData),
       headers: {
         "Content-Type": "application/json",
@@ -133,9 +133,9 @@ export default function EditNovel({ novelInfo }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-  const { novel_id } = context.query;
+export async function getServerSideProps({ req, query }) {
+  const session = await getSession({ req });
+  const { novel_id } = query;
   if (!session || !novel_id || session.user.userrole !== "author") {
     return {
       redirect: {

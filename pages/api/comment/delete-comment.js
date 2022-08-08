@@ -1,8 +1,11 @@
 import dbConnect from "../../../lib/dbConnect";
 import Comment from "../../../models/Comment";
+import { getToken } from "next-auth/jwt";
 
 export default async function handler(req, res) {
-  if (req.method === "POST") {
+  const token = await getToken({ req });
+  if (!token) return res.redirect("/401");
+  if (req.method === "DELETE") {
     await dbConnect();
 
     const comment_id = req.body.comment_id;
