@@ -66,4 +66,26 @@ const timeSince = (date) => {
   return interval + " " + intervalType + " ago";
 };
 
-export { generatePassword, timeSince };
+const uploadImage = async (imgData) => {
+  const res = await fetch(
+    "https://api.cloudinary.com/v1_1/readhub/image/upload",
+    {
+      method: "POST",
+      body: imgData,
+    }
+  );
+
+  return res;
+};
+
+const getRequestOptions = (requestData, requestType) => {
+  return {
+    method: requestType,
+    body: JSON.stringify(requestData),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+};
+
+export { generatePassword, timeSince, uploadImage, getRequestOptions };

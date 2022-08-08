@@ -18,6 +18,7 @@ export default async function handler(req, res) {
       const newUser = await User.create(req.body);
       return res.status(201).json({ success: true, data: newUser });
     } catch (error) {
+      console.log(error);
       return res.status(400).json({ success: false, error: error });
     }
   }

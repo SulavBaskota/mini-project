@@ -50,15 +50,15 @@ export default function PopularMobileBookCard({ book, index }) {
                     {book.author}
                   </Typography>
                   <Stack direction="row" spacing={0.5}>
-                    <Typography variant="subtitle2" color="text.secondary">
-                      Views This Month:
-                    </Typography>
                     <Typography
                       variant="subtitle2"
                       color={(theme) => theme.palette.success.main}
                       fontWeight="bold"
                     >
                       {book.viewCount}
+                    </Typography>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Views
                     </Typography>
                   </Stack>
                 </Box>

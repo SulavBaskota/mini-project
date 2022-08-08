@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Loader from "../components/Loader";
+import { getRequestOptions } from "../src/Utils";
 
 export default function ForgotPassword() {
   const router = useRouter();
@@ -19,13 +20,10 @@ export default function ForgotPassword() {
       username: formData.get("username"),
       email: formData.get("email"),
     };
-    const res = await fetch("/api/change-password", {
-      method: "PUT",
-      body: JSON.stringify(requestData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json());
+    const res = await fetch(
+      "/api/change-password",
+      getRequestOptions(requestData, "PUT")
+    ).then((res) => res.json());
     setLoading(false);
     if (res.success)
       router.push({

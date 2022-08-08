@@ -12,6 +12,7 @@ import RadioGroupComponent from "../components/RadioButtonComponent";
 import HorizontalBookTile from "../components/book-tile/HorizontalBookTile";
 import CheckboxesTags from "../components/CheckboxesTags";
 import Loader from "../components/Loader";
+import { getRequestOptions } from "../src/Utils";
 
 const status = ["Any", "Ongoing", "Completed", "Hiatus"];
 const sortBy = ["Name", "Popular", "New", "Rating"];
@@ -39,13 +40,10 @@ export default function Series({ completeNovelList }) {
       genres: selectedGenres,
     };
 
-    const res = await fetch("/api/novel/filter-novels", {
-      method: "POST",
-      body: JSON.stringify(requestData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json());
+    const res = await fetch(
+      "/api/novel/filter-novels",
+      getRequestOptions(requestData, "POST")
+    ).then((res) => res.json());
     setNovelList(res.data);
     setLoading(false);
     return;

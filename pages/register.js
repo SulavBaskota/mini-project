@@ -13,6 +13,7 @@ import { MenuItem } from "@mui/material";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Loader from "../components/Loader";
+import { getRequestOptions } from "../src/Utils";
 
 export default function Register() {
   const router = useRouter();
@@ -32,13 +33,10 @@ export default function Register() {
       userrole: data.get("userrole"),
     };
     try {
-      const res = await fetch("/api/register", {
-        method: "POST",
-        body: JSON.stringify(requestData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        "/api/register",
+        getRequestOptions(requestData, "POST")
+      );
       const data = await res.json();
 
       if (!res.ok) {

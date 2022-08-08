@@ -3,6 +3,8 @@ import Alert from "@mui/material/Alert";
 import { useState } from "react";
 import ImageUpload from "../../../components/ImageUpload";
 import Loader from "../../../components/Loader";
+import { uploadImage } from "../../../src/Utils";
+import { getRequestOptions } from "../../../src/Utils";
 
 const UpdateProfileImageForm = ({ userInfo, setUserInfo }) => {
   const [alert, setAlert] = useState(false);
@@ -18,30 +20,23 @@ const UpdateProfileImageForm = ({ userInfo, setUserInfo }) => {
     event.preventDefault();
     if (!selectedImage) return;
     setLoading(true);
-    const formData = new FormData();
-    formData.append("file", selectedImage);
-    formData.append("upload_preset", "profile-pics");
+    const imgData = new FormData();
+    imgData.append("file", selectedImage);
+    imgData.append("upload_preset", "profile-pics");
 
-    const cloudinaryResponse = await fetch(
-      "https://api.cloudinary.com/v1_1/readhub/image/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    ).then((res) => res.json());
+    const cloudinaryResponse = await uploadImage(imgData).then((res) =>
+      res.json()
+    );
 
     const requestData = {
       id: userInfo._id,
       imgUrl: cloudinaryResponse.secure_url,
     };
 
-    const res = await fetch("/api/user/udpate-account/update-profile-image", {
-      method: "PUT",
-      body: JSON.stringify(requestData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json());
+    const res = await fetch(
+      "/api/user/udpate-account/update-profile-image",
+      getRequestOptions(requestData, "PUT")
+    ).then((res) => res.json());
     setLoading(false);
     if (res.success) {
       setSelectedImage(null);

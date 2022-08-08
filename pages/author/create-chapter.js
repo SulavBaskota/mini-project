@@ -12,6 +12,7 @@ import { useState } from "react";
 import Loader from "../../components/Loader";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { getRequestOptions } from "../../src/Utils";
 
 export default function CreateChapter({ novel_title, novel_id, last_chapter }) {
   const { data: session } = useSession();
@@ -40,13 +41,10 @@ export default function CreateChapter({ novel_title, novel_id, last_chapter }) {
       content: chapterContent,
     };
 
-    const res = await fetch("/api/chapter/create-chapter", {
-      method: "POST",
-      body: JSON.stringify(requestData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json());
+    const res = await fetch(
+      "/api/chapter/create-chapter",
+      getRequestOptions(requestData, "POST")
+    ).then((res) => res.json());
 
     setLoading(false);
     if (!res.success) {

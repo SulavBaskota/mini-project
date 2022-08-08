@@ -9,15 +9,28 @@ import {
   Box,
 } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export default function RecentlyUpdateMobile({ updateList }) {
+  const router = useRouter();
   return (
     <>
       <TableContainer>
         <Table>
           <TableBody>
             {updateList.map((item, index) => (
-              <TableRow key={index}>
+              <TableRow
+                key={index}
+                onClick={() =>
+                  router.push({
+                    pathname: "/chapter",
+                    query: {
+                      novel_id: encodeURIComponent(item.novel_id),
+                      chapter_number: encodeURIComponent(item.chapter),
+                    },
+                  })
+                }
+              >
                 <TableCell>
                   <Stack direction="row" spacing={2} alignItems="center">
                     <Image

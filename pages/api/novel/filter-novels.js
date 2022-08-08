@@ -16,54 +16,62 @@ const sortByFilterOption = {
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    await dbConnect();
+    try {
+      await dbConnect();
 
-    const sort_by = req.body.sort_by;
-    const status = req.body.status;
-    const genres = req.body.genres;
+      const sort_by = req.body.sort_by;
+      const status = req.body.status;
+      const genres = req.body.genres;
 
-    const selectedFields =
-      "title img status genre desc total_rating reviews_count";
+      const selectedFields =
+        "title img status genre desc total_rating reviews_count";
 
-    let filterOption = {
-      status: statusFilterOption[status],
-    };
-
-    if (genres.length !== 0) filterOption.genre = { $in: genres };
-
-    let novel_list = [];
-
-    if (sort_by !== "Rating") {
-      novel_list = await Novel.find(filterOption, selectedFields).sort(
-        sortByFilterOption[sort_by]
-      );
-    } else {
-      novel_list = await Novel.find(filterOption, selectedFields);
-    }
-
-    if (!novel_list)
-      return res.status(400).json({ success: false, error: "bad request" });
-
-    let responseData = [];
-
-    novel_list.forEach((novel) => {
-      let data = {
-        _id: novel._id,
-        title: novel.title,
-        img: novel.img,
-        desc: novel.desc,
-        status: novel.status,
-        genre: novel.genre,
+      let filterOption = {
+        status: statusFilterOption[status],
       };
 
-      if (novel.total_rating === 0) data.rating = 0;
-      else
-        data.rating = (novel.total_rating / novel.reviews_count).toPrecision(2);
+      if (genres.length !== 0) filterOption.genre = { $in: genres };
 
-      responseData.push(data);
-    });
-    if (sort_by === "Rating") responseData.sort((a, b) => b.rating - a.rating);
-    return res.status(200).json({ success: true, data: responseData });
+      let novel_list = [];
+
+      if (sort_by !== "Rating") {
+        novel_list = await Novel.find(filterOption, selectedFields).sort(
+          sortByFilterOption[sort_by]
+        );
+      } else {
+        novel_list = await Novel.find(filterOption, selectedFields);
+      }
+
+      if (!novel_list)
+        return res.status(400).json({ success: false, error: "bad request" });
+
+      let responseData = [];
+
+      novel_list.forEach((novel) => {
+        let data = {
+          _id: novel._id,
+          title: novel.title,
+          img: novel.img,
+          desc: novel.desc,
+          status: novel.status,
+          genre: novel.genre,
+        };
+
+        if (novel.total_rating === 0) data.rating = 0;
+        else
+          data.rating = (novel.total_rating / novel.reviews_count).toPrecision(
+            2
+          );
+
+        responseData.push(data);
+      });
+      if (sort_by === "Rating")
+        responseData.sort((a, b) => b.rating - a.rating);
+      return res.status(200).json({ success: true, data: responseData });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({ success: false, error: "bad request" });
+    }
   }
   return res.status(400).json({ success: false, error: "bad request" });
 }

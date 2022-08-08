@@ -5,6 +5,8 @@ import EditNovelTemplate from "./components/EditNovelTemplate";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Loader from "../../components/Loader";
+import { uploadImage } from "../../src/Utils";
+import { getRequestOptions } from "../../src/Utils";
 
 const status = ["Ongoing", "Completed", "Hiatus"];
 
@@ -78,23 +80,16 @@ export default function EditNovel({ novelInfo }) {
       const imgData = new FormData();
       imgData.append("file", selectedImage);
       imgData.append("upload_preset", "book-cover-pics");
-      const cloudinaryResponse = await fetch(
-        "https://api.cloudinary.com/v1_1/readhub/image/upload",
-        {
-          method: "POST",
-          body: imgData,
-        }
-      ).then((res) => res.json());
+      const cloudinaryResponse = await uploadImage(imgData).then((res) =>
+        res.json()
+      );
 
       requestData.img = cloudinaryResponse.secure_url;
     }
-    const res = await fetch("/api/author/edit-novel", {
-      method: "PUT",
-      body: JSON.stringify(requestData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json());
+    const res = await fetch(
+      "/api/author/edit-novel",
+      getRequestOptions(requestData, "PUT")
+    ).then((res) => res.json());
     setLoading(false);
     if (!res.success) {
       router.push("/400");

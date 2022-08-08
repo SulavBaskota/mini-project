@@ -4,6 +4,8 @@ import EditNovelTemplate from "./components/EditNovelTemplate";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Loader from "../../components/Loader";
+import { uploadImage } from "../../src/Utils";
+import { getRequestOptions } from "../../src/Utils";
 
 const CreateNovelTextFieldComponents = ({ error }) => (
   <>
@@ -44,13 +46,9 @@ export default function CreateNovel() {
     const imgData = new FormData();
     imgData.append("file", selectedImage);
     imgData.append("upload_preset", "book-cover-pics");
-    const cloudinaryResponse = await fetch(
-      "https://api.cloudinary.com/v1_1/readhub/image/upload",
-      {
-        method: "POST",
-        body: imgData,
-      }
-    ).then((res) => res.json());
+    const cloudinaryResponse = await uploadImage(imgData).then((res) =>
+      res.json()
+    );
 
     const requestData = {
       title: formData.get("title"),
@@ -59,13 +57,10 @@ export default function CreateNovel() {
       desc: formData.get("desc"),
       genre: selectedGenres,
     };
-    const res = await fetch("/api/author/create-novel", {
-      method: "POST",
-      body: JSON.stringify(requestData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json());
+    const res = await fetch(
+      "/api/author/create-novel",
+      getRequestOptions(requestData, "POST")
+    ).then((res) => res.json());
     if (!res.success) {
       if (res.error === "title not available") {
         setLoading(false);

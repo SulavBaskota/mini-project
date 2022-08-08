@@ -10,6 +10,7 @@ import BookmarkTile from "../../components/book-tile/BookmarkTile";
 import { getSession } from "next-auth/react";
 import Loader from "../../components/Loader";
 import { useRouter } from "next/router";
+import { getRequestOptions } from "../../src/Utils";
 
 export default function Bookmarks({ bookmarkInfo }) {
   const [page, setPage] = useState(1);
@@ -28,13 +29,10 @@ export default function Bookmarks({ bookmarkInfo }) {
     const requestData = {
       bookmark_id: bookmark_id,
     };
-    const res = await fetch("/api/bookmark/delete-bookmark", {
-      method: "DELETE",
-      body: JSON.stringify(requestData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json());
+    const res = await fetch(
+      "/api/bookmark/delete-bookmark",
+      getRequestOptions(requestData, "DELETE")
+    ).then((res) => res.json());
     if (!res.success) {
       router.push("/400");
       return;

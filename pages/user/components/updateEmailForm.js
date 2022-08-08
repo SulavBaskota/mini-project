@@ -9,6 +9,7 @@ import {
 import Alert from "@mui/material/Alert";
 import { useState } from "react";
 import Loader from "../../../components/Loader";
+import { getRequestOptions } from "../../../src/Utils";
 
 const UpdateEmailForm = ({ userInfo, setUserInfo }) => {
   const [alert, setAlert] = useState(false);
@@ -26,13 +27,10 @@ const UpdateEmailForm = ({ userInfo, setUserInfo }) => {
       setLoading(false);
       return;
     }
-    const res = await fetch("/api/user/udpate-account/update-email", {
-      method: "PUT",
-      body: JSON.stringify(requestData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json());
+    const res = await fetch(
+      "/api/user/udpate-account/update-email",
+      getRequestOptions(requestData, "PUT")
+    ).then((res) => res.json());
     setLoading(false);
     if (res.success) {
       setUserInfo({ ...userInfo, email: requestData.email });

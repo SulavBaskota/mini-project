@@ -9,6 +9,7 @@ import {
 import Alert from "@mui/material/Alert";
 import { useState } from "react";
 import Loader from "../../../components/Loader";
+import { getRequestOptions } from "../../../src/Utils";
 
 const UpdatePasswordForm = ({ userInfo }) => {
   const [alert, setAlert] = useState(false);
@@ -38,13 +39,10 @@ const UpdatePasswordForm = ({ userInfo }) => {
       return;
     }
     try {
-      const res = await fetch("/api/user/udpate-account/update-password", {
-        method: "PUT",
-        body: JSON.stringify(requestData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => res.json());
+      const res = await fetch(
+        "/api/user/udpate-account/update-password",
+        getRequestOptions(requestData, "PUT")
+      ).then((res) => res.json());
 
       setLoading(false);
       if (!res.success) {

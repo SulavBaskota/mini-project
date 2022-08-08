@@ -38,6 +38,7 @@ export default function RecentlyUpdatedDesktop({ updateList }) {
                     },
                   })
                 }
+                sx={{ cursor: "pointer" }}
               >
                 <TableCell>
                   <Stack direction="row" spacing={1} alignItems="center">

@@ -6,6 +6,7 @@ import UserReviewField from "./UserReviewField";
 import { signIn, useSession } from "next-auth/react";
 import Loader from "../components/Loader";
 import { useRouter } from "next/router";
+import { getRequestOptions } from "../src/Utils";
 
 const NovelReviewsSubComponent = ({
   list,
@@ -91,16 +92,6 @@ export default function NovelReviews({
   const [error, setError] = useState(false);
   const [editing, setEditing] = useState(false);
   const router = useRouter();
-
-  const getRequestOptions = (requestData, requestType) => {
-    return {
-      method: requestType,
-      body: JSON.stringify(requestData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-  };
 
   const getRequestData = () => {
     return {

@@ -9,6 +9,7 @@ import {
 import Alert from "@mui/material/Alert";
 import { useState } from "react";
 import Loader from "../../../components/Loader";
+import { getRequestOptions } from "../../../src/Utils";
 
 const UpdateNameForm = ({ userInfo, setUserInfo }) => {
   const [alert, setAlert] = useState(false);
@@ -30,13 +31,10 @@ const UpdateNameForm = ({ userInfo, setUserInfo }) => {
       setLoading(false);
       return;
     }
-    const res = await fetch("/api/user/udpate-account/update-name", {
-      method: "PUT",
-      body: JSON.stringify(requestData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json());
+    const res = await fetch(
+      "/api/user/udpate-account/update-name",
+      getRequestOptions(requestData, "PUT")
+    ).then((res) => res.json());
     setLoading(false);
     if (res.success) setAlert(true);
     setUserInfo({

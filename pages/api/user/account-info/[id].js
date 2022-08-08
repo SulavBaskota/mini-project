@@ -7,16 +7,21 @@ export default async function handler(req, res) {
   if (!token) return res.redirect("/401");
 
   if (req.method === "GET") {
-    await dbConnect();
-    const { id } = req.query;
-    const user = await User.findById(
-      id,
-      "username firstname lastname email imgUrl"
-    );
-    if (user) {
-      return res.status(200).json({ success: true, data: user });
+    try {
+      await dbConnect();
+      const { id } = req.query;
+      const user = await User.findById(
+        id,
+        "username firstname lastname email imgUrl"
+      );
+      if (user) {
+        return res.status(200).json({ success: true, data: user });
+      }
+      return res.status(404).json({ success: false, error: "user not found" });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({ success: false, error: "bad request" });
     }
-    return res.status(404).json({ success: false, error: "user not found" });
   }
   return res.status(400).json({ success: false, error: "bad request" });
 }
