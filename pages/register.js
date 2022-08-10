@@ -40,16 +40,15 @@ export default function Register() {
       const data = await res.json();
 
       if (!res.ok) {
-        setLoading(false);
         throw data.error;
       }
-      setLoading(false);
       router.push({
         pathname: "/registration-success",
         query: { username: encodeURIComponent(requestData.username) },
       });
     } catch (error) {
       setError(error);
+      setLoading(false);
     }
   };
   return (

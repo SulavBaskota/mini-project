@@ -90,7 +90,6 @@ export default function EditNovel({ novelInfo }) {
       "/api/author/edit-novel",
       getRequestOptions(requestData, "PUT")
     ).then((res) => res.json());
-    setLoading(false);
     if (!res.success) {
       router.push("/400");
       return;

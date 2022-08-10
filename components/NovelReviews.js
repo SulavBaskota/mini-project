@@ -84,7 +84,8 @@ export default function NovelReviews({
   setDescOrderReview,
 }) {
   const itemPerPage = 3;
-  const [list, setList] = useState(reviews.slice(0, itemPerPage));
+  const [itemList, setItemList] = useState(reviews);
+  const [list, setList] = useState(itemList.slice(0, itemPerPage));
   const [reviewValue, setReviewValue] = useState("");
   const [ratingValue, setRatingValue] = useState(0);
   const { data: session } = useSession();
@@ -131,6 +132,12 @@ export default function NovelReviews({
     setEditing(false);
   };
 
+  const updateReviewList = (updatedReviewList) => {
+    setItemList(updatedReviewList);
+    setList(updatedReviewList.slice(0, itemPerPage));
+    setLoading(false);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -139,12 +146,12 @@ export default function NovelReviews({
       "/api/review/create-review",
       getRequestOptions(requestData, "POST")
     ).then((res) => res.json());
-    setLoading(false);
     if (!res.success) {
       if (res.error === "review already exists") {
         setError(true);
         setReviewValue("");
         setRatingValue(0);
+        setLoading(false);
         return;
       }
       if (res.error === "bad request") {
@@ -154,7 +161,7 @@ export default function NovelReviews({
     }
     setReviewValue("");
     setRatingValue(0);
-    router.reload();
+    updateReviewList(res.data);
     return;
   };
 
@@ -168,9 +175,9 @@ export default function NovelReviews({
       getRequestOptions(requestData, "PUT")
     ).then((res) => res.json());
     if (!res.success) {
-      setLoading(false);
       if (res.error === "review already exists") {
         setError(true);
+        setLoading(false);
         return;
       }
       if (res.error === "bad request") {
@@ -179,7 +186,7 @@ export default function NovelReviews({
       }
     }
     handleCancel();
-    router.reload();
+    updateReviewList(res.data);
     return;
   };
 
@@ -195,7 +202,6 @@ export default function NovelReviews({
       getRequestOptions(requestData, "DELETE")
     ).then((res) => res.json());
     if (!res.success) {
-      setLoading(false);
       if (res.error === "unauthorized") {
         router.push("/401");
         return;
@@ -205,7 +211,7 @@ export default function NovelReviews({
         return;
       }
     }
-    router.reload();
+    updateReviewList(res.data);
     return;
   };
 
@@ -213,7 +219,7 @@ export default function NovelReviews({
     <>
       {loading && <Loader open={loading} />}
       <TabsComponentTemplate
-        itemList={reviews}
+        itemList={itemList}
         itemPerPage={itemPerPage}
         setList={setList}
         descending={descOrderReview}

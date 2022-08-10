@@ -46,7 +46,6 @@ export default function CreateChapter({ novel_title, novel_id, last_chapter }) {
       getRequestOptions(requestData, "POST")
     ).then((res) => res.json());
 
-    setLoading(false);
     if (!res.success) {
       router.push("/400");
       return;

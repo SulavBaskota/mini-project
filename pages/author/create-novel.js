@@ -63,8 +63,8 @@ export default function CreateNovel() {
     ).then((res) => res.json());
     if (!res.success) {
       if (res.error === "title not available") {
-        setLoading(false);
         setError(true);
+        setLoading(false);
         return;
       }
       if (res.error === "bad request") router.push("/400");
@@ -72,7 +72,6 @@ export default function CreateNovel() {
     }
     setError(false);
     const data = await res.data;
-    setLoading(false);
     router.push({
       pathname: "/novel",
       query: { novel_id: encodeURIComponent(data._id) },

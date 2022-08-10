@@ -24,13 +24,16 @@ export default function ForgotPassword() {
       "/api/change-password",
       getRequestOptions(requestData, "PUT")
     ).then((res) => res.json());
-    setLoading(false);
+
     if (res.success)
       router.push({
         pathname: "/change-password-success",
         query: { username: encodeURIComponent(requestData.username) },
       });
-    else setError(res.error);
+    else {
+      setError(res.error);
+      setLoading(false);
+    }
   };
 
   return (

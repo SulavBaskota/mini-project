@@ -68,7 +68,8 @@ const ChapterCommentsSubComponent = ({
 
 export default function ChapterComments({ comments, chapter_id }) {
   const itemPerPage = 2;
-  const [list, setList] = useState(comments.slice(0, itemPerPage));
+  const [itemList, setItemList] = useState(comments);
+  const [list, setList] = useState(itemList.slice(0, itemPerPage));
   const [commentId, setCommentId] = useState("");
   const [commentValue, setCommentValue] = useState("");
   const [descOrderComment, setDescOrderComment] = useState(false);
@@ -108,6 +109,12 @@ export default function ChapterComments({ comments, chapter_id }) {
     setEditing(false);
   };
 
+  const updateCommentList = (updatedCommentList) => {
+    setItemList(updatedCommentList);
+    setList(updatedCommentList.slice(0, itemPerPage));
+    setLoading(false);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -116,13 +123,12 @@ export default function ChapterComments({ comments, chapter_id }) {
       "/api/comment/create-comment",
       getRequestOptions(requestData, "POST")
     ).then((res) => res.json());
-    setLoading(false);
     if (!res.success) {
       router.push("/400");
       return;
     }
     setCommentValue("");
-    router.reload();
+    updateCommentList(res.data);
     return;
   };
 
@@ -133,6 +139,7 @@ export default function ChapterComments({ comments, chapter_id }) {
       comment_id: commentId,
       user_id: session.user.id,
       comment_value: commentValue,
+      chapter: chapter_id,
     };
 
     const res = await fetch(
@@ -140,9 +147,9 @@ export default function ChapterComments({ comments, chapter_id }) {
       getRequestOptions(requestData, "PUT")
     ).then((res) => res.json());
     if (!res.success) {
-      setLoading(false);
       if (res.error === "comment already exists") {
         setError(true);
+        setLoading(false);
         return;
       }
       if (res.error === "unauthorized") {
@@ -155,7 +162,7 @@ export default function ChapterComments({ comments, chapter_id }) {
       }
     }
     handleCancel();
-    router.reload();
+    updateCommentList(res.data);
     return;
   };
 
@@ -164,13 +171,13 @@ export default function ChapterComments({ comments, chapter_id }) {
     const requestData = {
       comment_id: comment_id,
       user_id: user_id,
+      chapter: chapter_id,
     };
     const res = await fetch(
       "/api/comment/delete-comment",
       getRequestOptions(requestData, "DELETE")
     ).then((res) => res.json());
     if (!res.success) {
-      setLoading(false);
       if (res.error === "unauthorized") {
         router.push("/401");
         return;
@@ -180,7 +187,7 @@ export default function ChapterComments({ comments, chapter_id }) {
         return;
       }
     }
-    router.reload();
+    updateCommentList(res.data);
     return;
   };
 
@@ -191,7 +198,7 @@ export default function ChapterComments({ comments, chapter_id }) {
         <Stack spacing={4}>
           <Divider />
           <TabsComponentTemplate
-            itemList={comments}
+            itemList={itemList}
             itemPerPage={itemPerPage}
             setList={setList}
             descending={descOrderComment}

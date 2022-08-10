@@ -24,46 +24,20 @@ export async function getServerSideProps(context) {
   const completedNovelsRequestUrl = `${hostUrl}/api/novel/get-completed-novels`;
   const recentUpdateRequestUrl = `${hostUrl}/api/chapter/get-recent`;
 
-  let newNovels = {};
-  let popularNovels = {};
-  let completedNovels = {};
-  let recentlyUpdated = {};
+  const fetchHomePageData = async (requestUrl) => {
+    const res = await fetch(requestUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json());
+    return res.data;
+  };
 
-  await fetch(newNovelsRequestUrl, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .then((res) => (newNovels = res.data));
-
-  await fetch(popularNovelsRequestUrl, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .then((res) => (popularNovels = res.data));
-
-  await fetch(completedNovelsRequestUrl, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .then((res) => (completedNovels = res.data));
-
-  await fetch(recentUpdateRequestUrl, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .then((res) => (recentlyUpdated = res.data));
+  const newNovels = await fetchHomePageData(newNovelsRequestUrl);
+  const popularNovels = await fetchHomePageData(popularNovelsRequestUrl);
+  const completedNovels = await fetchHomePageData(completedNovelsRequestUrl);
+  const recentlyUpdated = await fetchHomePageData(recentUpdateRequestUrl);
 
   return {
     props: {
