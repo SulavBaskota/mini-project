@@ -16,19 +16,21 @@ const UpdatePasswordForm = ({ userInfo }) => {
   const [error, setError] = useState({
     oldPass: false,
     newPass: false,
+    confirmPass: false,
   });
   const [loading, setLoading] = useState(false);
 
   const handleUpdatePassword = async (event) => {
     event.preventDefault();
     setLoading(true);
+    setError({ ...error, newPass: false });
     const formData = new FormData(event.currentTarget);
     if (formData.get("newPassword") !== formData.get("confirmPassword")) {
-      setError({ ...error, newPass: true });
+      setError({ ...error, confirmPass: true });
       setLoading(false);
       return;
     }
-    setError({ ...error, newPass: false });
+    setError({ ...error, confirmPass: false });
     const requestData = {
       id: userInfo._id,
       oldPassword: formData.get("oldPassword"),
@@ -49,10 +51,12 @@ const UpdatePasswordForm = ({ userInfo }) => {
         throw res.error;
       }
       setError({ ...error, oldPass: false });
+      setError({ ...error, newPass: false });
       if (res.success) setAlert(true);
       event.target.reset();
     } catch (error) {
       if (error === "incorrect password") setError({ ...error, oldPass: true });
+      if (error === "invalid password") setError({ ...error, newPass: true });
     }
   };
 
@@ -85,7 +89,11 @@ const UpdatePasswordForm = ({ userInfo }) => {
             name="newPassword"
             type="password"
             error={error.newPass}
-            helperText={error.newPass ? "Passwords donot match" : ""}
+            helperText={
+              error.newPass
+                ? "Password must be 8 to 20 character which contains at least one numeric digit, one uppercase and one lowercase letter"
+                : ""
+            }
           />
           <TextField
             required
@@ -93,8 +101,8 @@ const UpdatePasswordForm = ({ userInfo }) => {
             label="Confirm Password"
             name="confirmPassword"
             type="password"
-            error={error.newPass}
-            helperText={error.newPass ? "Passwords donot match" : ""}
+            error={error.confirmPass}
+            helperText={error.confirmPass ? "Passwords donot match" : ""}
           />
           {alert && (
             <Alert onClose={() => setAlert(false)}>

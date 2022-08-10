@@ -88,4 +88,14 @@ const getRequestOptions = (requestData, requestType) => {
   };
 };
 
-export { generatePassword, timeSince, uploadImage, getRequestOptions };
+const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/;
+const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+export {
+  generatePassword,
+  timeSince,
+  uploadImage,
+  getRequestOptions,
+  passwordRegex,
+  emailRegex,
+};

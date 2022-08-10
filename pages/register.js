@@ -18,12 +18,22 @@ import { getRequestOptions } from "../src/Utils";
 export default function Register() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState({
+    firstname: false,
+    lastname: false,
+    username: false,
+    password: false,
+    confirmPassword: false,
+    email: false,
+    userrole: false,
+  });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     const data = new FormData(event.currentTarget);
+    const confirmPassword = data.get("confirmPassword");
     const requestData = {
       username: data.get("username"),
       firstname: data.get("firstname"),
@@ -32,6 +42,13 @@ export default function Register() {
       password: data.get("password"),
       userrole: data.get("userrole"),
     };
+    if (requestData.password !== confirmPassword) {
+      setError({ ...error, confirmPassword: true });
+      setLoading(false);
+      return;
+    }
+    setError({ ...error, confirmPassword: false });
+
     try {
       const res = await fetch(
         "/api/register",
@@ -46,8 +63,10 @@ export default function Register() {
         pathname: "/registration-success",
         query: { username: encodeURIComponent(requestData.username) },
       });
-    } catch (error) {
-      setError(error);
+    } catch (err) {
+      let errorType = err.errorType;
+      setError({ ...error, [errorType]: true });
+      setErrorMessage(err.message);
       setLoading(false);
     }
   };
@@ -71,19 +90,11 @@ export default function Register() {
           </Typography>
           <Box
             component="form"
-            // noValidate
             autoComplete="off"
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              {error && (
-                <Grid item xs={12}>
-                  <Typography variant="body1" color="error" align="center">
-                    {error}
-                  </Typography>
-                </Grid>
-              )}
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
@@ -92,6 +103,8 @@ export default function Register() {
                   label="First Name"
                   name="firstname"
                   type="text"
+                  error={error.firstname}
+                  helperText={error.firstname ? errorMessage : ""}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -102,6 +115,8 @@ export default function Register() {
                   label="Last Name"
                   name="lastname"
                   type="text"
+                  error={error.lastname}
+                  helperText={error.lastname ? errorMessage : ""}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -112,6 +127,8 @@ export default function Register() {
                   label="User Name"
                   name="username"
                   type="text"
+                  error={error.username}
+                  helperText={error.username ? errorMessage : ""}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -122,6 +139,8 @@ export default function Register() {
                   label="Email Address"
                   name="email"
                   type="email"
+                  error={error.email}
+                  helperText={error.email ? errorMessage : ""}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -132,6 +151,22 @@ export default function Register() {
                   name="password"
                   label="Password"
                   type="password"
+                  error={error.password}
+                  helperText={error.password ? errorMessage : ""}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  type="password"
+                  error={error.confirmPassword}
+                  helperText={
+                    error.confirmPassword ? "Passwords do not match" : ""
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
@@ -143,6 +178,8 @@ export default function Register() {
                   label="Role"
                   select
                   defaultValue="reader"
+                  error={error.userrole}
+                  helperText={error.userrole ? errorMessage : ""}
                 >
                   <MenuItem value="reader">Reader</MenuItem>
                   <MenuItem value="author">Author</MenuItem>
