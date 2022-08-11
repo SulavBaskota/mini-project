@@ -16,9 +16,7 @@ import Loader from "../components/Loader";
 import { getRequestOptions } from "../src/Utils";
 
 export default function Register() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({
+  const defaultError = {
     firstname: false,
     lastname: false,
     username: false,
@@ -26,14 +24,17 @@ export default function Register() {
     confirmPassword: false,
     email: false,
     userrole: false,
-  });
+  };
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(defaultError);
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     const data = new FormData(event.currentTarget);
-    const confirmPassword = data.get("confirmPassword");
+    let confirmPassword = data.get("confirmPassword");
     const requestData = {
       username: data.get("username"),
       firstname: data.get("firstname"),
@@ -43,12 +44,11 @@ export default function Register() {
       userrole: data.get("userrole"),
     };
     if (requestData.password !== confirmPassword) {
-      setError({ ...error, confirmPassword: true });
+      console.log(confirmPassword);
+      setError({ ...defaultError, confirmPassword: true });
       setLoading(false);
       return;
     }
-    setError({ ...error, confirmPassword: false });
-
     try {
       const res = await fetch(
         "/api/register",
@@ -65,7 +65,7 @@ export default function Register() {
       });
     } catch (err) {
       let errorType = err.errorType;
-      setError({ ...error, [errorType]: true });
+      setError({ ...defaultError, [errorType]: true, confirmPassword: false });
       setErrorMessage(err.message);
       setLoading(false);
     }
